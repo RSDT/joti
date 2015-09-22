@@ -31,12 +31,12 @@ public class AsyncInteractionTask extends AsyncTask<InteractionRequest, Integer,
                     builder.append("/r");
                 }
                 bufferedReader.close();
-                result.setRequest(params[0]);
+                result.setRequest(params[i]);
                 result.setResultState(InteractionResultState.INTERACTION_RESULT_STATE_SUCCESS);
                 result.setReceivedData(builder.toString());
                 results[i] = result;
             } catch(Exception e) {
-                result.setRequest(params[0]);
+                result.setRequest(params[i]);
                 result.setResultState(InteractionResultState.INTERACTION_RESULT_STATE_FAIL);
                 results[i] = result;  }
         }

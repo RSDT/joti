@@ -1,15 +1,24 @@
-package com.umbrella.jotiwa.map.area348.handling;
+package com.umbrella.jotiwa.communication.interaction.area348;
 
 import com.umbrella.jotiwa.communication.LinkBuilder;
 import com.umbrella.jotiwa.communication.enumeration.area348.*;
 import com.umbrella.jotiwa.communication.interaction.InteractionManager;
 import com.umbrella.jotiwa.communication.interaction.InteractionRequest;
+import com.umbrella.jotiwa.communication.interaction.InteractionResult;
+import com.umbrella.jotiwa.communication.interaction.OnRequestTaskCompleted;
+import com.umbrella.jotiwa.map.area348.handling.AsyncDataProcessingTask;
 
 /**
  * Created by stesi on 22-9-2015.
  * Class for creating the request and queing it.
  */
-public class MapUpdater extends InteractionManager {
+public class DataUpdater extends InteractionManager implements OnRequestTaskCompleted {
+
+    public DataUpdater()
+    {
+        super();
+        setOnRequestTaskCompletedListener(this);
+    }
 
     public void update(MapPart mapPart)
     {
@@ -40,7 +49,7 @@ public class MapUpdater extends InteractionManager {
                     String[] teamChars = new String[] {"a", "b", "c", "d", "e", "f", "x"};
                     for(int i = 0; i < teamChars.length; i++)
                     {
-                        super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), teamPart.getSubChar(), Keywords.All } ), null));
+                        super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), teamChars[i], Keywords.All } ), null));
                     }
                     super.interact();
                     return;
@@ -58,5 +67,10 @@ public class MapUpdater extends InteractionManager {
                 break;
         }
         super.interact();
+    }
+
+    @Override
+    public void onRequestTaskCompleted(InteractionResult[] results) {
+        new AsyncDataProcessingTask().execute(results);
     }
 }

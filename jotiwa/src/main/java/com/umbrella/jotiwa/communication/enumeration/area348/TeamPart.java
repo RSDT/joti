@@ -34,7 +34,7 @@ public enum TeamPart {
         this.subChar = subChar;
     }
 
-    public static TeamPart ParseSub(String string)
+    public static TeamPart parse(String string)
     {
         switch(string)
         {

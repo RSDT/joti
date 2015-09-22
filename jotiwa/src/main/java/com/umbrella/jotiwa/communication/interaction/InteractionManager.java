@@ -19,6 +19,13 @@ public class InteractionManager extends Handler {
         this.completed = new ArrayList<>();
     }
 
+
+    private OnRequestTaskCompleted onRequestTaskCompletedListener;
+
+    public void setOnRequestTaskCompletedListener(OnRequestTaskCompleted onRequestTaskCompletedListener) {
+        this.onRequestTaskCompletedListener = onRequestTaskCompletedListener;
+    }
+
     private List<InteractionRequest> queued;
 
     private List<InteractionRequest> pending;
@@ -62,6 +69,7 @@ public class InteractionManager extends Handler {
             pending.remove(results[i]);
             completed.add(results[i]);
         }
+        onRequestTaskCompletedListener.onRequestTaskCompleted(results);
         super.handleMessage(msg);
     }
 
