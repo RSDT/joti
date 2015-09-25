@@ -17,11 +17,8 @@ public class PageAdaptor extends FragmentPagerAdapter {
         return currentPage;
     }
 
-    MapFragment mapFragment;
-
     public PageAdaptor(FragmentManager fm) {
         super(fm);
-        mapFragment = new MapFragment();
     }
 
 
@@ -34,7 +31,7 @@ public class PageAdaptor extends FragmentPagerAdapter {
                 fragment = new InfoFragment();
                 break;
             case AppPage.MAP:
-                fragment = mapFragment;
+                fragment = new MapFragment();
                 break;
             case AppPage.SETTINGS:
                 fragment = new InfoFragment();

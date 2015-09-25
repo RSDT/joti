@@ -21,13 +21,26 @@ import java.util.ArrayList;
 public class MapManager implements OnExtractionCompleted {
 
 
-    public MapManager(GoogleMap googleMap)
+    public MapManager(MapStorage storage, ArrayList<MapPartState> states)
     {
-        this.gMap = googleMap;
+        storage.setOnExtractionCompletedListener(this);
+        this.mapStorage = storage;
+        this.mapBinder = new MapBinder();
+        this.dataUpdater = new DataUpdater(mapStorage);
+        this.mapPartStates = states;
+        this.migrated = true;
+    }
+
+    public MapManager()
+    {
         this.mapBinder = new MapBinder();
         this.mapStorage = new MapStorage(this);
         this.dataUpdater = new DataUpdater(mapStorage);
     }
+
+    boolean migrated = false;
+
+    boolean operable = false;
 
     ArrayList<MapPartState> mapPartStates = new ArrayList<>();
 
@@ -38,6 +51,30 @@ public class MapManager implements OnExtractionCompleted {
     MapStorage mapStorage;
 
     DataUpdater dataUpdater;
+
+    public MapStorage getMapStorage() {
+        return mapStorage;
+    }
+
+    public ArrayList<MapPartState> getMapPartStates() {
+        return mapPartStates;
+    }
+
+    public boolean isMigrated() {
+        return migrated;
+    }
+
+    public void setGoogleMap(GoogleMap gMap) {
+        this.gMap = gMap;
+        operable = true;
+        if(migrated)
+        {
+            for(int i = 0; i < this.mapPartStates.size(); i++)
+            {
+                reAddToMap(this.mapPartStates.get(i));
+            }
+        }
+    }
 
     public void add(MapPartState mapPartState)
     {
@@ -68,7 +105,6 @@ public class MapManager implements OnExtractionCompleted {
          * */
         if(!copy)
         {
-
             this.mapPartStates.add(mapPartState);
         }
     }
@@ -103,11 +139,13 @@ public class MapManager implements OnExtractionCompleted {
 
     public void remove(MapPartState mapPartState)
     {
+        if(!this.operable) return;
         this.mapPartStates.remove(mapPartState);
     }
 
     private void reAddToMap(MapPartState mapPartState)
     {
+        if(!this.operable) return;
         /**
          * Checks if the state has local data, if not there's no point in adding it.
          * */
@@ -154,6 +192,7 @@ public class MapManager implements OnExtractionCompleted {
 
     @Override
     public void onExtractionCompleted() {
+        if(!this.operable) return;
         for(int i = 0; i < this.mapPartStates.size(); i++)
         {
             MapPartState mapPartState = this.mapPartStates.get(i);

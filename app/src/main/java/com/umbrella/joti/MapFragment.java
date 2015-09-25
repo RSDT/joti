@@ -20,11 +20,11 @@ public class MapFragment extends android.support.v4.app.Fragment{
 
     private SupportMapFragment fragment;
 
-    OnMapReadyCallback onMapReadyCallback;
+    static OnMapReadyCallback onMapReadyCallbacks;
 
-    public void setOnMapReadyCallback(OnMapReadyCallback onMapReadyCallback)
+    public static void setOnMapReadyCallback(OnMapReadyCallback onMapReadyCallback)
     {
-        this.onMapReadyCallback = onMapReadyCallback;
+        onMapReadyCallbacks = onMapReadyCallback;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class MapFragment extends android.support.v4.app.Fragment{
             fragment = SupportMapFragment.newInstance();
             fm.beginTransaction().replace(R.id.map, fragment).commit();
         }
-        fragment.getMapAsync(onMapReadyCallback);
+        fragment.getMapAsync(onMapReadyCallbacks);
     }
 
     @Nullable

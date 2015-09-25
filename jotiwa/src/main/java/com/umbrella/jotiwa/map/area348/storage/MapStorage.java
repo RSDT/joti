@@ -2,6 +2,8 @@ package com.umbrella.jotiwa.map.area348.storage;
 
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -22,8 +24,15 @@ import java.util.ArrayList;
  * Class for binding items to the map.
  *
  */
-public class MapStorage extends Handler {
+public class MapStorage extends Handler implements Parcelable {
 
+    protected MapStorage(Parcel in) {
+        Object[] objects = (Object[])in.readSerializable();
+        this.handlingResults = (ArrayList<HandlingResult>)objects[0];
+        this.markers = (MapItemListManager<ArrayList<MarkerOptions>>)objects[1];
+        this.polylines = (MapItemListManager<ArrayList<PolylineOptions>>)objects[2];
+        this.circles = (MapItemListManager<ArrayList<CircleOptions>>)objects[3];
+    }
 
     public MapStorage(OnExtractionCompleted onExtractionCompletedListener)
     {
@@ -31,6 +40,10 @@ public class MapStorage extends Handler {
         this.markers = new MapItemListManager<>();
         this.polylines = new MapItemListManager<>();
         this.circles = new MapItemListManager<>();
+    }
+
+    public void setOnExtractionCompletedListener(OnExtractionCompleted onExtractionCompletedListener) {
+        this.onExtractionCompletedListener = onExtractionCompletedListener;
     }
 
     private MapItemListManager<ArrayList<MarkerOptions>> markers;
@@ -42,6 +55,18 @@ public class MapStorage extends Handler {
     private ArrayList<HandlingResult> handlingResults = new ArrayList<>();
 
     private OnExtractionCompleted onExtractionCompletedListener;
+
+    public static final Creator<MapStorage> CREATOR = new Creator<MapStorage>() {
+        @Override
+        public MapStorage createFromParcel(Parcel in) {
+            return new MapStorage(in);
+        }
+
+        @Override
+        public MapStorage[] newArray(int size) {
+            return new MapStorage[size];
+        }
+    };
 
     public HandlingResult getAssociatedHandlingResult(MapPartState mapPartState)
     {
@@ -212,4 +237,13 @@ public class MapStorage extends Handler {
         }
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeSerializable(new Object[] { this.handlingResults, this.markers, this.polylines, this.circles });
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 }
