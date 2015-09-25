@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.communication.enumeration.area348.Area348_Linker;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
@@ -72,7 +73,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         /**
          * Gets the collection associated with the team value.
          * */
-        List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+        List<MarkerOptions> markers = new ArrayList<>();
 
         /**
          * Load the icon once.
@@ -80,9 +81,11 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         BitmapDescriptor descriptor = BitmapDescriptorFactory.fromAsset("vos_pointers/dots/" + vossen[0].team + "-Vossen-15x15.png");
 
         /**
-         * Array to hold the points of the line.
+         * Creates and configures a polyine, to show the path of the vos.
          * */
-        List<LatLng> points = new ArrayList<LatLng>();
+        PolylineOptions pOptions = new PolylineOptions();
+        pOptions.width(5);
+        pOptions.color(TeamPart.getAssociatedColor(result.getTeamPart()));
 
         /**
          * Loop trough each vos info and add it to the map.
@@ -101,7 +104,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
             /**
              * Add a point to the points of the vos line.
              * */
-            points.add(new LatLng(vossen[i].latitude, vossen[i].longitude));
+            pOptions.add(new LatLng(vossen[i].latitude, vossen[i].longitude));
 
             /**
              * Checks if this is the first vos, if so use different marker.
@@ -118,7 +121,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
              * */
             markers.add(mOptions);
         }
-        result.setObjects(new Object[] { markers, points });
+        result.setObjects(new Object[] { markers, pOptions });
         return result;
     }
 

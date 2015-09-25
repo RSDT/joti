@@ -1,5 +1,7 @@
 package com.umbrella.jotiwa.communication.enumeration.area348;
 
+import android.graphics.Color;
+
 /**
  * Created by stesi on 22-9-2015.
  * Contains the enumeration for each vos team.
@@ -56,4 +58,28 @@ public enum TeamPart {
                 return TeamPart.None;
         }
     }
+
+    public static int getAssociatedColor(TeamPart teamPart)
+    {
+        switch (teamPart)
+        {
+            case Alpha:
+                return Color.argb(255, 255, 0, 0);
+            case Bravo:
+                return Color.argb(255, 0, 255, 0);
+            case Charlie:
+                return Color.argb(255, 0, 0, 255);
+            case Delta:
+                return Color.argb(255, 0, 255, 255);
+            case Echo:
+                return Color.argb(255, 255, 0, 255);
+            case Foxtrot:
+                return Color.argb(255, 255, 162, 0);
+            case XRay:
+                return Color.argb(255, 0, 0, 0);
+            default:
+                return Color.WHITE;
+        }
+    }
+
 }

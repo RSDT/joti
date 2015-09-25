@@ -5,8 +5,12 @@ import com.umbrella.jotiwa.communication.enumeration.area348.*;
 import com.umbrella.jotiwa.communication.interaction.InteractionManager;
 import com.umbrella.jotiwa.communication.interaction.InteractionRequest;
 import com.umbrella.jotiwa.communication.interaction.InteractionResult;
+import com.umbrella.jotiwa.communication.interaction.InteractionResultState;
 import com.umbrella.jotiwa.communication.interaction.OnRequestTaskCompleted;
 import com.umbrella.jotiwa.map.area348.handling.AsyncDataProcessingTask;
+import com.umbrella.jotiwa.map.area348.storage.MapStorage;
+
+import java.util.ArrayList;
 
 /**
  * Created by stesi on 22-9-2015.
@@ -14,11 +18,14 @@ import com.umbrella.jotiwa.map.area348.handling.AsyncDataProcessingTask;
  */
 public class DataUpdater extends InteractionManager implements OnRequestTaskCompleted {
 
-    public DataUpdater()
+    public DataUpdater(MapStorage mapStorage)
     {
         super();
+        this.mapStorage = mapStorage;
         setOnRequestTaskCompletedListener(this);
     }
+
+    private MapStorage mapStorage;
 
     public void update(MapPart mapPart)
     {
@@ -51,7 +58,6 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
                     {
                         super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), teamChars[i], Keywords.All } ), null));
                     }
-                    super.interact();
                     return;
                 }
                 super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), teamPart.getSubChar(), Keywords.All } ), null));
@@ -66,11 +72,35 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
                 super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), Keywords.All}), null));
                 break;
         }
-        super.interact();
     }
 
     @Override
     public void onRequestTaskCompleted(InteractionResult[] results) {
-        new AsyncDataProcessingTask().execute(results);
+        ArrayList<InteractionResult> successful = new ArrayList<>();
+        /**
+         * Loop through each result.
+         * */
+        for(int i = 0; i < results.length; i++)
+        {
+            /**
+             * Check if the request was succesfull.
+             * */
+            if(results[i].getResultState() == InteractionResultState.INTERACTION_RESULT_STATE_SUCCESS)
+            {
+                results[i].setHandler(mapStorage);
+                successful.add(results[i]);
+            }
+            else
+            {
+                /**
+                 * Unsuccessful.
+                 * TODO: Add UI notifier. The user should know there was a error.
+                 * */
+            System.out.print("Interaction was unsuccessful. ");
+            }
+        }
+        InteractionResult[] successfulArray = new InteractionResult[successful.size()];
+        successful.toArray(successfulArray);
+        new AsyncDataProcessingTask().execute(successfulArray);
     }
 }
