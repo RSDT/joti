@@ -2,6 +2,7 @@ package com.umbrella.jotiwa.map.area348;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
@@ -79,7 +80,16 @@ public class MapManager implements OnExtractionCompleted {
     public void add(MapPartState mapPartState)
     {
         boolean copy = false;
-        if(mapPartState.getTeamPart() == TeamPart.All)
+        if(mapPartState.getMapPart() == MapPart.All)
+        {
+            add(new MapPartState(MapPart.Vossen, mapPartState.getTeamPart(), mapPartState.getShow(), mapPartState.isUpdate()));
+            add(new HunterMapPartState(mapPartState.getShow(), mapPartState.isUpdate(), new String[] {} ));
+            add(new MapPartState(MapPart.ScoutingGroepen, TeamPart.None, mapPartState.getShow(), mapPartState.isUpdate()));
+            add(new MapPartState(MapPart.FotoOpdrachten, TeamPart.None, mapPartState.getShow(), mapPartState.isUpdate()));
+            return;
+        }
+
+        if(mapPartState.getMapPart() == MapPart.Vossen && mapPartState.getTeamPart() == TeamPart.All)
         {
             TeamPart[] parts = new TeamPart[] {
                     TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
@@ -105,6 +115,10 @@ public class MapManager implements OnExtractionCompleted {
          * */
         if(!copy)
         {
+            if(mapPartState.getMapPart() == MapPart.Vossen && mapPartState.getTeamPart() == TeamPart.All)
+            {
+                return;
+            }
             this.mapPartStates.add(mapPartState);
         }
     }
@@ -156,50 +170,99 @@ public class MapManager implements OnExtractionCompleted {
          * */
         if(mapPartState.isOnMap() || !mapPartState.getShow()) return;
 
-        /**
-         * Get the markers that are on the map, and remove them from the map.
-         * */
-        ArrayList<Marker> onTheMapMarkers = mapBinder.getAssociated(mapPartState, ItemType.MARKERS);
-        for(int i = 0; i < onTheMapMarkers.size(); i++) { onTheMapMarkers.get(i).remove(); }
-        onTheMapMarkers.clear();
-
-        /**
-         * Get the new markers and add them to the map.
-         * */
-        ArrayList<Marker> markers = mapStorage.getAssociated(mapPartState, ItemType.MARKERS);
-        mapBinder.add(mapPartState, gMap, markers, ItemType.MARKERS);
-
-        /**
-         * Restriction, so that only map types with lines get updated.
-         * */
-        if(mapPartState.getMapPart() == MapPart.Vossen || mapPartState.getMapPart() == MapPart.Hunters)
+        if(mapPartState.getMapPart() == MapPart.Hunters)
         {
             /**
-             * Get the lines that are on the map, and remove them from the map.
+             * Get the current collection and clear it.
              * */
-            ArrayList<Polyline> onTheMapLines = mapBinder.getAssociated(mapPartState, ItemType.POLYLINES);
-            for(int i = 0; i < onTheMapLines.size(); i++) { onTheMapLines.get(i).remove(); }
-            onTheMapLines.clear();
+            ArrayList<ArrayList<Marker>> onTheMapMarkers = mapBinder.getAssociated(mapPartState, ItemType.MARKERS);
+            for(int i = 0; i < onTheMapMarkers.size(); i++) {
+                ArrayList<Marker> current = onTheMapMarkers.get(i);
+                for (int x = 0; x < current.size(); x++)
+                {
+                    current.get(x).remove();
+                }
+                current.clear();
+            }
+            onTheMapMarkers.clear();
+
+            ArrayList<ArrayList<MarkerOptions>> markers = mapStorage.getAssociatedMapItems(mapPartState, ItemType.MARKERS);
+            mapBinder.add(mapPartState, gMap, markers, ItemType.MARKERS);
 
             /**
-             * Get the new lines and add them to the map.
+             * Get the current collection and clear it.
              * */
-            ArrayList<PolylineOptions> polylines = mapStorage.getAssociated(mapPartState, ItemType.POLYLINES);
+            ArrayList<ArrayList<Polyline>> onTheMapLines = mapBinder.getAssociated(mapPartState, ItemType.POLYLINES);
+            for(int i = 0; i < onTheMapLines.size(); i++) {
+                ArrayList<Polyline> current = onTheMapLines.get(i);
+                for (int x = 0; x < current.size(); x++)
+                {
+                    current.get(x).remove();
+                }
+                current.clear();
+            }
+            onTheMapLines.clear();
+
+            ArrayList<ArrayList<PolylineOptions>> polylines = mapStorage.getAssociatedMapItems(mapPartState, ItemType.POLYLINES);
             mapBinder.add(mapPartState, gMap, polylines, ItemType.POLYLINES);
         }
+        else
+        {
+            /**
+             * Get the markers that are on the map, and remove them from the map.
+             * */
+            ArrayList<Marker> onTheMapMarkers = mapBinder.getAssociated(mapPartState, ItemType.MARKERS);
+            for(int i = 0; i < onTheMapMarkers.size(); i++) { onTheMapMarkers.get(i).remove(); }
+            onTheMapMarkers.clear();
 
+            /**
+             * Get the new markers and add them to the map.
+             * */
+            ArrayList<MarkerOptions> markers = mapStorage.getAssociatedMapItems(mapPartState, ItemType.MARKERS);
+            mapBinder.add(mapPartState, gMap, markers, ItemType.MARKERS);
+
+            /**
+             * Restriction, so that only map types with lines get updated.
+             * */
+            if(mapPartState.getMapPart() == MapPart.Vossen)
+            {
+                /**
+                 * Get the lines that are on the map, and remove them from the map.
+                 * */
+                ArrayList<Polyline> onTheMapLines = mapBinder.getAssociated(mapPartState, ItemType.POLYLINES);
+                for(int i = 0; i < onTheMapLines.size(); i++) { onTheMapLines.get(i).remove(); }
+                onTheMapLines.clear();
+
+                /**
+                 * Get the new lines and add them to the map.
+                 * */
+                ArrayList<PolylineOptions> polylines = mapStorage.getAssociatedMapItems(mapPartState, ItemType.POLYLINES);
+                mapBinder.add(mapPartState, gMap, polylines, ItemType.POLYLINES);
+            }
+        }
     }
 
     @Override
-    public void onExtractionCompleted() {
+    public void onExtractionCompleted(MapPartState special) {
         if(!this.operable) return;
         for(int i = 0; i < this.mapPartStates.size(); i++)
         {
             MapPartState mapPartState = this.mapPartStates.get(i);
             if(mapPartState.isPending())
             {
-                reAddToMap(mapPartState);
-                mapPartState.setPending(false);
+                if(mapPartState.getMapPart() != MapPart.Hunters)
+                {
+                    reAddToMap(mapPartState);
+                    mapPartState.setPending(false);
+                }
+                else
+                {
+                    if(special != null)
+                    {
+                        ((HunterMapPartState)mapPartState).setAccessors(((HunterMapPartState)special).getAccessors());
+                        reAddToMap(mapPartState);
+                    }
+                }
             }
         }
 

@@ -18,7 +18,6 @@ public class VosInfo extends BaseInfo {
 
     public String gebruiker;
 
-
     public static VosInfo fromJson(String json)
     {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));

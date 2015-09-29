@@ -82,4 +82,27 @@ public enum TeamPart {
         }
     }
 
+    public static int getAssociatedAlphaColor(TeamPart teamPart, int a)
+    {
+        switch (teamPart)
+        {
+            case Alpha:
+                return Color.argb(a, 255, 0, 0);
+            case Bravo:
+                return Color.argb(a, 0, 255, 0);
+            case Charlie:
+                return Color.argb(a, 0, 0, 255);
+            case Delta:
+                return Color.argb(a, 0, 255, 255);
+            case Echo:
+                return Color.argb(a, 255, 0, 255);
+            case Foxtrot:
+                return Color.argb(a, 255, 162, 0);
+            case XRay:
+                return Color.argb(a, 0, 0, 0);
+            default:
+                return Color.WHITE;
+        }
+    }
+
 }

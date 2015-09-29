@@ -38,7 +38,7 @@ public enum MapPart
         {
             case "vos":
                 return MapPart.Vossen;
-            case "hunters":
+            case "hunter":
                 return MapPart.Hunters;
             case "sc":
                 return MapPart.ScoutingGroepen;
