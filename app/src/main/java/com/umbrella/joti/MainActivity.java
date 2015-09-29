@@ -32,7 +32,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(savedInstanceState != null)
         {
-            mapManager = new MapManager((MapStorage)savedInstanceState.getParcelable("mapStorage"), (ArrayList<MapPartState>)savedInstanceState.getSerializable("states"));
+            mapManager = new MapManager((MapStorage)savedInstanceState.getParcelable("mapStorage"),
+                    (ArrayList<MapPartState>)savedInstanceState.getSerializable("states"));
         }
         else
         {
@@ -64,7 +65,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
-        CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.021675, 6.059437), 10);
+        CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.006074, 6.028140), 10);
         map.moveCamera(camera);
     }
 
