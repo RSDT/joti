@@ -57,16 +57,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapsonly);
-
+        Intent intent = new Intent(this, LocationHandler.class);
+        startService(intent);
 
         if(savedInstanceState != null && false)  // TODO ik heb dit eruit gehaald omdat het bugte bij mij
         {
             mapManager = new MapManager((MapStorage)savedInstanceState.getParcelable("mapStorage"),
-                    (ArrayList<MapPartState>)savedInstanceState.getSerializable("states"));
+                    (ArrayList<MapPartState>)savedInstanceState.getSerializable("states"),
+                    getApplicationContext());
         }
         else
         {
-            mapManager = new MapManager();
+            mapManager = new MapManager(getApplicationContext());
         }
 
         //pageAdaptor = new PageAdaptor(getSupportFragmentManager());
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(!mapManager.isMigrated())
         {
             mapManager.add(new MapPartState(MapPart.Vossen, TeamPart.All, true, true));
+            mapManager.add(new MapPartState(MapPart., TeamPart.All, true, true));
             mapManager.update();
         }
 
