@@ -1,5 +1,7 @@
 package com.umbrella.jotiwa.map.area348;
 
+import android.content.Context;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
@@ -21,21 +23,25 @@ import java.util.ArrayList;
 public class MapManager implements OnExtractionCompleted {
 
 
-    public MapManager(MapStorage storage, ArrayList<MapPartState> states)
+    private Context context;
+
+    public MapManager(MapStorage storage, ArrayList<MapPartState> states,Context context)
     {
         storage.setOnExtractionCompletedListener(this);
         this.mapStorage = storage;
         this.mapBinder = new MapBinder();
-        this.dataUpdater = new DataUpdater(mapStorage);
+        this.dataUpdater = new DataUpdater(mapStorage,context);
         this.mapPartStates = states;
         this.migrated = true;
+        this.context = context;
     }
 
-    public MapManager()
+    public MapManager(Context context)
     {
+        this.context = context;
         this.mapBinder = new MapBinder();
         this.mapStorage = new MapStorage(this);
-        this.dataUpdater = new DataUpdater(mapStorage);
+        this.dataUpdater = new DataUpdater(mapStorage, context);
     }
 
     boolean migrated = false;

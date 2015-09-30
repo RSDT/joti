@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <CheckBoxPreference
+        android:key="pref_send_loc"
+        android:title="@string/send_loction_title"
+        android:summary="@string/send_location_summ"
+        android:defaultValue="false" /><!--TODO title  en summ niet static maken -->
+    <EditTextPreference
+        android:key="pref_username"
+        android:title="username"
+        android:summary="testsum"
+        android:defaultValue="@string/standard_username"
+        />
+
+</PreferenceScreen>

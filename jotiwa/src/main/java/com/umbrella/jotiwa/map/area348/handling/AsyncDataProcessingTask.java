@@ -269,7 +269,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
     {
         Message message = new Message();
         message.obj = handlingResults;
-        handlingResults[0].getHandler().sendMessage(message);
+        handlingResults[0].getHandler().sendMessage(message); // TODO java.lang.ArrayIndexOutOfBoundsException in vliegtuigstand
     }
 }
 

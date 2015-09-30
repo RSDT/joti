@@ -1,5 +1,8 @@
 package com.umbrella.jotiwa.communication.interaction.area348;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.umbrella.jotiwa.communication.LinkBuilder;
 import com.umbrella.jotiwa.communication.enumeration.area348.*;
 import com.umbrella.jotiwa.communication.interaction.InteractionManager;
@@ -18,9 +21,12 @@ import java.util.ArrayList;
  */
 public class DataUpdater extends InteractionManager implements OnRequestTaskCompleted {
 
-    public DataUpdater(MapStorage mapStorage)
+    private Context context;
+
+    public DataUpdater(MapStorage mapStorage,Context context)
     {
         super();
+        this.context = context;
         this.mapStorage = mapStorage;
         setOnRequestTaskCompletedListener(this);
     }
@@ -96,6 +102,12 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
                  * Unsuccessful.
                  * TODO: Add UI notifier. The user should know there was a error.
                  * */
+                //Context context = getApplicationContext();
+                CharSequence text = "An Error has occurred.";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(this.context, text, duration);
+                toast.show();
             System.out.print("Interaction was unsuccessful. ");
             }
         }
