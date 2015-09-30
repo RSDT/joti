@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <CheckBoxPreference
+        android:key="pref_sync"
+        android:title="title"
+        android:summary="summ"
+        android:defaultValue="true" /><!--TODO title  en summ niet static maken -->
+
+
+</PreferenceScreen>

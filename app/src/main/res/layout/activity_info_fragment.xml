@@ -10,14 +10,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/fox"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="15"
         android:rowCount="2"
-        >
+        android:id="@+id/gridLayout">
         <ImageView
             android:id="@+id/imageA"
             android:layout_width="wrap_content"

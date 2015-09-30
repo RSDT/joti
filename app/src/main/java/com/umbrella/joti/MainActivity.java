@@ -1,8 +1,14 @@
 package com.umbrella.joti;
 
-import android.support.v4.app.FragmentActivity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,10 +20,9 @@ import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
-
 import java.util.ArrayList;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     PageAdaptor pageAdaptor;
 
@@ -26,11 +31,35 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     MapManager mapManager;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_refresh:
+                // TODO hier een refresh toevoegen
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.mapsonly);
 
-        if(savedInstanceState != null)
+
+        if(savedInstanceState != null && false)  // TODO ik heb dit eruit gehaald omdat het bugte bij mij
         {
             mapManager = new MapManager((MapStorage)savedInstanceState.getParcelable("mapStorage"),
                     (ArrayList<MapPartState>)savedInstanceState.getSerializable("states"));
@@ -40,16 +69,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             mapManager = new MapManager();
         }
 
-        pageAdaptor = new PageAdaptor(getSupportFragmentManager());
+        //pageAdaptor = new PageAdaptor(getSupportFragmentManager());
 
-        pager = (ViewPager)findViewById(R.id.pager);
-        pager.setAdapter(pageAdaptor);
+        //pager = (ViewPager) findViewById(R.id.pager);
+        //pager.setAdapter(pageAdaptor);
 
         MapFragment.setOnMapReadyCallback(this);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+       if (true){ // TODO ik heb dit eruit gehaald omdat het bugte bij mij
+           return;
+       }
         outState.putParcelable("mapStorage", mapManager.getMapStorage());
         outState.putSerializable("states", mapManager.getMapPartStates());
         super.onSaveInstanceState(outState);
