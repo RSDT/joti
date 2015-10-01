@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapsonly);
 
+        Intent StartServiceIntent = new Intent(this, LocationHandler.class);
+        startService(StartServiceIntent);
 
         Intent intent = getIntent();
         Uri data = intent.getData();
