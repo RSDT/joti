@@ -1,15 +1,15 @@
 package com.umbrella.joti;
 
-import android.annotation.TargetApi;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -17,7 +17,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import java.util.Objects;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 
 public class LocationHandler extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private long last_location_send = 0l;
@@ -64,7 +68,7 @@ public class LocationHandler extends Service implements com.google.android.gms.l
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
+
     protected void TryToSendLocation(Location location) {
         debug("trying to send loc");
         long time = System.currentTimeMillis();
@@ -74,7 +78,7 @@ public class LocationHandler extends Service implements com.google.android.gms.l
             if (send_location) {
                 String default_username = this.getString(R.string.standard_username);
                 String username = preferences.getString("pref_username", default_username);
-                if (Objects.equals(username, default_username) || Objects.equals(username, "")) {
+                if (username == default_username || username == "") {
                     Context context = getApplicationContext();
                     int duration = Toast.LENGTH_SHORT;
                     String text = getString(R.string.username_not_set);
@@ -92,11 +96,70 @@ public class LocationHandler extends Service implements com.google.android.gms.l
         }
     }
 
-    public void sendlocation(Location location, String username) {
-        Context context = getApplicationContext();
-        CharSequence text = "Je locatie is verzonden";
-        int duration = Toast.LENGTH_SHORT;
+    public String reformatString(String username) {
+        username = username.replace("\\", "");
+        username = username.replace("\"", "");
+        username = username.replace("\n", "");
+        username = username.replace("/", "");
+        username = username.replace("\t", "");
+        username = username.replace(" ", "");
+        username = username.replace("-", "");
+        username = username.replace("*", "");
+        username = username.replace("'", "");
+        username = username.replace("%", "");
+        if (username.isEmpty()) {
+            username = "IKMOETMIJNGEBRUIKERSNAAMVERANDEREN";
+        }
+        return username.toLowerCase();
+    }
 
+    public void sendlocation(Location location, String username) {
+        /*
+        ik wou deze functie kunnen testen dus ik heb maar op internet een functie opgezocht die de een post request kan versturn.
+        ik had deze geïmplemnteerd en... het werkte niet
+        ik heb die string data lopen veranderen en overal " neergezet. werkte t nog steeds niet.
+        toen dacht ik fack it
+        ik heb gegoogled op apk decompiler.
+        heb op upload geklikt.
+        en heb gekeken naar hoe tom t toen verzond.
+        daar kwam ik toevallig een GET URL tegen.
+        en dus verzend ie m zo.
+        maar ik neem aan dat dit toch weer een post moet worden dus het is tijdelijk maar het werkt.
+         */
+        Context context = getApplicationContext();
+        CharSequence text = "Je locatie is verzonden(fake)";
+        int duration = Toast.LENGTH_SHORT;
+        final String username2 = reformatString(username);
+        final double lon = location.getLongitude();
+        final double lat = location.getLatitude();
+
+        final String data = "{gebruiker: " + username +
+                ",latitude: " + lat +
+                ",longitude: " + lon + "}";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://jotihunt.area348.nl/android/hunters_invoer.php?coords=" + lat + "," + lon + "&naam=" + username2);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    System.out.println(data);
+                    //Set to POST
+                    connection.setDoOutput(true);
+                    connection.setRequestMethod("GET");
+                    connection.setReadTimeout(10000);
+                    Writer writer = new OutputStreamWriter(connection.getOutputStream());
+                    writer.write(data);
+                    writer.flush();
+                    writer.close();
+                    System.out.println(connection.getResponseMessage());
+                    System.out.println("location send");
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    System.out.println("location not send");
+                    Log.e("Debug", e.toString());
+                }
+            }
+        }).start();
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
