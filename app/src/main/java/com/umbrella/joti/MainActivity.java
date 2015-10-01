@@ -39,7 +39,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 
-public class MainActivity extends AppCompatActivityAppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
 
     PageAdaptor pageAdaptor;
 
