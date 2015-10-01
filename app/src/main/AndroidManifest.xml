@@ -15,7 +15,6 @@
 
     <application
         android:allowBackup="true"
-        android:debuggable="true"
 		android:icon="@drawable/fox"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -44,6 +43,11 @@
 		<activity android:name="com.umbrella.joti.SettingsActivity"
             android:label="@string/action_settings">
         </activity>
+        <service
+                    android:name=".LocationHandler"
+                    android:enabled="true"
+                    android:exported="true" >
+                </service>
 
 
     </application>
