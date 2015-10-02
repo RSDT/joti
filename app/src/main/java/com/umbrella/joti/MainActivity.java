@@ -204,23 +204,50 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (part == MapPart.Hunters) {
                 HunterInfo hunterInfo = mapManager.getMapStorage().findHunterInfo(splitted[1], Integer.parseInt(splitted[2]));
                 infoType.setText("Hunter");
-                naam.setText(hunterInfo.gebruiker);
-                dateTime_adres.setText(hunterInfo.datetime);
-            } else {
+                try{
+                    naam.setText(hunterInfo.gebruiker);
+                }catch (Exception e){
+                    naam.setText("ERRORnaam: "+ e.toString() );
+                }
+                try {
+                    dateTime_adres.setText(hunterInfo.datetime);
+                } catch (Exception e){
+                    dateTime_adres.setText("ERRORdate: "+ e.toString() );
+                }
+                } else {
                 BaseInfo baseInfo = mapManager.getMapStorage().findInfo(new MapPartState(part, TeamPart.None), Integer.parseInt(splitted[1]));
                 coordinaat.setText(((Double) baseInfo.latitude + " , " + ((Double) baseInfo.longitude).toString()));
                 switch (part) {
                     case ScoutingGroepen:
                         infoType.setText("ScoutingGroep");
                         ScoutingGroepInfo scoutingGroepInfo = (ScoutingGroepInfo) baseInfo;
-                        naam.setText(scoutingGroepInfo.naam);
-                        dateTime_adres.setText(scoutingGroepInfo.adres);
+                        try {
+
+                            naam.setText(scoutingGroepInfo.naam);
+                        }catch (Exception e){
+                            naam.setText("ERRORnaam: "+ e.toString() );
+                        }
+                        try {
+                            dateTime_adres.setText(scoutingGroepInfo.adres);
+                        } catch (Exception e){
+                            dateTime_adres.setText("ERRORdate: "+ e.toString() );
+                        }
+
                         break;
                     case FotoOpdrachten:
                         infoType.setText("FotoOpdracht");
                         FotoOpdrachtInfo fotoOpdrachtInfo = (FotoOpdrachtInfo) baseInfo;
-                        naam.setText(fotoOpdrachtInfo.naam);
-                        dateTime_adres.setText(fotoOpdrachtInfo.info);
+                        try {
+
+                            naam.setText(fotoOpdrachtInfo.naam);
+                        }catch (Exception e){
+                            naam.setText("ERRORnaam: "+ e.toString() );
+                        }
+                        try {
+                            dateTime_adres.setText(fotoOpdrachtInfo.info);
+                        } catch (Exception e){
+                            dateTime_adres.setText("ERRORdate: "+ e.toString() );
+                        }
                         break;
                 }
             }
