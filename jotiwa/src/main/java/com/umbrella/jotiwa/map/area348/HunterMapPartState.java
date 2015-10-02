@@ -1,5 +1,7 @@
 package com.umbrella.jotiwa.map.area348;
 
+import android.content.SharedPreferences;
+
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 

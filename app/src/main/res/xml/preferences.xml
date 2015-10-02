@@ -12,6 +12,13 @@
         android:summary="testsum"
         android:defaultValue="@string/standard_username"
         />
+    <EditTextPreference
+        android:key="pref_zoom"
+        android:inputType="number"
+        android:title="standaard Zoom"
+        android:summary="een getal tussen de 2.0 en 21.0"
+        android:defaultValue="10.0"
+        />
     <PreferenceCategory
         android:title="@string/pref_deelgebieden"
         android:key="pref_delgebieden">
@@ -59,6 +66,11 @@
             android:key="pref_sc"
             android:title="@string/sc"
             android:summary="@string/sc_sum"
+            android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="pref_foto"
+            android:title="@string/foto"
+            android:summary="@string/foto_sum"
             android:defaultValue="true" />
     </PreferenceCategory>
 

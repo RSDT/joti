@@ -1,5 +1,6 @@
 package com.umbrella.jotiwa.map.area348.storage;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;

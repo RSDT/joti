@@ -1,15 +1,23 @@
 package com.umbrella.jotiwa.map.area348;
 
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.umbrella.jotiwa.MyApp;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
+
+import static com.umbrella.jotiwa.communication.enumeration.area348.MapPart.*;
 
 /**
  * Created by stesi on 25-9-2015.
  * Class for controlling the flow of updating, handling and readding.
  */
 public class MapPartState {
+
+
 
 
     public MapPartState(MapPart mapPart, TeamPart teamPart)
@@ -57,7 +65,21 @@ public class MapPartState {
     }
 
     public boolean getShow() {
-        return show;
+        SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(MyApp.getContext());
+        switch (getMapPart()){
+            case Vossen:
+                return sharedpeferences.getBoolean("pref_" + teamPart.name().toLowerCase().toLowerCase(), show);
+            case ScoutingGroepen:
+                return sharedpeferences.getBoolean("pref_sc", show);
+            case Hunters:
+                return sharedpeferences.getBoolean("pref_tail", show);
+            case FotoOpdrachten:
+                return sharedpeferences.getBoolean("pref_foto", show);
+            case Me:
+                return sharedpeferences.getBoolean("pref_me", show);
+            default:
+                return show;
+    }
     }
 
     public boolean isUpdate() {

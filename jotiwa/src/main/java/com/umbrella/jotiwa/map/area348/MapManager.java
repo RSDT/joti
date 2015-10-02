@@ -1,5 +1,7 @@
 package com.umbrella.jotiwa.map.area348;
 
+import android.content.SharedPreferences;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;

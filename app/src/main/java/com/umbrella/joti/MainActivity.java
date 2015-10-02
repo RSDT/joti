@@ -1,14 +1,21 @@
 package com.umbrella.joti;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,8 +45,9 @@ import android.view.MenuItem;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     PageAdaptor pageAdaptor;
 
@@ -48,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     MapManager mapManager;
     private boolean useActionbar = true;
     private boolean useSafedInstance = false; // TODO zie bijbehoorende commit 'locationhandler 3/3'
+    private GoogleApiClient mGoogleApiClient = null;
+    private boolean isConnected;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
                 return true;
             case R.id.action_refresh:
+                mapManager.update();
                 // TODO hier een refresh toevoegen
                 return true;
             default:
@@ -76,11 +87,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addOnConnectionFailedListener(this)
+                .addConnectionCallbacks(this)
+                .build();
+        mGoogleApiClient.connect();
         if (useActionbar) {
             setContentView(R.layout.mapsonly);
         } else{
             setContentView(R.layout.activity_main);
         }
+
         Intent StartServiceIntent = new Intent(this, LocationHandler.class);
         startService(StartServiceIntent);
 
@@ -132,7 +150,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
 
-        CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.021675, 6.059437), 10);
+        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        CameraUpdate camera = null;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        float zoom= preferences.getFloat("pref_zoom", 10);
+        int i = 0;
+        while (!isConnected && i < 20){
+            try {
+                Thread.sleep(100);
+            }catch (Exception e){
+
+            }
+            i++;
+        }
+        if (lastLocation == null) {
+            camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.021675, 6.059437), zoom);
+        }
+        else{
+            camera = CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()), 10);
+        }
         map.moveCamera(camera);
     }
 
@@ -197,4 +233,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        isConnected = true;
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        isConnected = true;
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
 }
