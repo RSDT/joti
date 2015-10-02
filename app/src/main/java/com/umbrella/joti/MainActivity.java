@@ -197,8 +197,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPart));
             VosInfo info = mapManager.getMapStorage().findInfo(new MapPartState(part, teamPart), Integer.parseInt(splitted[2]));
             infoType.setText("Vos");
-            naam.setText(info.team_naam);
-            dateTime_adres.setText(info.datetime);
+            try{
+                naam.setText(info.team_naam);
+            }catch (Exception e){
+                naam.setText("ERRORnaam: "+ e.toString() );
+            }
+            try {
+                dateTime_adres.setText(info.datetime);
+            } catch (Exception e){
+                dateTime_adres.setText("ERRORdate: "+ e.toString() );
+            }
+
+
             coordinaat.setText(((Double) info.latitude + " , " + ((Double) info.longitude).toString()));
         } else {
             if (part == MapPart.Hunters) {
