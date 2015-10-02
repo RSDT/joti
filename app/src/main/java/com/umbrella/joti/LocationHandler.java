@@ -31,7 +31,7 @@ public class LocationHandler extends Service implements com.google.android.gms.l
     LocationRequest mLocationRequest;
 
     private void debug(CharSequence text) {
-        boolean debug_on = true;
+        boolean debug_on = false;
         if (debug_on) {
             Context context = getApplicationContext();
             int duration = Toast.LENGTH_SHORT;
@@ -127,13 +127,13 @@ public class LocationHandler extends Service implements com.google.android.gms.l
         maar ik neem aan dat dit toch weer een post moet worden dus het is tijdelijk maar het werkt.
          */
         Context context = getApplicationContext();
-        CharSequence text = "Je locatie is verzonden(fake)";
+        CharSequence text = "Je locatie is verzonden";
         int duration = Toast.LENGTH_SHORT;
         final String username2 = reformatString(username);
         final double lon = location.getLongitude();
         final double lat = location.getLatitude();
 
-        final String data = "{gebruiker: " + username +
+        final String data = "{gebruiker: " + username2 +
                 ",latitude: " + lat +
                 ",longitude: " + lon + "}";
         new Thread(new Runnable() {

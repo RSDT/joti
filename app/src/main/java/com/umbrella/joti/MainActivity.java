@@ -78,6 +78,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.action_refresh:
                 mapManager.update();
                 // TODO hier een refresh toevoegen
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                String text = "Deze knop werknt nog niet. Maar voor nu werkt het scherm draaien ook.";
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -153,16 +158,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         CameraUpdate camera = null;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        float zoom= preferences.getFloat("pref_zoom", 10);
-        int i = 0;
-        while (!isConnected && i < 20){
-            try {
-                Thread.sleep(100);
-            }catch (Exception e){
-
-            }
-            i++;
-        }
+        float zoom= Float.valueOf(preferences.getString("pref_zoom", "10"));
         if (lastLocation == null) {
             camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.021675, 6.059437), zoom);
         }
