@@ -11,7 +11,14 @@ import com.umbrella.jotiwa.map.area348.storage.MapStorage;
  */
 public class MapPartState {
 
-    public MapPartState(MapPart mapPart, TeamPart teamPart, boolean show ,boolean update)
+
+    public MapPartState(MapPart mapPart, TeamPart teamPart)
+    {
+        this.mapPart = mapPart;
+        this.teamPart = teamPart;
+    }
+
+    public MapPartState(MapPart mapPart, TeamPart teamPart, boolean show, boolean update)
     {
         this.mapPart = mapPart;
         this.teamPart = teamPart;

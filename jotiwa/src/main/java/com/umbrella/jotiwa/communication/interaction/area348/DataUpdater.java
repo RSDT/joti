@@ -63,7 +63,7 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
                 super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), teamPart.getSubChar(), Keywords.All } ), null));
                 break;
             case Hunters:
-
+                super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), Keywords.All }), null));
                 break;
             case ScoutingGroepen:
                 super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), Keywords.All }), null));

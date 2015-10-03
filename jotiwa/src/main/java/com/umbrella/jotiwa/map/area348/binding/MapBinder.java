@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.map.MapItemListManager;
 import com.umbrella.jotiwa.map.ItemType;
+import com.umbrella.jotiwa.map.area348.HunterMapPartState;
 import com.umbrella.jotiwa.map.area348.MapPartState;
 
 import java.util.ArrayList;
@@ -47,11 +48,22 @@ public class MapBinder {
                 manager = circles;
                 break;
         }
-
         if(mapPartState.getMapPart() == MapPart.Vossen)
         {
             safetyCheck(mapPartState, type);
             return (ArrayList<T>)manager.getItem(mapPartState.getTeamPart().getSubChar());
+        }
+        if(mapPartState.getMapPart() == MapPart.Hunters)
+        {
+            HunterMapPartState hunterMapPartState = (HunterMapPartState)mapPartState;
+            String[] accessors = hunterMapPartState.getAccessors();
+            safetyCheck(hunterMapPartState, type);
+            ArrayList<T> buffer = new ArrayList<>();
+            for(int i = 0; i < accessors.length; i++)
+            {
+                buffer.add((T) manager.getItem(accessors[i]));
+            }
+            return buffer;
         }
         else
         {
@@ -66,21 +78,38 @@ public class MapBinder {
         {
             case MARKERS:
                 ArrayList<Marker> markers;
+                /**
+                 * The vos spefic code.
+                 * */
                 if(mapPartState.getMapPart() == MapPart.Vossen)
                 {
                     safetyCheck(mapPartState, type);
-                   markers = this.markers.getItem(mapPartState.getTeamPart().getSubChar());
+                    markers = this.markers.getItem(mapPartState.getTeamPart().getSubChar());
                 }
                 else
                 {
-                    safetyCheck(mapPartState, type);
-                    markers = this.markers.getItem(mapPartState.getMapPart().getValue());
+                    /**
+                     * The hunter spefic code.
+                     * */
+                    if(mapPartState.getMapPart() == MapPart.Hunters)
+                    {
+                        HunterMapPartState hunterMapPartState = (HunterMapPartState)mapPartState;
+                        String[] accessors = hunterMapPartState.getAccessors();
+                        safetyCheck(hunterMapPartState, ItemType.MARKERS);
+                        for(int i = 0; i < accessors.length; i++)
+                        {
+                            ArrayList<Marker> markerList = this.markers.getItem(accessors[i]);
+                            add(gMap, (ArrayList<ArrayList<MarkerOptions>>)items.get(i), markerList, ItemType.MARKERS);
+                        }
+                        return;
+                    }
+                    else
+                    {
+                        safetyCheck(mapPartState, type);
+                        markers = this.markers.getItem(mapPartState.getMapPart().getValue());
+                    }
                 }
-                ArrayList<MarkerOptions> markersOption = items;
-                for(int i = 0; i < markersOption.size(); i++)
-                {
-                    markers.add(gMap.addMarker(markersOption.get(i)));
-                }
+                add(gMap, items, markers, ItemType.MARKERS);
                 break;
 
             case POLYLINES:
@@ -92,14 +121,28 @@ public class MapBinder {
                 }
                 else
                 {
-                    safetyCheck(mapPartState, type);
-                    polylines = this.polylines.getItem(mapPartState.getMapPart().getValue());
+                    /**
+                     * The hunter spefic code.
+                     * */
+                    if(mapPartState.getMapPart() == MapPart.Hunters)
+                    {
+                        HunterMapPartState hunterMapPartState = (HunterMapPartState)mapPartState;
+                        String[] accessors = hunterMapPartState.getAccessors();
+                        safetyCheck(hunterMapPartState, ItemType.POLYLINES);
+                        for(int i = 0; i < accessors.length; i++)
+                        {
+                            ArrayList<Polyline> markerList = this.polylines.getItem(accessors[i]);
+                            add(gMap, (ArrayList<ArrayList<PolylineOptions>>)items.get(i), markerList, ItemType.POLYLINES);
+                        }
+                        return;
+                    }
+                    else
+                    {
+                        safetyCheck(mapPartState, type);
+                        polylines = this.polylines.getItem(mapPartState.getMapPart().getValue());
+                    }
                 }
-                ArrayList<PolylineOptions> polylineOptions = items;
-                for(int i = 0; i < polylineOptions.size(); i++)
-                {
-                    polylines.add(gMap.addPolyline(polylineOptions.get(i)));
-                }
+                add(gMap, items, polylines, ItemType.POLYLINES);
                 break;
 
             case CIRCLES:
@@ -111,21 +154,58 @@ public class MapBinder {
                 }
                 else
                 {
-                    safetyCheck(mapPartState, type);
-                    circles = this.circles.getItem(mapPartState.getMapPart().getValue());
+                    /**
+                     * The hunter spefic code.
+                     * */
+                    if(mapPartState.getMapPart() == MapPart.Hunters)
+                    {
+                        HunterMapPartState hunterMapPartState = (HunterMapPartState)mapPartState;
+                        String[] accessors = hunterMapPartState.getAccessors();
+                        safetyCheck(hunterMapPartState, ItemType.CIRCLES);
+                        for(int i = 0; i < accessors.length; i++)
+                        {
+                            ArrayList<Circle> markerList = this.circles.getItem(accessors[i]);
+                            add(gMap, (ArrayList<ArrayList<CircleOptions>>)items.get(i), markerList, ItemType.CIRCLES);
+                        }
+                        return;
+                    }
+                    else
+                    {
+                        safetyCheck(mapPartState, type);
+                        circles = this.circles.getItem(mapPartState.getMapPart().getValue());
+                    }
                 }
+                add(gMap, items, circles, ItemType.CIRCLES);
+                break;
+        }
+    }
+
+    private void add(GoogleMap gMap, ArrayList items, ArrayList list, ItemType itemType)
+    {
+        switch(itemType)
+        {
+            case MARKERS:
+                ArrayList<MarkerOptions> markersOption = items;
+                for(int i = 0; i < markersOption.size(); i++)
+                {
+                    list.add(gMap.addMarker(markersOption.get(i)));
+                }
+                break;
+            case POLYLINES:
+                ArrayList<PolylineOptions> polylineOptions = items;
+                for(int i = 0; i < polylineOptions.size(); i++)
+                {
+                    list.add(gMap.addPolyline(polylineOptions.get(i)));
+                }
+                break;
+            case CIRCLES:
                 ArrayList<CircleOptions> circleOptions = items;
                 for(int i = 0; i < circleOptions.size(); i++)
                 {
-                    circles.add(gMap.addCircle(circleOptions.get(i)));
+                    list.add(gMap.addCircle(circleOptions.get(i)));
                 }
-
                 break;
         }
-
-
-
-
     }
 
     private void safetyCheck(MapPartState mapPartState, ItemType type)
@@ -140,10 +220,24 @@ public class MapBinder {
                 }
                 else
                 {
-                    if(this.markers.getItem(mapPartState.getMapPart().getValue()) == null)
-                        this.markers.newItem(mapPartState.getMapPart().getValue(), new ArrayList<Marker>());
+                    if(mapPartState.getMapPart() == MapPart.Hunters)
+                    {
+                        HunterMapPartState hunterMapPartState = (HunterMapPartState)mapPartState;
+                        String[] accessors = hunterMapPartState.getAccessors();
+                        for(int i = 0; i < accessors.length; i++)
+                        {
+                            if(this.markers.getItem(accessors[i]) == null)
+                                this.markers.newItem(accessors[i], new ArrayList<Marker>());
+                        }
+                    }
+                    else
+                    {
+                        if(this.markers.getItem(mapPartState.getMapPart().getValue()) == null)
+                            this.markers.newItem(mapPartState.getMapPart().getValue(), new ArrayList<Marker>());
+                    }
                 }
                 break;
+
             case POLYLINES:
                 if(mapPartState.getMapPart() == MapPart.Vossen)
                 {
@@ -152,10 +246,24 @@ public class MapBinder {
                 }
                 else
                 {
-                    if(this.polylines.getItem(mapPartState.getMapPart().getValue()) == null)
-                        this.polylines.newItem(mapPartState.getMapPart().getValue(), new ArrayList<Polyline>());
+                    if(mapPartState.getMapPart() == MapPart.Hunters)
+                    {
+                        HunterMapPartState hunterMapPartState = (HunterMapPartState)mapPartState;
+                        String[] accessors = hunterMapPartState.getAccessors();
+                        for(int i = 0; i < accessors.length; i++)
+                        {
+                            if(this.polylines.getItem(accessors[i]) == null)
+                                this.polylines.newItem(accessors[i], new ArrayList<Polyline>());
+                        }
+                    }
+                    else
+                    {
+                        if(this.polylines.getItem(mapPartState.getMapPart().getValue()) == null)
+                            this.polylines.newItem(mapPartState.getMapPart().getValue(), new ArrayList<Polyline>());
+                    }
                 }
                 break;
+
             case CIRCLES:
                 if(mapPartState.getMapPart() == MapPart.Vossen)
                 {
@@ -164,8 +272,21 @@ public class MapBinder {
                 }
                 else
                 {
-                    if(this.circles.getItem(mapPartState.getMapPart().getValue()) == null)
-                        this.circles.newItem(mapPartState.getMapPart().getValue(), new ArrayList<Circle>());
+                    if(mapPartState.getMapPart() == MapPart.Hunters)
+                    {
+                        HunterMapPartState hunterMapPartState = (HunterMapPartState)mapPartState;
+                        String[] accessors = hunterMapPartState.getAccessors();
+                        for(int i = 0; i < accessors.length; i++)
+                        {
+                            if(this.circles.getItem(accessors[i]) == null)
+                                this.circles.newItem(accessors[i], new ArrayList<Circle>());
+                        }
+                    }
+                    else
+                    {
+                        if (this.circles.getItem(mapPartState.getMapPart().getValue()) == null)
+                            this.circles.newItem(mapPartState.getMapPart().getValue(), new ArrayList<Circle>());
+                    }
                 }
                 break;
         }

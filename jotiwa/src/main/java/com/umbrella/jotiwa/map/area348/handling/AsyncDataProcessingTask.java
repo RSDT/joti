@@ -36,7 +36,6 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
             {
                 switch(Area348_Linker.parseMapPart(params[i].getRequest().getUrl()))
                 {
-
                     case Vossen:
                         results[i] = handleVossen(params[i]);
                         break;
@@ -88,6 +87,14 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         pOptions.color(TeamPart.getAssociatedColor(result.getTeamPart()));
 
         /**
+         * Setup the preset circle.
+         * */
+        CircleOptions cOptions = new CircleOptions();
+        cOptions.fillColor(TeamPart.getAssociatedAlphaColor(result.getTeamPart(), 128));
+        cOptions.strokeColor(Color.BLACK);
+        cOptions.strokeWidth(5);
+
+        /**
          * Loop trough each vos info and add it to the map.
          * */
         for(int i = 0; i < vossen.length; i++)
@@ -98,8 +105,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
             MarkerOptions mOptions = new MarkerOptions();
             mOptions.anchor(0.5f, 0.5f);
             mOptions.position(new LatLng(vossen[i].latitude, vossen[i].longitude));
-            mOptions.title("vos");
-            mOptions.snippet(vossen[i].datetime);
+            mOptions.title("vos;" + vossen[0].team + ";" + ((Integer) vossen[i].id).toString());
 
             /**
              * Add a point to the points of the vos line.
@@ -112,6 +118,12 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
             if(i == 0)
             {
                 mOptions.icon(BitmapDescriptorFactory.fromAsset("vos_pointers/markers/" + vossen[0].team + "-Vossen-30x30.png"));
+
+                /**
+                 * Sets the center of the circle to the latest vos location.
+                 * */
+                cOptions.center(new LatLng(vossen[i].latitude, vossen[i].longitude));
+
             } else {
                 mOptions.icon(descriptor);
             }
@@ -121,7 +133,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
              * */
             markers.add(mOptions);
         }
-        result.setObjects(new Object[] { markers, pOptions });
+        result.setObjects(new Object[] { markers, pOptions, cOptions, vossen });
         return result;
     }
 
@@ -143,24 +155,24 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
 
         BitmapDescriptor descriptor = BitmapDescriptorFactory.fromAsset("auto.png");
 
-        Map<String, MarkerOptions> markers = new HashMap<>();
+        HashMap<String, MarkerOptions> markers = new HashMap<>();
 
-        Map<String, List<LatLng>> locations = new HashMap<>();
+        HashMap<String, List<LatLng>> locations = new HashMap<>();
 
         for(int h = 0; h < hunterInfos.length; h++)
         {
-            ArrayList<LatLng> positions = (ArrayList<LatLng>)locations.put(hunterInfos[h][0].gebruiker, new ArrayList<LatLng>());
-            for(int i = 0; i < hunterInfos.length; i++)
+            locations.put(hunterInfos[h][0].gebruiker, new ArrayList<LatLng>());
+            ArrayList<LatLng> positions = (ArrayList<LatLng>)locations.get(hunterInfos[h][0].gebruiker);
+            for(int i = 0; i < hunterInfos[h].length; i++)
             {
                 /**
                  * Checks if the current info is the last, if it is the info is the newest.
                  * TRUE: Creates
                  * */
-                if(i == hunterInfos.length)
+                if(i == (hunterInfos.length - 1))
                 {
                     MarkerOptions mOptions = new MarkerOptions();
-                    mOptions.title(hunterInfos[h][i].gebruiker);
-                    mOptions.snippet(hunterInfos[h][i].datetime);
+                    mOptions.title("hunter" + ";" + hunterInfos[h][0].gebruiker + ";" + ((Integer) hunterInfos[h][i].id).toString());
                     mOptions.position(new LatLng(hunterInfos[h][i].latitude, hunterInfos[h][i].longitude));
                     mOptions.icon(descriptor);
                     markers.put(hunterInfos[h][0].gebruiker, mOptions);
@@ -168,7 +180,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
                 positions.add(new LatLng(hunterInfos[h][i].latitude, hunterInfos[h][i].longitude));
             }
         }
-        result.setObjects(new Object[] { markers, locations });
+        result.setObjects(new Object[] { markers, locations, hunterInfos });
         return result;
     }
 
@@ -203,8 +215,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
              * */
             MarkerOptions mOptions = new MarkerOptions();
             mOptions.position(new LatLng(groepen[i].latitude, groepen[i].longitude));
-            mOptions.title(groepen[i].naam);
-            mOptions.snippet(groepen[i].adres);
+            mOptions.title("sc;" + ((Integer)groepen[i].id).toString());
             mOptions.anchor(0.5f, 0.5f);
             mOptions.icon(descriptor);
 
@@ -226,7 +237,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
             circles.add(cOptions);
         }
 
-        result.setObjects(new Object[] { markers, circles });
+        result.setObjects(new Object[] { markers, circles, groepen });
         return result;
     }
 
@@ -255,12 +266,10 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
             if(fotoOpdrachten[i].klaar == 1) {
                 mOptions.icon(descriptorDone); }
             mOptions.position(new LatLng(fotoOpdrachten[i].latitude, fotoOpdrachten[i].longitude));
-            mOptions.title(fotoOpdrachten[i].naam);
-            mOptions.snippet(fotoOpdrachten[i].extra);
-
+            mOptions.title("foto;" + ((Integer) fotoOpdrachten[i].id).toString());
             markers.add(mOptions);
         }
-        result.setObjects(new Object[] { markers });
+        result.setObjects(new Object[] { markers, fotoOpdrachten });
         return result;
     }
 

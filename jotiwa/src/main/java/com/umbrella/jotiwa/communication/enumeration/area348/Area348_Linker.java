@@ -10,6 +10,7 @@ import java.net.URL;
 public class Area348_Linker {
     public static MapPart parseMapPart(URL url)
     {
-        return MapPart.parse(url.toString().split("/")[3]);
+        String s = url.toString().split("/")[3];
+        return MapPart.parse(s);
     }
 }
