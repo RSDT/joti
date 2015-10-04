@@ -2,7 +2,9 @@ package com.umbrella.joti;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.umbrella.jotiwa.communication.enumeration.area348.Area348_API;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.data.objects.area348.BaseInfo;
@@ -30,12 +33,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import javax.xml.datatype.Duration;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, SharedPreferences.OnSharedPreferenceChangeListener {
 
     PageAdaptor pageAdaptor;
 
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     MapManager mapManager;
 
     Date old;
+
+    ArrayList<MapPartState> oldStates = new ArrayList<>();
 
     private boolean useActionbar = true;
     private boolean useSafedInstance = false; // TODO zie bijbehoorende commit 'locationhandler 3/3'
@@ -65,7 +70,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
                 return true;
             case R.id.action_refresh:
-                // TODO hier een refresh toevoegen
+                for(int i = 0; i < mapManager.size(); i++)
+                {
+                    MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(mapManager.get(i));
+                    bindObject.remove();
+                }
+                mapManager.sync();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -75,10 +85,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null)
+        {
+            this.oldStates = (ArrayList<MapPartState>)savedInstanceState.getSerializable("mapManager");
+        }
+
         setContentView(R.layout.activity_main);
 
         old = new Date();
 
+
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
         if (useActionbar) {
             setContentView(R.layout.mapsonly);
@@ -106,15 +124,92 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment.setOnMapReadyCallback(this);
     }
 
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        savedInstanceState.putSerializable("mapManager", (ArrayList<MapPartState>) mapManager);
+    }
+
+
     public void onMapReady(GoogleMap map) {
         map.setInfoWindowAdapter(this);
 
         mapManager = new MapManager(map);
-        mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
-        mapManager.update();
+
+        /**
+         * Checks if there were old states, if so add them and sync the storage with the map.
+         * */
+        if(oldStates.size() > 0)
+        {
+            mapManager.addAll(oldStates);
+            mapManager.sync();
+        }
+        /**
+         * If there are no old states, then this is the first run or no states were added.
+         * Check the preferences to make sure.
+         * */
+        else
+        {
+            /**
+             * TODO: Only update the parts that are enabled in the settings.
+             * */
+/*            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String format = "pref_";
+
+            String vosFormat = format + "vos";
+            TeamPart[] teams = new TeamPart[] { TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
+                    TeamPart.Delta, TeamPart.Echo, TeamPart.Foxtrot, TeamPart.XRay };
+            for(int i = 0; i < teams.length-1; i++)
+            {
+                if(sharedPreferences.getBoolean(vosFormat + teams[i].getSubChar(), false));
+                {
+                    mapManager.add(new MapPartState(MapPart.Vossen, teams[i], true , true));
+                }
+            }*/
+
+            mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
+            mapManager.update();
+        }
 
         CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.021675, 6.059437), 10);
         map.moveCamera(camera);
+    }
+
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        String[] typeCode = key.split("_");
+        MapPart mapPart = MapPart.parse(typeCode[1]);
+
+        switch (mapPart)
+        {
+            case Vossen:
+                TeamPart teamPart = TeamPart.parse(typeCode[2]);
+                MapPartState stateVos = mapManager.findState(MapPart.Vossen, teamPart, MapPartState.getAccesor(MapPart.Vossen, teamPart));
+                MapBindObject bindObjectVos = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
+                bindObjectVos.setVisiblty(preferences.getBoolean(key, false));
+                break;
+            case Hunters:
+
+                /**
+                 * TODO: Add code for hunter visibilty.
+                 * */
+                for(int i = 0; i < mapManager.size(); i++)
+                {
+                    MapPartState current = mapManager.get(i);
+                    if(current.getMapPart() == MapPart.Hunters && !current.getAccessor().matches("hunter"))
+                    {
+                        MapBindObject mapBindObjectHunter = mapManager.getMapBinder().getAssociatedMapBindObject(current);
+                        mapBindObjectHunter.setVisiblty(preferences.getBoolean(key, false));
+                    }
+                }
+                break;
+            default:
+                MapPartState stateGen = mapManager.findState(mapPart, TeamPart.None, MapPartState.getAccesor(mapPart, TeamPart.None));
+                MapBindObject bindObjectGen = mapManager.getMapBinder().getAssociatedMapBindObject(stateGen);
+                bindObjectGen.setVisiblty(preferences.getBoolean(key, false));
+                break;
+
+        }
     }
 
     public View getInfoContents(Marker marker) {
@@ -134,8 +229,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         float increaseM = diffInHours * 6000;
 
         old = date;
-
-
 
 
         /**
@@ -170,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 double radius = bindObject.getCircles().get(0).getRadius();
                 bindObject.getCircles().get(0).setRadius(radius + increaseM);
 
-                VosInfo info = (VosInfo)mapManager.getMapStorage().findInfo(new MapPartState(part, teamPart), Integer.parseInt(splitted[2]));
+                VosInfo info = (VosInfo)mapManager.getMapStorage().findInfo(stateVos, Integer.parseInt(splitted[2]));
                 infoType.setText("Vos");
                 naam.setText(info.team_naam);
                 dateTime_adres.setText(info.datetime);

@@ -32,4 +32,6 @@
     <string name="tail_sum">show hunters</string>
     <string name="sc">Scouting Groepen</string>
     <string name="sc_sum">show Scouting Groepen</string>
+    <string name="foto">FotoOpdrachten</string>
+    <string name="foto_sum">show FotoOpdrachten</string>
 </resources>

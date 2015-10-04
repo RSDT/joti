@@ -1,9 +1,13 @@
 package com.umbrella.jotiwa.map.area348;
 
 
+import android.os.Parcelable;
+
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
+
+import java.io.Serializable;
 
 /**
  * Created by stesi on 25-9-2015.
@@ -13,7 +17,7 @@ import com.umbrella.jotiwa.map.area348.storage.MapStorage;
  * @version 1.0
  * @since 25-9-2015
  */
-public class MapPartState {
+public class MapPartState implements Serializable {
 
     /**
      * Initializes a new instance of MapPartState.
@@ -169,6 +173,9 @@ public class MapPartState {
         return update;
     }
 
+    public boolean hasLocalData() {
+        return hasLocalData;
+    }
     //endregion
 
     //region set
@@ -176,6 +183,11 @@ public class MapPartState {
     public void setPending(boolean pending) {
         this.pending = pending;
     }
+
+    public void setHasLocalData(boolean hasLocalData) {
+        this.hasLocalData = hasLocalData;
+    }
+
     //endregion
 
     //endregion

@@ -55,19 +55,16 @@ public class MapBindObject {
         {
             this.markers.get(m).setVisible(visible);
         }
-        this.markers.clear();
 
         for(int l = 0; l < this.polylines.size(); l++)
         {
             this.polylines.get(l).setVisible(visible);
         }
-        this.polylines.clear();
 
         for(int c = 0; c < this.circles.size(); c++)
         {
             this.circles.get(c).setVisible(visible);
         }
-        this.circles.clear();
     }
 
     public void remove()

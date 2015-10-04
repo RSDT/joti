@@ -34,7 +34,7 @@ import java.util.Map;
  * Created by stesi on 22-9-2015.
  * Class for storing map data.
  */
-public class MapStorage extends HashMap<String, StorageObject> implements Extractor, Parcelable {
+public class MapStorage extends HashMap<String, StorageObject> implements Extractor {
 
     protected MapStorage(Parcel in) {
         storageHandler = new StorageHandler(this);
@@ -52,18 +52,6 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
     }
 
     private OnNewDataAvailable onNewDataAvailableListener;
-
-    public static final Creator<MapStorage> CREATOR = new Creator<MapStorage>() {
-        @Override
-        public MapStorage createFromParcel(Parcel in) {
-            return new MapStorage(in);
-        }
-
-        @Override
-        public MapStorage[] newArray(int size) {
-            return new MapStorage[size];
-        }
-    };
 
 
     /**
@@ -103,16 +91,6 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
         thread.start();
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeSerializable(new Object[] {  });
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
     /**
      * Class that servers as a encapsulation for the extraction task.
      * */
@@ -132,7 +110,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
                 if(current.getMapPart() == MapPart.Hunters)
                 {
                     HunterInfo[][] hunterInfos = (HunterInfo[][]) current.getObjects()[1];
-                    int count = 0;
+                    int count = hunterInfos.length - 1;
                     for (Map.Entry<String, HunterObject> entry : ((HashMap<String, HunterObject>) current.getObjects()[0]).entrySet()) {
                         check(entry.getKey());
                         StorageObject storageObjectHunter = get(entry.getKey());
@@ -153,7 +131,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
                          * Add a state to the new state list, so for each hunter a state is created.
                          * */
                         newStates.add(new MapPartState(MapPart.Hunters, TeamPart.None, entry.getKey(), true, true, true));
-                        count++;
+                        count--;
                     }
 
                 }

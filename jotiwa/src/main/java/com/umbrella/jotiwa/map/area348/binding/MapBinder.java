@@ -1,16 +1,10 @@
 package com.umbrella.jotiwa.map.area348.binding;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
-import com.umbrella.jotiwa.map.MapItemListManager;
-import com.umbrella.jotiwa.map.ItemType;
-import com.umbrella.jotiwa.map.area348.HunterMapPartState;
 import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.storage.StorageObject;
 

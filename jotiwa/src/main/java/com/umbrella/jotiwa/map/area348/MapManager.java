@@ -12,6 +12,8 @@ import com.umbrella.jotiwa.map.area348.handling.OnNewDataAvailable;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Created by stesi on 25-9-2015.
@@ -24,9 +26,19 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         super();
         this.gMap = gMap;
         this.mapBinder = new MapBinder(gMap);
-        mapManagerHandler = new MapManagerHandler();
-        mapStorage = new MapStorage(this);
-        dataUpdater = new DataUpdater();
+        if(mapManagerHandler == null)
+        {
+            mapManagerHandler = new MapManagerHandler();
+        }
+        if(mapStorage == null)
+        {
+            mapStorage = new MapStorage(this);
+        } else { mapStorage.setOnNewDataAvailableListener(this); }
+
+        if(dataUpdater == null)
+        {
+            dataUpdater = new DataUpdater();
+        }
         this.operable = true;
     }
 
@@ -127,6 +139,18 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         return false;
     }
 
+    @Override
+    public boolean addAll(Collection<? extends MapPartState> collection) {
+
+        Iterator iterator = collection.iterator();
+        while(iterator.hasNext())
+        {
+            this.add((MapPartState)iterator.next());
+        }
+        return true;
+    }
+
+
     public void update()
     {
         /**
@@ -167,11 +191,25 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
     }
 
     /**
-     * Syncs the storage with the Map with help of the MapBinder.
+     * Syncs the specific state's storage with the Map with help of the MapBinder.
      * */
     private void sync(MapPartState mapPartState)
     {
         mapBinder.add(mapPartState, mapStorage.getAssociatedStorageObject(mapPartState), MapBinder.MapBinderAddOptions.MAP_BINDER_ADD_OPTIONS_CLEAR);
+    }
+
+    /**
+     * Syncs the storage with the Map with help of the MapBinder.
+     * */
+    public void sync()
+    {
+        for(int i = 0; i < this.size(); i++)
+        {
+            if(this.get(i).hasLocalData())
+            {
+                sync(this.get(i));
+            }
+        }
     }
 
     @Override
@@ -234,6 +272,7 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
             if(current.isPending())
             {
                 sync(current);
+                current.setHasLocalData(true);
                 current.setPending(false);
             }
         }

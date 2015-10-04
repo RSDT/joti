@@ -1,5 +1,7 @@
 package com.umbrella.jotiwa.communication.interaction.area348;
 
+import android.preference.PreferenceManager;
+
 import com.umbrella.jotiwa.communication.LinkBuilder;
 import com.umbrella.jotiwa.communication.enumeration.area348.*;
 import com.umbrella.jotiwa.communication.interaction.InteractionManager;

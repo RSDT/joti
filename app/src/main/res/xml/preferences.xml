@@ -16,42 +16,42 @@
         android:title="@string/pref_deelgebieden"
         android:key="pref_delgebieden">
         <CheckBoxPreference
-            android:key="pref_alpha"
+            android:key="pref_vos_a"
             android:title="@string/alpha"
             android:summary="@string/alpha_sum"
             android:defaultValue="true" />
         <CheckBoxPreference
-            android:key="pref_bravo"
+            android:key="pref_vos_b"
             android:title="@string/bravo"
             android:summary="@string/bravo_sum"
             android:defaultValue="true" />
         <CheckBoxPreference
-            android:key="pref_charlie"
+            android:key="pref_vos_c"
             android:title="@string/charlie"
             android:summary="@string/charlie_sum"
             android:defaultValue="true" />
         <CheckBoxPreference
-            android:key="pref_delta"
+            android:key="pref_vos_d"
             android:title="@string/delta"
             android:summary="@string/delta_sum"
             android:defaultValue="true" />
         <CheckBoxPreference
-            android:key="pref_echo"
+            android:key="pref_vos_e"
             android:title="@string/echo"
             android:summary="@string/echo_sum"
             android:defaultValue="true" />
         <CheckBoxPreference
-            android:key="pref_foxtrot"
+            android:key="pref_vos_f"
             android:title="@string/foxtrot"
             android:summary="@string/foxtrot_sum"
             android:defaultValue="true" />
         <CheckBoxPreference
-            android:key="pref_xray"
+            android:key="pref_vos_x"
             android:title="@string/xray"
             android:summary="@string/xray_sum"
             android:defaultValue="true" />
         <CheckBoxPreference
-            android:key="pref_tail"
+            android:key="pref_hunter"
             android:title="@string/tail"
             android:summary="@string/tail_sum"
             android:defaultValue="true" />
@@ -59,6 +59,11 @@
             android:key="pref_sc"
             android:title="@string/sc"
             android:summary="@string/sc_sum"
+            android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="pref_foto"
+            android:title="@string/foto"
+            android:summary="@string/foto_sum"
             android:defaultValue="true" />
     </PreferenceCategory>
 
