@@ -24,11 +24,6 @@ import com.umbrella.jotiwa.data.objects.area348.ScoutingGroepInfo;
 import com.umbrella.jotiwa.data.objects.area348.VosInfo;
 import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.MapPartState;
-import com.umbrella.jotiwa.map.area348.storage.MapStorage;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
 
@@ -43,21 +38,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Intent intent = getIntent();
         Uri data = intent.getData();
-
-
-
-
-        if(savedInstanceState != null)
-        {
-            mapManager = new MapManager((MapStorage)savedInstanceState.getParcelable("mapStorage"), (ArrayList<MapPartState>)savedInstanceState.getSerializable("states"));
-        }
-        else
-        {
-            mapManager = new MapManager();
-        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Intent");
@@ -77,23 +59,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         MapFragment.setOnMapReadyCallback(this);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable("mapStorage", mapManager.getMapStorage());
-        outState.putSerializable("states", mapManager.getMapPartStates());
-        super.onSaveInstanceState(outState);
-    }
-
     public void onMapReady(GoogleMap map)
     {
         map.setInfoWindowAdapter(this);
-        mapManager.setGoogleMap(map);
-        if(!mapManager.isMigrated())
-        {
-            mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
-            mapManager.update();
-        }
 
+        mapManager = new MapManager(map);
+        mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
+        mapManager.update();
 
         CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.021675, 6.059437), 10);
         map.moveCamera(camera);
@@ -125,27 +97,26 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         String[] splitted = marker.getTitle().split(";");
         MapPart part = MapPart.parse(splitted[0]);
 
-        if(part == MapPart.Vossen)
+        switch(part)
         {
-            TeamPart teamPart = TeamPart.parse(splitted[1]);
-            infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPart));
-            VosInfo info = mapManager.getMapStorage().findInfo(new MapPartState(part, teamPart), Integer.parseInt(splitted[2]));
-            infoType.setText("Vos");
-            naam.setText(info.team_naam);
-            dateTime_adres.setText(info.datetime);
-            coordinaat.setText(((Double)info.latitude + " , "+ ((Double)info.longitude).toString()));
-        }
-        else
-        {
-            if(part == MapPart.Hunters)
-            {
-                HunterInfo hunterInfo = mapManager.getMapStorage().findHunterInfo(splitted[1], Integer.parseInt(splitted[2]));
+            case Vossen:
+                TeamPart teamPart = TeamPart.parse(splitted[1]);
+                infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPart));
+                VosInfo info = (VosInfo)mapManager.getMapStorage().findInfo(new MapPartState(part, teamPart), Integer.parseInt(splitted[2]));
+                infoType.setText("Vos");
+                naam.setText(info.team_naam);
+                dateTime_adres.setText(info.datetime);
+                coordinaat.setText(((Double)info.latitude + " , "+ ((Double)info.longitude).toString()));
+                break;
+            case Hunters:
+                MapPartState state = mapManager.findState(part, TeamPart.None, splitted[1]);
+                HunterInfo hunterInfo = (HunterInfo)mapManager.getMapStorage().findInfo(state, Integer.parseInt(splitted[2]));
                 infoType.setText("Hunter");
                 naam.setText(hunterInfo.gebruiker);
                 dateTime_adres.setText(hunterInfo.datetime);
-            }
-            else
-            {
+                coordinaat.setText(((Double)hunterInfo.latitude + " , "+ ((Double)hunterInfo.longitude).toString()));
+                break;
+            default:
                 BaseInfo baseInfo = mapManager.getMapStorage().findInfo(new MapPartState(part, TeamPart.None), Integer.parseInt(splitted[1]));
                 coordinaat.setText(((Double) baseInfo.latitude + " , " + ((Double) baseInfo.longitude).toString()));
                 switch (part) {
@@ -162,7 +133,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         dateTime_adres.setText(fotoOpdrachtInfo.info);
                         break;
                 }
-            }
+                break;
         }
         return view;
     }

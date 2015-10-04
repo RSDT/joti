@@ -3,7 +3,10 @@ package com.umbrella.jotiwa.communication.interaction;
 import android.os.AsyncTask;
 import android.os.Message;
 
+import com.umbrella.jotiwa.map.area348.MapManager;
+
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -21,6 +24,15 @@ public class AsyncInteractionTask extends AsyncTask<InteractionRequest, Integer,
             try
             {
                 HttpURLConnection connection = (HttpURLConnection)params[i].getUrl().openConnection();
+                if(params[i].getData() != null)
+                {
+                    connection.setRequestMethod("POST");
+                    DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+                    wr.write(params[i].getData().getBytes());
+                    wr.close();
+                }
+
+
                 InputStream response = connection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response));
                 StringBuilder builder = new StringBuilder();
@@ -57,6 +69,6 @@ public class AsyncInteractionTask extends AsyncTask<InteractionRequest, Integer,
     protected void onPostExecute(InteractionResult[] result) {
         Message message = new Message();
         message.obj = result;
-        result[0].getRequest().getHandler().sendMessage(message);
+        MapManager.getDataUpdater().sendMessage(message);
     }
 }

@@ -7,7 +7,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
@@ -17,73 +16,42 @@ import com.umbrella.jotiwa.data.objects.area348.FotoOpdrachtInfo;
 import com.umbrella.jotiwa.data.objects.area348.HunterInfo;
 import com.umbrella.jotiwa.data.objects.area348.ScoutingGroepInfo;
 import com.umbrella.jotiwa.data.objects.area348.VosInfo;
-import com.umbrella.jotiwa.map.MapItemListManager;
-import com.umbrella.jotiwa.map.ItemType;
-import com.umbrella.jotiwa.map.area348.HunterMapPartState;
+import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.handling.HandlingResult;
 import com.umbrella.jotiwa.map.area348.MapPartState;
-import com.umbrella.jotiwa.map.area348.handling.OnExtractionCompleted;
+import com.umbrella.jotiwa.map.area348.handling.HunterObject;
+import com.umbrella.jotiwa.map.area348.handling.OnNewDataAvailable;
 
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by stesi on 22-9-2015.
- * Class for binding items to the map.
- *
+ * Class for storing map data.
  */
-public class MapStorage extends Handler implements Parcelable {
+public class MapStorage extends HashMap<String, StorageObject> implements Extractor, Parcelable {
 
     protected MapStorage(Parcel in) {
+        storageHandler = new StorageHandler(this);
         Object[] objects = (Object[])in.readSerializable();
-        this.handlingResults = (ArrayList<HandlingResult>)objects[0];
-        this.markers = (MapItemListManager<ArrayList<MarkerOptions>>)objects[1];
-        this.polylines = (MapItemListManager<ArrayList<PolylineOptions>>)objects[2];
-        this.circles = (MapItemListManager<ArrayList<CircleOptions>>)objects[3];
-        this.vossen = (HashMap<String, ArrayList<VosInfo>>)objects[4];
-        this.hunters = (HashMap<String, ArrayList<HunterInfo>>)objects[5];
-        this.sc = (HashMap<String, ArrayList<ScoutingGroepInfo>>)objects[6];
-        this.foto = (HashMap<String, ArrayList<FotoOpdrachtInfo>>)objects[7];
     }
 
-    public MapStorage(OnExtractionCompleted onExtractionCompletedListener)
+    public MapStorage(OnNewDataAvailable onNewDataAvailableListener)
     {
-        this.onExtractionCompletedListener = onExtractionCompletedListener;
-        this.markers = new MapItemListManager<>();
-        this.polylines = new MapItemListManager<>();
-        this.circles = new MapItemListManager<>();
-
-        this.vossen = new HashMap<>();
-        this.hunters = new HashMap<>();
-        this.sc = new HashMap<>();
-        this.foto = new HashMap<>();
+        storageHandler = new StorageHandler(this);
+        this.onNewDataAvailableListener = onNewDataAvailableListener;
     }
 
-    public void setOnExtractionCompletedListener(OnExtractionCompleted onExtractionCompletedListener) {
-        this.onExtractionCompletedListener = onExtractionCompletedListener;
+    public void setOnNewDataAvailableListener(OnNewDataAvailable onNewDataAvailableListener) {
+        this.onNewDataAvailableListener = onNewDataAvailableListener;
     }
 
-    private MapItemListManager<ArrayList<MarkerOptions>> markers;
-
-    private MapItemListManager<ArrayList<PolylineOptions>> polylines;
-
-    private MapItemListManager<ArrayList<CircleOptions>> circles;
-
-    private HashMap<String, ArrayList<VosInfo>> vossen;
-
-    private HashMap<String, ArrayList<HunterInfo>> hunters;
-
-    private HashMap<String, ArrayList<ScoutingGroepInfo>> sc;
-
-    private HashMap<String, ArrayList<FotoOpdrachtInfo>> foto;
-
-
-    private ArrayList<HandlingResult> handlingResults = new ArrayList<>();
-
-    private OnExtractionCompleted onExtractionCompletedListener;
+    private OnNewDataAvailable onNewDataAvailableListener;
 
     public static final Creator<MapStorage> CREATOR = new Creator<MapStorage>() {
         @Override
@@ -97,435 +65,213 @@ public class MapStorage extends Handler implements Parcelable {
         }
     };
 
-    public HandlingResult getAssociatedHandlingResult(MapPartState mapPartState)
+
+    /**
+     * Gets the associated StorageObject from a id.
+     * */
+    public StorageObject getAssociatedStorageObject(MapPartState mapPartState)
     {
-        for(int i = 0; i < this.handlingResults.size(); i++)
+        return this.get(mapPartState.getAccessor());
+    }
+
+    /**
+     * Gets a info from a id.
+     * */
+    public BaseInfo getAssociatedInfoFromId(StorageObject storageObject, int id)
+    {
+        ArrayList<BaseInfo> info = storageObject.getAssociatedInfo();
+        for(int i = 0; i < info.size(); i++)
         {
-            HandlingResult current = handlingResults.get(i);
-            if(current.getMapPart() == mapPartState.getMapPart() && current.getTeamPart() == mapPartState.getTeamPart())
-            {
-                return current;
-            }
+            if(info.get(i).id == id) return info.get(i);
         }
         return null;
     }
 
-
-
-    public <T> ArrayList<T> getAssociatedMapItems(MapPartState mapPartState, ItemType type)
+    /**
+     * Finds a spefic info with it's id.
+     * */
+    public BaseInfo findInfo(MapPartState mapPartState, int id)
     {
-        MapItemListManager manager = null;
-        switch(type)
-        {
-            case MARKERS:
-                manager = markers;
-                break;
-            case POLYLINES:
-                manager = polylines;
-                break;
-            case CIRCLES:
-                manager = circles;
-                break;
-        }
-
-        if(mapPartState.getMapPart() == MapPart.Vossen)
-        {
-            return (ArrayList<T>)manager.getItem(mapPartState.getTeamPart().getSubChar());
-        }
-        if(mapPartState.getMapPart() == MapPart.Hunters)
-        {
-            ArrayList<ArrayList<T>> items = new ArrayList<>();
-            for(String name : hunters.keySet())
-            {
-                items.add((ArrayList<T>)manager.getItem(name));
-            }
-            return (ArrayList<T>)items;
-        }
-        else
-        {
-            return (ArrayList<T>)manager.getItem(mapPartState.getMapPart().getValue());
-        }
+        return this.getAssociatedInfoFromId(this.getAssociatedStorageObject(mapPartState), id);
     }
 
-    public <T> ArrayList<T> getAssociatedInfos(MapPartState mapPartState)
+
+
+    public void extract(HandlingResult[] results)
     {
-        Map map = null;
-        switch(mapPartState.getMapPart())
-        {
-            case Vossen:
-                map = vossen;
-                break;
-            case Hunters:
-                map = hunters;
-                break;
-            case ScoutingGroepen:
-                map = sc;
-                break;
-            case FotoOpdrachten:
-                map = foto;
-                break;
-        }
-
-        if(mapPartState.getMapPart() == MapPart.Vossen)
-        {
-            return (ArrayList<T>)map.get(mapPartState.getTeamPart().getSubChar());
-        }
-        else
-        {
-            if(mapPartState.getMapPart() == MapPart.Hunters)
-            {
-                ArrayList<T> buffer = new ArrayList<>();
-                HunterMapPartState hunterMapPartState = (HunterMapPartState)mapPartState;
-                String[] accessors = hunterMapPartState.getAccessors();
-                for(int i = 0; i < accessors.length; i++)
-                {
-                    buffer.add((T)map.get(accessors[i]));
-                }
-                return buffer;
-            }
-            else
-            {
-                return (ArrayList<T>)map.get(mapPartState.getMapPart().getValue());
-            }
-        }
-    }
-
-    public <T extends BaseInfo> T findInfo(MapPartState mapPartState, int id) {
-        ArrayList<T> infos = getAssociatedInfos(mapPartState);
-        for(int i = 0; i < infos.size(); i++)
-        {
-            if(infos.get(i).id == id) return infos.get(i);
-        }
-        return null;
-    }
-
-    public HunterInfo findHunterInfo(String name, int id)
-    {
-        ArrayList<HunterInfo> hunterInfos = hunters.get(name);
-        if(hunterInfos != null)
-        {
-            for(int i = 0; i < hunterInfos.size(); i++)
-            {
-                if(hunterInfos.get(i).id == id) return hunterInfos.get(i);
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public void handleMessage(Message msg) {
-
-        /**
-         * Get the handling results out of the message.
-         * */
-        HandlingResult[] results = (HandlingResult[])msg.obj;
-
-        /**
-         * Loops through each new handling result.
-         * */
-        for(int i = 0; i < results.length; i++)
-        {
-            /**
-             * Get the current handling result and create value indicating if a copy is present.
-             * */
-            HandlingResult current = results[i];
-            boolean copy = false;
-
-            /**
-             * Loops through each (old) local handling result.
-             * */
-            for(int x = 0; x < this.handlingResults.size(); x++)
-            {
-                HandlingResult compareResult = this.handlingResults.get(x);
-                /**
-                 * Checks if a predicate already exists.
-                 * */
-                if(current.getMapPart() == compareResult.getMapPart() && current.getTeamPart() == compareResult.getTeamPart())
-                {
-                    /**
-                     * Removes the old result and adds the new one.
-                     * */
-                    copy = true;
-                    this.handlingResults.remove(x);
-                    this.handlingResults.add(current);
-                }
-            }
-
-            /**
-             * If the handling result is not a copy, then add it without removing it first.
-             * */
-            if(!copy)
-            {
-                this.handlingResults.add(current);
-            }
-        }
-        this.extract(results);
-        super.handleMessage(msg);
-    }
-
-    private void extract(HandlingResult[] results)
-    {
-        MapPartState special = null;
-        for(int i = 0; i < results.length; i++)
-        {
-            HandlingResult current = results[i];
-            switch(current.getMapPart())
-            {
-                case Vossen:
-
-                    /**
-                     * Do a safety check, then get the current marker list and clear it.
-                     * After that add the marker to the list.
-                     * */
-                    safetyCheck(current.getMapPart(), current.getTeamPart(), ItemType.MARKERS);
-                    ArrayList<MarkerOptions> markersVos = markers.getItem(current.getTeamPart().getSubChar());
-                    markersVos.clear();
-                    markersVos.addAll((ArrayList<MarkerOptions>) current.getObjects()[0]);
-
-                    /**
-                     * Do a safety check, then get the current polyline list and clear it.
-                     * After that add the polyline to the list.
-                     * */
-                    safetyCheck(current.getMapPart(), current.getTeamPart(), ItemType.POLYLINES);
-                    ArrayList<PolylineOptions> linesVos = polylines.getItem(current.getTeamPart().getSubChar());
-                    linesVos.clear();
-                    linesVos.add((PolylineOptions) current.getObjects()[1]);
-
-                    /**
-                     * Do a safety check, then get the current circle list and clear it.
-                     * After that add the circle to the list.
-                     * */
-                    safetyCheck(current.getMapPart(), current.getTeamPart(), ItemType.CIRCLES);
-                    ArrayList<CircleOptions> circlesVos = circles.getItem(current.getTeamPart().getSubChar());
-                    circlesVos.clear();
-                    circlesVos.add((CircleOptions) current.getObjects()[2]);
-
-                    /**
-                     * Do a safety check, then get the current info list and clear it.
-                     * After that add the new info to the list.
-                     * */
-                    safetyCheckInfo(current.getMapPart(), current.getTeamPart());
-                    ArrayList<VosInfo> info = vossen.get(current.getTeamPart().getSubChar());
-                    info.clear();
-                    info.addAll(Arrays.asList((VosInfo[]) current.getObjects()[3]));
-                    break;
-                case Hunters:
-                    /**
-                     * TODO:Implement add code.
-                     * */
-                    HashMap<String, MarkerOptions> mapMarkers = (HashMap<String, MarkerOptions>)current.getObjects()[0];
-                    for(Map.Entry<String, MarkerOptions> entry : mapMarkers.entrySet())
-                    {
-                        if(markers.getItem(entry.getKey()) == null) markers.newItem(entry.getKey(), new ArrayList<MarkerOptions>());
-                        ArrayList<MarkerOptions> markersHunter = markers.getItem(entry.getKey());
-                        markersHunter.clear();
-                        markersHunter.add(entry.getValue());
-                    }
-
-                    HashMap<String, ArrayList<LatLng>> mapLocations = (HashMap<String, ArrayList<LatLng>>)current.getObjects()[1];
-                    for(Map.Entry<String, ArrayList<LatLng>> entry : mapLocations.entrySet())
-                    {
-                        /**
-                         * Safety check to see if the item exists, if not create one.
-                         * */
-                        if(polylines.getItem(entry.getKey()) == null) polylines.newItem(entry.getKey(), new ArrayList<PolylineOptions>());
-
-                        /**
-                         * Get the list of polylines of the hunter. It's one.
-                         * */
-                        ArrayList<PolylineOptions> polylinesHunter = polylines.getItem(entry.getKey());
-
-                        /**
-                         * Gets the list of the new positions out of the line.
-                         * */
-                        ArrayList<LatLng> latLngsNew = entry.getValue();
-
-                        if(polylinesHunter.size() > 0)
-                        {
-                            PolylineOptions polylineHunter = polylinesHunter.get(0);
-                            /**
-                             * Get the list of positions out of the line.
-                             * */
-                            ArrayList<LatLng> latLngs = (ArrayList<LatLng>)polylineHunter.getPoints();
-
-                            /**
-                             * Loop through each new LatLng.
-                             * */
-                            for(int a = 0; i < latLngsNew.size(); i++)
-                            {
-                                LatLng currentLatLng = latLngsNew.get(a);
-                                boolean copy = false;
-                                /**
-                                 * Loop through each old LatLng, and compare it.
-                                 * */
-                                for(int s = 0; s < latLngs.size(); s++)
-                                {
-                                    if(currentLatLng == latLngs.get(s))
-                                    {
-                                        copy = true;
-                                    }
-                                }
-
-                                /**
-                                 * If the location is not a copy, it is new so add it to the map.
-                                 * */
-                                if(!copy)
-                                {
-                                    polylineHunter.add(currentLatLng);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            PolylineOptions pOptions = new PolylineOptions();
-                            pOptions.addAll(latLngsNew);
-                            pOptions.color(Color.GRAY);
-                            pOptions.width(5);
-                            polylinesHunter.add(pOptions);
-                        }
-                    }
-
-                    HunterInfo[][] hunterInfos = (HunterInfo[][])current.getObjects()[2];
-                    int count = 0;
-                    String[] accessors = new String[mapMarkers.keySet().size()];
-                    for(String name : mapMarkers.keySet())
-                    {
-                        if(hunters.get(name) == null) hunters.put(name, new ArrayList<HunterInfo>());
-                        ArrayList<HunterInfo> infos = hunters.get(name);
-                        infos.clear();
-                        infos.addAll(Arrays.asList(hunterInfos[count]));
-                        accessors[count] = name;
-                        count++;
-                    }
-                    special = new HunterMapPartState(accessors);
-                    break;
-                case ScoutingGroepen:
-
-                    /**
-                     * Do a safety check, then get the current marker list and clear it.
-                     * After that add the marker to the list.
-                     * */
-                    safetyCheck(current.getMapPart(), current.getTeamPart(), ItemType.MARKERS);
-                    ArrayList<MarkerOptions> markersSc = markers.getItem(current.getMapPart().getValue());
-                    markersSc.clear();
-                    markersSc.addAll((ArrayList<MarkerOptions>) current.getObjects()[0]);
-
-                    /**
-                     * Do a safety check, then get the current circle list and clear it.
-                     * After that add the circle to the list.
-                     * */
-                    safetyCheck(current.getMapPart(), current.getTeamPart(), ItemType.CIRCLES);
-                    ArrayList<CircleOptions> circlesSc = circles.getItem(current.getMapPart().getValue());
-                    circlesSc.clear();
-                    circlesSc.addAll((ArrayList<CircleOptions>)current.getObjects()[1]);
-
-                    /**
-                     * Do a safety check, then get the current info list and clear it.
-                     * After that add the new info to the list.
-                     * */
-                    safetyCheckInfo(current.getMapPart(), current.getTeamPart());
-                    ArrayList<ScoutingGroepInfo> infoSc = sc.get(current.getMapPart().getValue());
-                    infoSc.clear();
-                    infoSc.addAll(Arrays.asList((ScoutingGroepInfo[]) current.getObjects()[2]));
-
-                    break;
-                case FotoOpdrachten:
-
-                    /**
-                     * Do a safety check, then get the current marker list and clear it.
-                     * After that add the marker to the list.
-                     * */
-                    safetyCheck(current.getMapPart(), current.getTeamPart(), ItemType.MARKERS);
-                    ArrayList<MarkerOptions> markersFoto = markers.getItem(current.getMapPart().getValue());
-                    markersFoto.clear();
-                    markersFoto.addAll((ArrayList<MarkerOptions>) current.getObjects()[0]);
-
-                    /**
-                     * Do a safety check, then get the current info list and clear it.
-                     * After that add the new info to the list.
-                     * */
-                    safetyCheckInfo(current.getMapPart(), current.getTeamPart());
-                    ArrayList<FotoOpdrachtInfo> infoFoto = foto.get(current.getMapPart().getValue());
-                    infoFoto.clear();
-                    infoFoto.addAll(Arrays.asList((FotoOpdrachtInfo[]) current.getObjects()[1]));
-
-                    break;
-            }
-        }
-        this.onExtractionCompletedListener.onExtractionCompleted(special);
-    }
-
-    private void safetyCheck(MapPart mapPart, TeamPart teamPart, ItemType type)
-    {
-        switch(type)
-        {
-            case MARKERS:
-                if(mapPart == MapPart.Vossen)
-                {
-                    if(this.markers.getItem(teamPart.getSubChar()) == null)
-                        this.markers.newItem(teamPart.getSubChar(), new ArrayList<MarkerOptions>());
-                }
-                else
-                {
-                    if(this.markers.getItem(mapPart.getValue()) == null)
-                        this.markers.newItem(mapPart.getValue(), new ArrayList<MarkerOptions>());
-                }
-
-                break;
-            case POLYLINES:
-                if(mapPart == MapPart.Vossen)
-                {
-                    if(this.polylines.getItem(teamPart.getSubChar()) == null)
-                        this.polylines.newItem(teamPart.getSubChar(), new ArrayList<PolylineOptions>());
-                }
-                else
-                {
-                    if(this.polylines.getItem(mapPart.getValue()) == null)
-                        this.polylines.newItem(mapPart.getValue(), new ArrayList<PolylineOptions>());
-                }
-
-                break;
-            case CIRCLES:
-                if(mapPart == MapPart.Vossen)
-                {
-                    if(this.circles.getItem(teamPart.getSubChar()) == null)
-                        this.circles.newItem(teamPart.getSubChar(), new ArrayList<CircleOptions>());
-                }
-                else
-                {
-                    if(this.circles.getItem(mapPart.getValue()) == null)
-                        this.circles.newItem(mapPart.getValue(), new ArrayList<CircleOptions>());
-                }
-                break;
-        }
-    }
-
-    private void safetyCheckInfo(MapPart part, TeamPart teamPart)
-    {
-        switch(part)
-        {
-            case Vossen:
-                if(vossen.get(teamPart.getSubChar()) == null) vossen.put(teamPart.getSubChar(), new ArrayList<VosInfo>());
-                break;
-            case Hunters:
-                if(hunters.get(part.getValue()) == null) hunters.put(part.getValue(), new ArrayList<HunterInfo>());
-                break;
-            case ScoutingGroepen:
-                if(sc.get(part.getValue()) == null) sc.put(part.getValue(), new ArrayList<ScoutingGroepInfo>());
-                break;
-            case FotoOpdrachten:
-                if(foto.get(part.getValue()) == null) foto.put(part.getValue(), new ArrayList<FotoOpdrachtInfo>());
-                break;
-        }
+        Thread thread = new Thread(new ExtractionTask(results));
+        thread.start();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeSerializable(new Object[] { this.handlingResults, this.markers, this.polylines, this.circles, this.vossen, this.hunters, this.sc, this.foto });
+        dest.writeSerializable(new Object[] {  });
     }
 
     @Override
     public int describeContents() {
         return 0;
     }
+
+    /**
+     * Class that servers as a encapsulation for the extraction task.
+     * */
+    class ExtractionTask implements Runnable {
+        public ExtractionTask(HandlingResult[] results) {
+            this.results = results;
+        }
+
+        final HandlingResult[] results;
+
+        @Override
+        public void run() {
+            ArrayList<MapPartState> newStates = new ArrayList<>();
+            for (int i = 0; i < results.length; i++) {
+                HandlingResult current = results[i];
+
+                if(current.getMapPart() == MapPart.Hunters)
+                {
+                    HunterInfo[][] hunterInfos = (HunterInfo[][]) current.getObjects()[1];
+                    int count = 0;
+                    for (Map.Entry<String, HunterObject> entry : ((HashMap<String, HunterObject>) current.getObjects()[0]).entrySet()) {
+                        check(entry.getKey());
+                        StorageObject storageObjectHunter = get(entry.getKey());
+                        storageObjectHunter.getMarkers().add(entry.getValue().getMarker());
+                        if (storageObjectHunter.getPolylines().size() > 0) {
+                            PolylineOptions options = (PolylineOptions) storageObjectHunter.getPolylines().get(0);
+                            options.addAll(entry.getValue().getPositions());
+                        } else {
+                            PolylineOptions pOptions = new PolylineOptions();
+                            pOptions.addAll(entry.getValue().getPositions());
+                            pOptions.color(Color.GRAY);
+                            pOptions.width(5);
+                            storageObjectHunter.getPolylines().add(pOptions);
+                        }
+                        storageObjectHunter.getAssociatedInfo().addAll(Arrays.asList(hunterInfos[count]));
+
+                        /**
+                         * Add a state to the new state list, so for each hunter a state is created.
+                         * */
+                        newStates.add(new MapPartState(MapPart.Hunters, TeamPart.None, entry.getKey(), true, true, true));
+                        count++;
+                    }
+
+                }
+                else
+                {
+                    /**
+                     * Gets the associated map part state accessor.
+                     * */
+                    String accessor = MapPartState.getAccesor(current.getMapPart(), current.getTeamPart());
+
+                    /**
+                     * Check if the collection exists if not create one.
+                     * */
+                    check(accessor);
+
+                    /**
+                     * Get the storage object associated with the accessor.
+                     * */
+                    StorageObject storageObject = get(accessor);
+
+                    /**
+                     * Create lists to hold data.
+                     * */
+                    ArrayList<BaseInfo> info = new ArrayList<>();
+                    ArrayList<MarkerOptions> markers = new ArrayList<>();
+                    ArrayList<PolylineOptions> polylines = new ArrayList<>();
+                    ArrayList<CircleOptions> circles = new ArrayList<>();
+
+                    /**
+                     * Each map part is handled differently so use a switch.
+                     * */
+                    switch (current.getMapPart()) {
+                        case Vossen:
+                            markers.addAll((ArrayList<MarkerOptions>) current.getObjects()[0]);
+                            polylines.add((PolylineOptions) current.getObjects()[1]);
+                            circles.add((CircleOptions) current.getObjects()[2]);
+                            info.addAll(Arrays.asList((VosInfo[]) current.getObjects()[3]));
+                            break;
+
+                        case ScoutingGroepen:
+                            markers.addAll((ArrayList<MarkerOptions>) current.getObjects()[0]);
+                            circles.addAll((ArrayList<CircleOptions>) current.getObjects()[1]);
+                            info.addAll(Arrays.asList((ScoutingGroepInfo[]) current.getObjects()[2]));
+                            break;
+
+                        case FotoOpdrachten:
+                            markers.addAll((ArrayList<MarkerOptions>) current.getObjects()[0]);
+                            info.addAll(Arrays.asList((FotoOpdrachtInfo[]) current.getObjects()[1]));
+                            break;
+                    }
+
+                    /**
+                     * Set the markers, polylines and circles of the storage object.
+                     * */
+                    storageObject.setMarkers(markers);
+                    storageObject.setPolylines(polylines);
+                    storageObject.setCircles(circles);
+                    storageObject.setAssociatedInfo(info);
+                }
+            }
+
+            /**
+             * Signal the listener that new data is available.
+             * */
+            Message message = new Message();
+            message.obj = newStates;
+            MapManager.getMapManagerHandler().sendMessage(message);
+        }
+
+    }
+
+    /**
+     * Checks if the collection exists if not, create one with the given accessor.
+     * */
+    public void check(String accessor)
+    {
+        if(this.get(accessor) == null) this.put(accessor, new StorageObject());
+    }
+
+    /**
+     * The storage handler.
+     * */
+    private static StorageHandler storageHandler;
+
+    public static StorageHandler getStorageHandler() {
+        return storageHandler;
+    }
+
+    /**
+     * Static handler to prevent memory leaking.
+     * @see @link {http://stackoverflow.com/questions/11407943/this-handler-class-should-be-static-or-leaks-might-occur-incominghandler}
+     * */
+    private static class StorageHandler extends Handler
+    {
+        /**
+         * Weak reference so that no memory leak occur.
+         * */
+        WeakReference<Extractor> extractor;
+
+        /**
+         * Constructor for the handler.
+         * */
+        StorageHandler(Extractor extractor)
+        {
+            this.extractor = new WeakReference<Extractor>(extractor);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch(msg.what)
+            {
+                case StorageHandlerMessageType.EXTRACT_DATA:
+                    Extractor extractorRef = extractor.get();
+                    extractorRef.extract((HandlingResult[]) msg.obj);
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    }
+
 }

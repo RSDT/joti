@@ -1,16 +1,14 @@
 package com.umbrella.jotiwa.map.area348;
 
+import android.os.Handler;
+import android.os.Message;
+
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.area348.DataUpdater;
-import com.umbrella.jotiwa.map.ItemType;
 import com.umbrella.jotiwa.map.area348.binding.MapBinder;
-import com.umbrella.jotiwa.map.area348.handling.OnExtractionCompleted;
+import com.umbrella.jotiwa.map.area348.handling.OnNewDataAvailable;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 
 import java.util.ArrayList;
@@ -19,108 +17,114 @@ import java.util.ArrayList;
  * Created by stesi on 25-9-2015.
  * The final control unit for map managing.
  */
-public class MapManager implements OnExtractionCompleted {
+public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvailable {
 
-
-    public MapManager(MapStorage storage, ArrayList<MapPartState> states)
+    public MapManager(GoogleMap gMap)
     {
-        storage.setOnExtractionCompletedListener(this);
-        this.mapStorage = storage;
-        this.mapBinder = new MapBinder();
-        this.dataUpdater = new DataUpdater(mapStorage);
-        this.mapPartStates = states;
-        this.migrated = true;
+        super();
+        this.gMap = gMap;
+        this.mapBinder = new MapBinder(gMap);
+        mapManagerHandler = new MapManagerHandler();
+        mapStorage = new MapStorage(this);
+        dataUpdater = new DataUpdater();
+        this.operable = true;
     }
 
-    public MapManager()
-    {
-        this.mapBinder = new MapBinder();
-        this.mapStorage = new MapStorage(this);
-        this.dataUpdater = new DataUpdater(mapStorage);
-    }
-
-    boolean migrated = false;
-
+    /**
+     * Value indicating if the manager is operable.
+     * */
     boolean operable = false;
 
-    ArrayList<MapPartState> mapPartStates = new ArrayList<>();
-
+    /**
+     * The reference to the GoogleMap.
+     * */
     GoogleMap gMap;
+
 
     MapBinder mapBinder;
 
-    MapStorage mapStorage;
 
-    DataUpdater dataUpdater;
+    public MapBinder getMapBinder() {
+        return mapBinder;
+    }
 
-    public MapStorage getMapStorage() {
+    public class MapManagerHandler extends Handler
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            switch(msg.what)
+            {
+
+            }
+            onNewDataAvailable((ArrayList<MapPartState>)msg.obj);
+            super.handleMessage(msg);
+        }
+    }
+
+    private static MapManagerHandler mapManagerHandler;
+
+    public static MapManagerHandler getMapManagerHandler() {
+        return mapManagerHandler;
+    }
+
+    /**
+     * TODO:Consider making MapStorage and DataUpdater static, handler should be static else memory leaking.
+     * */
+    private static MapStorage mapStorage;
+
+    private static DataUpdater dataUpdater;
+
+    public static DataUpdater getDataUpdater() {
+        return dataUpdater;
+    }
+
+    public static MapStorage getMapStorage() {
         return mapStorage;
     }
 
-    public ArrayList<MapPartState> getMapPartStates() {
-        return mapPartStates;
-    }
 
-    public boolean isMigrated() {
-        return migrated;
-    }
-
-    public void setGoogleMap(GoogleMap gMap) {
-        this.gMap = gMap;
-        operable = true;
-        if(migrated)
-        {
-            for(int i = 0; i < this.mapPartStates.size(); i++)
-            {
-                reAddToMap(this.mapPartStates.get(i));
-            }
-        }
-    }
-
-    public void add(MapPartState mapPartState)
+    @Override
+    public boolean add(MapPartState mapPartState)
     {
-        boolean copy = false;
-        if(mapPartState.getMapPart() == MapPart.All)
+        /**
+         * Some recursive calls, the All identifiers signal that ALL states of that part should be added.
+         * Here we detect if the all identifier is used.
+         * */
+        switch(mapPartState.getMapPart())
         {
-            add(new MapPartState(MapPart.Vossen, mapPartState.getTeamPart(), mapPartState.getShow(), mapPartState.isUpdate()));
-            add(new HunterMapPartState(mapPartState.getShow(), mapPartState.isUpdate(), new String[] {} ));
-            add(new MapPartState(MapPart.ScoutingGroepen, TeamPart.None, mapPartState.getShow(), mapPartState.isUpdate()));
-            add(new MapPartState(MapPart.FotoOpdrachten, TeamPart.None, mapPartState.getShow(), mapPartState.isUpdate()));
-            return;
-        }
-
-        if(mapPartState.getMapPart() == MapPart.Vossen && mapPartState.getTeamPart() == TeamPart.All)
-        {
-            TeamPart[] parts = new TeamPart[] {
-                    TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
-                    TeamPart.Charlie, TeamPart.Delta, TeamPart.Echo,
-                    TeamPart.Foxtrot, TeamPart.XRay };
-            for(int x = 0; x < parts.length; x++)
-            {
-                this.add(new MapPartState(MapPart.Vossen, parts[x], mapPartState.getShow(), mapPartState.isUpdate()));
-            }
-        }
-
-        for(int i = 0; i < mapPartStates.size(); i++)
-        {
-            MapPartState current = mapPartStates.get(i);
-            if(current.getMapPart() == mapPartState.getMapPart() && current.getTeamPart() == mapPartState.getTeamPart())
-            {
-                copy = true;
-            }
+            case All:
+                add(new MapPartState(MapPart.Vossen, mapPartState.getTeamPart(), mapPartState.getShow(), mapPartState.update()));
+                add(new MapPartState(MapPart.Hunters, TeamPart.None, mapPartState.getShow(), mapPartState.update()));
+                add(new MapPartState(MapPart.ScoutingGroepen, TeamPart.None, mapPartState.getShow(), mapPartState.update()));
+                add(new MapPartState(MapPart.FotoOpdrachten, TeamPart.None, mapPartState.getShow(), mapPartState.update()));
+                return true;
+            case Vossen:
+                if(mapPartState.getTeamPart() == TeamPart.All)
+                {
+                    TeamPart[] parts = new TeamPart[] {
+                            TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
+                            TeamPart.Charlie, TeamPart.Delta, TeamPart.Echo,
+                            TeamPart.Foxtrot, TeamPart.XRay };
+                    for(int x = 0; x < parts.length; x++)
+                    {
+                        this.add(new MapPartState(MapPart.Vossen, parts[x], mapPartState.getShow(), mapPartState.update()));
+                    }
+                    return true;
+                }
         }
 
         /**
-         * Execute when the state is not a copy.
+         * Checks if the state collection already has the spefic state, if so there's no point in adding it.
          * */
-        if(!copy)
+        if(!this.contains(mapPartState))
         {
-            if(mapPartState.getMapPart() == MapPart.Vossen && mapPartState.getTeamPart() == TeamPart.All)
-            {
-                return;
-            }
-            this.mapPartStates.add(mapPartState);
+            return super.add(mapPartState);
         }
+
+        /**
+         * This code should not be reached if the adding was successful, so return false to indicate a failure or a duplicate.
+         * */
+        return false;
     }
 
     public void update()
@@ -128,14 +132,14 @@ public class MapManager implements OnExtractionCompleted {
         /**
          * Loops trough each, state and updates it.
          * */
-        for(int i = 0; i < this.mapPartStates.size(); i++)
+        for(int i = 0; i < this.size(); i++)
         {
-            MapPartState current = this.mapPartStates.get(i);
+            MapPartState current = this.get(i);
 
             /**
              * Checks if the state needs updating.
              * */
-            if(current.isUpdate())
+            if(current.update())
             {
                 /**
                  * Activated the chain update, and sets the pending value to true,
@@ -151,122 +155,88 @@ public class MapManager implements OnExtractionCompleted {
         dataUpdater.interact();
     }
 
-    public void remove(MapPartState mapPartState)
+    @Override
+    /**
+     * Removes the state from the collection.
+     * NOTE: Data will be kept at the storage.
+     * TODO: Remove MapItems from the map.
+     * */
+    public boolean remove(Object object)
     {
-        if(!this.operable) return;
-        this.mapPartStates.remove(mapPartState);
+        return super.remove(object);
     }
 
-    private void reAddToMap(MapPartState mapPartState)
+    /**
+     * Syncs the storage with the Map with help of the MapBinder.
+     * */
+    private void sync(MapPartState mapPartState)
     {
-        if(!this.operable) return;
-        /**
-         * Checks if the state has local data, if not there's no point in adding it.
-         * */
-        if(!mapPartState.hasLocalData(mapStorage)) return;
-
-        /**
-         * Checks if the state is on the map and if it should be shown.
-         * */
-        if(mapPartState.isOnMap() || !mapPartState.getShow()) return;
-
-        if(mapPartState.getMapPart() == MapPart.Hunters)
-        {
-            /**
-             * Get the current collection and clear it.
-             * */
-            ArrayList<ArrayList<Marker>> onTheMapMarkers = mapBinder.getAssociated(mapPartState, ItemType.MARKERS);
-            for(int i = 0; i < onTheMapMarkers.size(); i++) {
-                ArrayList<Marker> current = onTheMapMarkers.get(i);
-                for (int x = 0; x < current.size(); x++)
-                {
-                    current.get(x).remove();
-                }
-                current.clear();
-            }
-            onTheMapMarkers.clear();
-
-            ArrayList<ArrayList<MarkerOptions>> markers = mapStorage.getAssociatedMapItems(mapPartState, ItemType.MARKERS);
-            mapBinder.add(mapPartState, gMap, markers, ItemType.MARKERS);
-
-            /**
-             * Get the current collection and clear it.
-             * */
-            ArrayList<ArrayList<Polyline>> onTheMapLines = mapBinder.getAssociated(mapPartState, ItemType.POLYLINES);
-            for(int i = 0; i < onTheMapLines.size(); i++) {
-                ArrayList<Polyline> current = onTheMapLines.get(i);
-                for (int x = 0; x < current.size(); x++)
-                {
-                    current.get(x).remove();
-                }
-                current.clear();
-            }
-            onTheMapLines.clear();
-
-            ArrayList<ArrayList<PolylineOptions>> polylines = mapStorage.getAssociatedMapItems(mapPartState, ItemType.POLYLINES);
-            mapBinder.add(mapPartState, gMap, polylines, ItemType.POLYLINES);
-        }
-        else
-        {
-            /**
-             * Get the markers that are on the map, and remove them from the map.
-             * */
-            ArrayList<Marker> onTheMapMarkers = mapBinder.getAssociated(mapPartState, ItemType.MARKERS);
-            for(int i = 0; i < onTheMapMarkers.size(); i++) { onTheMapMarkers.get(i).remove(); }
-            onTheMapMarkers.clear();
-
-            /**
-             * Get the new markers and add them to the map.
-             * */
-            ArrayList<MarkerOptions> markers = mapStorage.getAssociatedMapItems(mapPartState, ItemType.MARKERS);
-            mapBinder.add(mapPartState, gMap, markers, ItemType.MARKERS);
-
-            /**
-             * Restriction, so that only map types with lines get updated.
-             * */
-            if(mapPartState.getMapPart() == MapPart.Vossen)
-            {
-                /**
-                 * Get the lines that are on the map, and remove them from the map.
-                 * */
-                ArrayList<Polyline> onTheMapLines = mapBinder.getAssociated(mapPartState, ItemType.POLYLINES);
-                for(int i = 0; i < onTheMapLines.size(); i++) { onTheMapLines.get(i).remove(); }
-                onTheMapLines.clear();
-
-                /**
-                 * Get the new lines and add them to the map.
-                 * */
-                ArrayList<PolylineOptions> polylines = mapStorage.getAssociatedMapItems(mapPartState, ItemType.POLYLINES);
-                mapBinder.add(mapPartState, gMap, polylines, ItemType.POLYLINES);
-            }
-        }
+        mapBinder.add(mapPartState, mapStorage.getAssociatedStorageObject(mapPartState), MapBinder.MapBinderAddOptions.MAP_BINDER_ADD_OPTIONS_CLEAR);
     }
 
     @Override
-    public void onExtractionCompleted(MapPartState special) {
-        if(!this.operable) return;
-        for(int i = 0; i < this.mapPartStates.size(); i++)
+    /**
+     * Checks if a state is present or a similar state is present.
+     * */
+    public boolean contains(Object object) {
+        /**
+         * Checks if the object is a MapPartState.
+         * */
+        if(super.contains(object))
         {
-            MapPartState mapPartState = this.mapPartStates.get(i);
-            if(mapPartState.isPending())
+            /**
+             * Checks if a similar state does exist, if so return true.
+             * */
+            MapPartState state = (MapPartState)object;
+            for(int i = 0; i < this.size(); i++)
             {
-                if(mapPartState.getMapPart() != MapPart.Hunters)
+                MapPartState current = this.get(i);
+                if(current.getMapPart() == state.getMapPart() && current.getTeamPart() == state.getTeamPart() && current.getAccessor().matches(state.getAccessor()))
                 {
-                    reAddToMap(mapPartState);
-                    mapPartState.setPending(false);
-                }
-                else
-                {
-                    if(special != null)
-                    {
-                        ((HunterMapPartState)mapPartState).setAccessors(((HunterMapPartState)special).getAccessors());
-                        reAddToMap(mapPartState);
-                    }
+                    return true;
                 }
             }
         }
-
+        return false;
     }
 
+    /**
+     * Finds a state.
+     * */
+    public MapPartState findState(MapPart mapPart, TeamPart teamPart, String accessor)
+    {
+        for(int i = 0; i < this.size(); i++)
+        {
+            MapPartState state = this.get(i);
+            if(state.getMapPart() == mapPart && state.getTeamPart() == teamPart && state.getAccessor().matches(accessor))
+            {
+                return state;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    /**
+     * Gets invoked when new data is available -> update the states and sync them.
+     * */
+    public void onNewDataAvailable(ArrayList<MapPartState> newStates) {
+        if(!this.operable) return;
+
+        if(newStates != null)
+        {
+            this.addAll(newStates);
+        }
+
+        for(int i = 0; i < this.size(); i++)
+        {
+            MapPartState current = this.get(i);
+            if(current.isPending())
+            {
+                sync(current);
+                current.setPending(false);
+            }
+        }
+    }
 
 }
