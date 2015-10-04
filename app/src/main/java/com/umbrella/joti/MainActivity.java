@@ -182,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        // TODO andere settings werken niet
         String[] typeCode = key.split("_");
         MapPart mapPart = MapPart.parse(typeCode[1]);
 
