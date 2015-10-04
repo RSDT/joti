@@ -198,6 +198,17 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         mapBinder.add(mapPartState, mapStorage.getAssociatedStorageObject(mapPartState), MapBinder.MapBinderAddOptions.MAP_BINDER_ADD_OPTIONS_CLEAR);
     }
 
+    public void sync(ArrayList<MapPartState> states)
+    {
+        for(int i = 0; i < states.size(); i++)
+        {
+            if(this.get(i).hasLocalData())
+            {
+                sync(states.get(i));
+            }
+        }
+    }
+
     /**
      * Syncs the storage with the Map with help of the MapBinder.
      * */

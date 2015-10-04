@@ -71,21 +71,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
                 return true;
             case R.id.action_refresh:
-                for(int i = 0; i < mapManager.size(); i++)
-                {
-                    if(!mapManager.get(i).getAccessor().matches("hunter"))
-                    {
-                        MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(mapManager.get(i));
-                        bindObject.remove();
-                    }
-                }
-                mapManager.sync();
+                refreshMap();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    public void refreshMap(){
+        for(int i = 0; i < mapManager.size(); i++)
+        {
+            if(!mapManager.get(i).getAccessor().matches("hunter"))
+            {
+                MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(mapManager.get(i));
+                bindObject.remove();
+            }
+        }
+        mapManager.sync();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -267,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
                 double radius = bindObject.getCircles().get(0).getRadius();
                 bindObject.getCircles().get(0).setRadius(radius + increaseM);
+                
 
                 VosInfo info = (VosInfo)mapManager.getMapStorage().findInfo(stateVos, Integer.parseInt(splitted[2]));
                 infoType.setText("Vos");
