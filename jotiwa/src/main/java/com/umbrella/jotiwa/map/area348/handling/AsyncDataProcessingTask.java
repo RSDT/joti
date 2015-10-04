@@ -2,6 +2,7 @@ package com.umbrella.jotiwa.map.area348.handling;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.Message;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -16,12 +17,15 @@ import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.InteractionResult;
 import com.umbrella.jotiwa.data.objects.area348.*;
+import com.umbrella.jotiwa.map.area348.MapManager;
+import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 
 
 public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Integer, HandlingResult[]> {
@@ -155,14 +159,12 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
 
         BitmapDescriptor descriptor = BitmapDescriptorFactory.fromAsset("auto.png");
 
-        HashMap<String, MarkerOptions> markers = new HashMap<>();
-
-        HashMap<String, List<LatLng>> locations = new HashMap<>();
+        HashMap<String, HunterObject> entries = new HashMap<>();
 
         for(int h = 0; h < hunterInfos.length; h++)
         {
-            locations.put(hunterInfos[h][0].gebruiker, new ArrayList<LatLng>());
-            ArrayList<LatLng> positions = (ArrayList<LatLng>)locations.get(hunterInfos[h][0].gebruiker);
+            entries.put(hunterInfos[h][0].gebruiker, new HunterObject());
+            HunterObject current = entries.get(hunterInfos[h][0].gebruiker);
             for(int i = 0; i < hunterInfos[h].length; i++)
             {
                 /**
@@ -175,12 +177,12 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
                     mOptions.title("hunter" + ";" + hunterInfos[h][0].gebruiker + ";" + ((Integer) hunterInfos[h][i].id).toString());
                     mOptions.position(new LatLng(hunterInfos[h][i].latitude, hunterInfos[h][i].longitude));
                     mOptions.icon(descriptor);
-                    markers.put(hunterInfos[h][0].gebruiker, mOptions);
+                    current.setMarker(mOptions);
                 }
-                positions.add(new LatLng(hunterInfos[h][i].latitude, hunterInfos[h][i].longitude));
+                current.getPositions().add(new LatLng(hunterInfos[h][i].latitude, hunterInfos[h][i].longitude));
             }
         }
-        result.setObjects(new Object[] { markers, locations, hunterInfos });
+        result.setObjects(new Object[] { entries, hunterInfos });
         return result;
     }
 
@@ -278,7 +280,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
     {
         Message message = new Message();
         message.obj = handlingResults;
-        handlingResults[0].getHandler().sendMessage(message);
+        ((Handler)MapStorage.getStorageHandler()).sendMessage(message);
     }
 }
 

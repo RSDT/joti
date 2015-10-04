@@ -24,11 +24,6 @@ import com.umbrella.jotiwa.data.objects.area348.ScoutingGroepInfo;
 import com.umbrella.jotiwa.data.objects.area348.VosInfo;
 import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.MapPartState;
-import com.umbrella.jotiwa.map.area348.storage.MapStorage;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -76,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
+        setContentView(R.layout.activity_main);
+=======
         if (useActionbar) {
             setContentView(R.layout.mapsonly);
         } else{
@@ -83,10 +81,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         Intent StartServiceIntent = new Intent(this, LocationHandler.class);
         startService(StartServiceIntent);
+>>>>>>> master
 
         Intent intent = getIntent();
         Uri data = intent.getData();
 
+<<<<<<< HEAD
+=======
 
         if (savedInstanceState != null && useSafedInstance) //TODO zie bijbehorende commit 'locationhandler 3/3'
         {
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mapManager = new MapManager();
         }
 
+>>>>>>> master
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Intent");
         if (data != null) {
@@ -111,6 +113,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment.setOnMapReadyCallback(this);
     }
 
+<<<<<<< HEAD
+    public void onMapReady(GoogleMap map)
+    {
+        map.setInfoWindowAdapter(this);
+=======
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -130,7 +137,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
             mapManager.update();
         }
+>>>>>>> master
 
+        mapManager = new MapManager(map);
+        mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
+        mapManager.update();
 
         CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.021675, 6.059437), 10);
         map.moveCamera(camera);
@@ -160,6 +171,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String[] splitted = marker.getTitle().split(";");
         MapPart part = MapPart.parse(splitted[0]);
 
+<<<<<<< HEAD
+        switch(part)
+        {
+            case Vossen:
+                TeamPart teamPart = TeamPart.parse(splitted[1]);
+                infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPart));
+                VosInfo info = (VosInfo)mapManager.getMapStorage().findInfo(new MapPartState(part, teamPart), Integer.parseInt(splitted[2]));
+                infoType.setText("Vos");
+                naam.setText(info.team_naam);
+                dateTime_adres.setText(info.datetime);
+                coordinaat.setText(((Double)info.latitude + " , "+ ((Double)info.longitude).toString()));
+                break;
+            case Hunters:
+                MapPartState state = mapManager.findState(part, TeamPart.None, splitted[1]);
+                HunterInfo hunterInfo = (HunterInfo)mapManager.getMapStorage().findInfo(state, Integer.parseInt(splitted[2]));
+                infoType.setText("Hunter");
+                naam.setText(hunterInfo.gebruiker);
+                dateTime_adres.setText(hunterInfo.datetime);
+                coordinaat.setText(((Double)hunterInfo.latitude + " , "+ ((Double)hunterInfo.longitude).toString()));
+                break;
+            default:
+=======
         if (part == MapPart.Vossen) {
             TeamPart teamPart = TeamPart.parse(splitted[1]);
             infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPart));
@@ -175,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 naam.setText(hunterInfo.gebruiker);
                 dateTime_adres.setText(hunterInfo.datetime);
             } else {
+>>>>>>> master
                 BaseInfo baseInfo = mapManager.getMapStorage().findInfo(new MapPartState(part, TeamPart.None), Integer.parseInt(splitted[1]));
                 coordinaat.setText(((Double) baseInfo.latitude + " , " + ((Double) baseInfo.longitude).toString()));
                 switch (part) {
@@ -191,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         dateTime_adres.setText(fotoOpdrachtInfo.info);
                         break;
                 }
-            }
+                break;
         }
         return view;
     }

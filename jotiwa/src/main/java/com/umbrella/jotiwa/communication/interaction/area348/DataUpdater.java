@@ -18,14 +18,12 @@ import java.util.ArrayList;
  */
 public class DataUpdater extends InteractionManager implements OnRequestTaskCompleted {
 
-    public DataUpdater(MapStorage mapStorage)
+    public DataUpdater()
     {
         super();
-        this.mapStorage = mapStorage;
         setOnRequestTaskCompletedListener(this);
     }
 
-    private MapStorage mapStorage;
 
     public void update(MapPart mapPart)
     {
@@ -87,7 +85,6 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
              * */
             if(results[i].getResultState() == InteractionResultState.INTERACTION_RESULT_STATE_SUCCESS)
             {
-                results[i].setHandler(mapStorage);
                 successful.add(results[i]);
             }
             else
@@ -96,7 +93,7 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
                  * Unsuccessful.
                  * TODO: Add UI notifier. The user should know there was a error.
                  * */
-            System.out.print("Interaction was unsuccessful. ");
+            System.out.print("Interaction was unsuccessful.");
             }
         }
         InteractionResult[] successfulArray = new InteractionResult[successful.size()];
