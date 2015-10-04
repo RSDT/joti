@@ -96,7 +96,8 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         CircleOptions cOptions = new CircleOptions();
         cOptions.fillColor(TeamPart.getAssociatedAlphaColor(result.getTeamPart(), 128));
         cOptions.strokeColor(Color.BLACK);
-        cOptions.strokeWidth(5);
+        cOptions.strokeWidth(1);
+        cOptions.radius(100);
 
         /**
          * Loop trough each vos info and add it to the map.

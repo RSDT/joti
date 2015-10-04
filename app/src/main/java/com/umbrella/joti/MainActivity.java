@@ -3,7 +3,6 @@ package com.umbrella.joti;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
@@ -24,15 +23,17 @@ import com.umbrella.jotiwa.data.objects.area348.ScoutingGroepInfo;
 import com.umbrella.jotiwa.data.objects.area348.VosInfo;
 import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.MapPartState;
+import com.umbrella.jotiwa.map.area348.binding.MapBindObject;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Intent;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.xml.datatype.Duration;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
 
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     ViewPager pager;
 
     MapManager mapManager;
+
+    Date old;
+
     private boolean useActionbar = true;
     private boolean useSafedInstance = false; // TODO zie bijbehoorende commit 'locationhandler 3/3'
 
@@ -71,32 +75,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
         setContentView(R.layout.activity_main);
-=======
+
+        old = new Date();
+
+
         if (useActionbar) {
             setContentView(R.layout.mapsonly);
         } else{
             setContentView(R.layout.activity_main);
         }
         Intent StartServiceIntent = new Intent(this, LocationHandler.class);
-        startService(StartServiceIntent);
->>>>>>> master
 
         Intent intent = getIntent();
         Uri data = intent.getData();
 
-<<<<<<< HEAD
-=======
-
-        if (savedInstanceState != null && useSafedInstance) //TODO zie bijbehorende commit 'locationhandler 3/3'
-        {
-            mapManager = new MapManager((MapStorage) savedInstanceState.getParcelable("mapStorage"), (ArrayList<MapPartState>) savedInstanceState.getSerializable("states"));
-        } else {
-            mapManager = new MapManager();
-        }
-
->>>>>>> master
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Intent");
         if (data != null) {
@@ -113,31 +106,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment.setOnMapReadyCallback(this);
     }
 
-<<<<<<< HEAD
-    public void onMapReady(GoogleMap map)
-    {
-        map.setInfoWindowAdapter(this);
-=======
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (!useSafedInstance) { // TODO zie bijbehoorende commit 'locationhandler 3/3'
-            super.onSaveInstanceState(outState);
-            return;
-        }
-        outState.putParcelable("mapStorage", mapManager.getMapStorage());
-        outState.putSerializable("states", mapManager.getMapPartStates());
-        super.onSaveInstanceState(outState);
-    }
-
     public void onMapReady(GoogleMap map) {
         map.setInfoWindowAdapter(this);
-        mapManager.setGoogleMap(map);
-        if (!mapManager.isMigrated()) {
-            mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
-            mapManager.update();
-        }
->>>>>>> master
 
         mapManager = new MapManager(map);
         mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
@@ -152,6 +122,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public View getInfoWindow(Marker marker) {
+
+        Date date = new Date();
+
+        long duration = date.getTime() - old.getTime();
+
+        long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+
+        float diffInHours = ((float)diffInSeconds / 60f) / 60f;
+
+        float increaseM = diffInHours * 6000;
+
+        old = date;
+
+
+
+
         /**
          * Inflate the info window.
          * */
@@ -171,12 +157,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String[] splitted = marker.getTitle().split(";");
         MapPart part = MapPart.parse(splitted[0]);
 
-<<<<<<< HEAD
+
+
+
         switch(part)
         {
             case Vossen:
                 TeamPart teamPart = TeamPart.parse(splitted[1]);
                 infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPart));
+                MapPartState stateVos = mapManager.findState(part, teamPart, MapPartState.getAccesor(part, teamPart));
+                MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
+                double radius = bindObject.getCircles().get(0).getRadius();
+                bindObject.getCircles().get(0).setRadius(radius + increaseM);
+
                 VosInfo info = (VosInfo)mapManager.getMapStorage().findInfo(new MapPartState(part, teamPart), Integer.parseInt(splitted[2]));
                 infoType.setText("Vos");
                 naam.setText(info.team_naam);
@@ -192,23 +185,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 coordinaat.setText(((Double)hunterInfo.latitude + " , "+ ((Double)hunterInfo.longitude).toString()));
                 break;
             default:
-=======
-        if (part == MapPart.Vossen) {
-            TeamPart teamPart = TeamPart.parse(splitted[1]);
-            infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPart));
-            VosInfo info = mapManager.getMapStorage().findInfo(new MapPartState(part, teamPart), Integer.parseInt(splitted[2]));
-            infoType.setText("Vos");
-            naam.setText(info.team_naam);
-            dateTime_adres.setText(info.datetime);
-            coordinaat.setText(((Double) info.latitude + " , " + ((Double) info.longitude).toString()));
-        } else {
-            if (part == MapPart.Hunters) {
-                HunterInfo hunterInfo = mapManager.getMapStorage().findHunterInfo(splitted[1], Integer.parseInt(splitted[2]));
-                infoType.setText("Hunter");
-                naam.setText(hunterInfo.gebruiker);
-                dateTime_adres.setText(hunterInfo.datetime);
-            } else {
->>>>>>> master
                 BaseInfo baseInfo = mapManager.getMapStorage().findInfo(new MapPartState(part, TeamPart.None), Integer.parseInt(splitted[1]));
                 coordinaat.setText(((Double) baseInfo.latitude + " , " + ((Double) baseInfo.longitude).toString()));
                 switch (part) {
@@ -221,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     case FotoOpdrachten:
                         infoType.setText("FotoOpdracht");
                         FotoOpdrachtInfo fotoOpdrachtInfo = (FotoOpdrachtInfo) baseInfo;
-                        naam.setText(fotoOpdrachtInfo.naam);
+                        naam.setText(fotoOpdrachtInfo.extra);
                         dateTime_adres.setText(fotoOpdrachtInfo.info);
                         break;
                 }
