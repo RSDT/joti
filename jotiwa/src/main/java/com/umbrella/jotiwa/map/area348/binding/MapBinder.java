@@ -26,6 +26,7 @@ public class MapBinder extends HashMap<String, MapBindObject> {
 
     public MapBindObject getAssociatedMapBindObject(MapPartState mapPartState)
     {
+        check(mapPartState.getAccessor());
         return this.get(mapPartState.getAccessor());
     }
 
@@ -60,6 +61,9 @@ public class MapBinder extends HashMap<String, MapBindObject> {
     public void add(MapPartState mapPartState, StorageObject storageObject, MapBinderAddOptions options)
     {
         if(mapPartState.getAccessor() == "hunter") return;
+
+        if(!mapPartState.getShow()) return;
+
         String accessor = mapPartState.getAccessor();
         check(accessor);
         MapBindObject bindObject = this.get(accessor);

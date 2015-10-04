@@ -16,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.enumeration.area348.Area348_API;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
@@ -72,8 +73,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.action_refresh:
                 for(int i = 0; i < mapManager.size(); i++)
                 {
-                    MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(mapManager.get(i));
-                    bindObject.remove();
+                    if(!mapManager.get(i).getAccessor().matches("hunter"))
+                    {
+                        MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(mapManager.get(i));
+                        bindObject.remove();
+                    }
                 }
                 mapManager.sync();
                 return true;
@@ -96,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         old = new Date();
 
 
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+
+        PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(this);
 
         if (useActionbar) {
             setContentView(R.layout.mapsonly);

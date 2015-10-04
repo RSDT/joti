@@ -1,8 +1,11 @@
 package com.umbrella.jotiwa.map.area348;
 
 
+import android.content.SharedPreferences;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 
+import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
@@ -166,7 +169,21 @@ public class MapPartState implements Serializable {
     }
 
     public boolean getShow() {
-        return show;
+        SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+        switch (getMapPart()){
+            case Vossen:
+                return sharedpeferences.getBoolean("pref_vos_" + teamPart.getSubChar(), show);
+            case ScoutingGroepen:
+                return sharedpeferences.getBoolean("pref_sc", show);
+            case Hunters:
+                return sharedpeferences.getBoolean("pref_hunter", show);
+            case FotoOpdrachten:
+                return sharedpeferences.getBoolean("pref_foto", show);
+            case Me:
+                return sharedpeferences.getBoolean("pref_me", show);
+            default:
+                return show;
+        }
     }
 
     public boolean update() {
