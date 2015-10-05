@@ -56,7 +56,7 @@ public class HunterInfoSendable {
     {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
         HunterInfoSendable buffer = new HunterInfoSendable();
-        buffer.gebruiker = StringChecker.makeSafe(sharedPreferences.getString("pref_username", "unknown"));
+        buffer.gebruiker = StringChecker.makeSafe(sharedPreferences.getString("pref_username", JotiApp.getNoUsername()));
         Location location = JotiApp.getLastLocation();
         if(location != null)
         {

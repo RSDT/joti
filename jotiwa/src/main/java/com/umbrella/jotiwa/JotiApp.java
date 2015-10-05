@@ -10,6 +10,8 @@ import android.widget.Toast;
 public class JotiApp extends Application {
     private static JotiApp instance;
     private static Location lastloc;
+    private static String noUsername = "unknown";
+
     public static void setLastLocation(Location loc){
         lastloc=loc;
     }
@@ -42,6 +44,11 @@ public class JotiApp extends Application {
         Context context = instance.getApplicationContext();
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
+    }
+
+    public static String getNoUsername() {
+
+        return noUsername;
     }
 
     @Override

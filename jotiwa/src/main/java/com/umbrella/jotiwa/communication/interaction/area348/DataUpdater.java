@@ -1,5 +1,6 @@
 package com.umbrella.jotiwa.communication.interaction.area348;
 
+import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.LinkBuilder;
 import com.umbrella.jotiwa.communication.enumeration.area348.*;
 import com.umbrella.jotiwa.communication.interaction.InteractionManager;
@@ -70,7 +71,7 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
                  * If set send the name of the user with as excluder.
                  * If not, just send a normal request to get all hunters.
                  * */
-                if(!hunterInfoSendable.gebruiker.matches("unknown"))
+                if(!hunterInfoSendable.gebruiker.matches(JotiApp.getNoUsername()))
                 {
                     /**
                      * Checks if there was already a hunter update preformed.
