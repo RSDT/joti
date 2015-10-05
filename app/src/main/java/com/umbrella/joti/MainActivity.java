@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.EditTextPreference;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
