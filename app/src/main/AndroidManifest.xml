@@ -45,7 +45,7 @@
             android:label="@string/action_settings">
         </activity>
         <service
-                    android:name=".LocationHandler"
+                    android:name=".LocationService"
                     android:enabled="true"
                     android:exported="true" >
                 </service>

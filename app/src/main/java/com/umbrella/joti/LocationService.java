@@ -16,6 +16,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.umbrella.jotiwa.JotiApp;
 
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -23,27 +24,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class LocationHandler extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class LocationService extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private long last_location_send = 0l;
     private boolean pref_send_loc_old = false;
     private boolean recieving_locations = false;
     private GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
 
-    private void debug(CharSequence text) {
-        boolean debug_on = true;
-        if (debug_on) {
-            Context context = getApplicationContext();
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
-    }
 
     @Override
     public void onCreate() {
-        debug("location service aangemaakt");
+        JotiApp.debug("location service aangemaakt");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         buildGoogleApiClient();
         mGoogleApiClient.connect();
@@ -70,7 +61,7 @@ public class LocationHandler extends Service implements com.google.android.gms.l
 
 
     protected void TryToSendLocation(Location location) {
-        debug("trying to send loc");
+        JotiApp.debug("trying to send loc");
         long time = System.currentTimeMillis();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (time - last_location_send > 60 * 1000) {
@@ -89,10 +80,10 @@ public class LocationHandler extends Service implements com.google.android.gms.l
                     sendlocation(location, username);
                 }
             } else {
-                debug("locatie niet verzonden");
+                JotiApp.debug("locatie niet verzonden");
             }
         } else {
-            debug("nog geen tijd");
+            JotiApp.debug("nog geen tijd");
         }
     }
 
@@ -108,44 +99,44 @@ public class LocationHandler extends Service implements com.google.android.gms.l
         username = username.replace("'", "");
         username = username.replace("%", "");
         if (username.isEmpty()) {
-            username = "IKMOETMIJNGEBRUIKERSNAAMVERANDEREN";
+            username = "witgezichtsaki";
         }
         return username.toLowerCase();
     }
 
     public void sendlocation(Location location, String username) {
-        /*
-        ik wou deze functie kunnen testen dus ik heb maar op internet een functie opgezocht die de een post request kan versturn.
-        ik had deze geïmplemnteerd en... het werkte niet
-        ik heb die string data lopen veranderen en overal " neergezet. werkte t nog steeds niet.
-        toen dacht ik fack it
-        ik heb gegoogled op apk decompiler.
-        heb op upload geklikt.
-        en heb gekeken naar hoe tom t toen verzond.
-        daar kwam ik toevallig een GET URL tegen.
-        en dus verzend ie m zo.
-        maar ik neem aan dat dit toch weer een post moet worden dus het is tijdelijk maar het werkt.
-         */
+
         Context context = getApplicationContext();
-        CharSequence text = "Je locatie is verzonden(fake)";
+        CharSequence text = "Je locatie is verzonden";
         int duration = Toast.LENGTH_SHORT;
         final String username2 = reformatString(username);
         final double lon = location.getLongitude();
         final double lat = location.getLatitude();
 
-        final String data = "{gebruiker: " + username +
+        final String data = "{gebruiker: " + username2 +
                 ",latitude: " + lat +
                 ",longitude: " + lon + "}";
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://jotihunt.area348.nl/android/hunters_invoer.php?coords=" + lat + "," + lon + "&naam=" + username2);
+                    SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+                    boolean sendPost = sharedpeferences.getBoolean("pref_post", true);
+                    URL url;
+                    if (sendPost) {
+                        url = new URL("http://jotihunt-api.area348.nl/hunter/");
+                    } else {
+                        url = new URL("http://jotihunt.area348.nl/android/hunters_invoer.php?coords=" + lat + "," + lon + "&naam=" + username2);
+                    }
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     System.out.println(data);
                     //Set to POST
                     connection.setDoOutput(true);
-                    connection.setRequestMethod("GET");
+                    if (sendPost) {
+                        connection.setRequestMethod("POST");
+                    } else {
+                        connection.setRequestMethod("GET");
+                    }
                     connection.setReadTimeout(10000);
                     Writer writer = new OutputStreamWriter(connection.getOutputStream());
                     writer.write(data);
@@ -166,44 +157,45 @@ public class LocationHandler extends Service implements com.google.android.gms.l
 
     @Override
     public void onLocationChanged(Location location) {
-        debug("locationchanged");
-        debug(location.toString());
+        JotiApp.debug("locationchanged");
+        JotiApp.debug(location.toString());
+        JotiApp.setLastLocation(location);
         TryToSendLocation(location);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        debug("connected");
-        debug("isconnected=" + mGoogleApiClient.isConnected());
-        debug("isconnecting=" + mGoogleApiClient.isConnecting());
+        JotiApp.debug("connected");
+        JotiApp.debug("isconnected=" + mGoogleApiClient.isConnected());
+        JotiApp.debug("isconnecting=" + mGoogleApiClient.isConnecting());
         if (LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient).isLocationAvailable()) {
-            debug(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).toString());
+            JotiApp.debug(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).toString());
         } else
-            debug(LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient).toString());
+            JotiApp.debug(LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient).toString());
         startLocationUpdates(mLocationRequest);
     }
 
 
     @Override
     public void onConnectionSuspended(int i) {
-        debug("suspended");
+        JotiApp.debug("suspended");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        debug("conectionfailed");
+        JotiApp.debug("conectionfailed");
     }
 
     protected synchronized void buildGoogleApiClient() {
-        debug("building google iets");
+        JotiApp.debug("building google iets");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
-        debug("isconnecting=" + mGoogleApiClient.isConnecting());
-        debug("isconnected=" + mGoogleApiClient.isConnected());
-        debug(mGoogleApiClient.toString());
-    }
+        JotiApp.debug("isconnecting=" + mGoogleApiClient.isConnecting());
+        JotiApp.debug("isconnected=" + mGoogleApiClient.isConnected());
+        JotiApp.debug(mGoogleApiClient.toString());
+    } 
 }
