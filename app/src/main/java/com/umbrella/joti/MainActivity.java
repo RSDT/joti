@@ -249,7 +249,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 VosInfo info = (VosInfo) mapManager.getMapStorage().findInfo(stateVos, Integer.parseInt(splitted[2]));
                 String dateString = info.datetime;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-                int aantal_meters_per_uur = 6000;
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+                float speed= Float.parseFloat(preferences.getString("pref_speed", "6.0"));
+                float aantal_meters_per_uur = speed * 1000;
                 try {
                     Date date = dateFormat.parse(dateString);
                     SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());

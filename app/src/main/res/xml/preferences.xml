@@ -19,6 +19,13 @@
         android:inputType="numberDecimal"
         android:defaultValue="10.0"
         />
+    <EditTextPreference
+        android:key="pref_speed"
+        android:title="@string/pref_speed_title"
+        android:summary="@string/pref_speed_summ"
+        android:inputType="numberDecimal"
+        android:defaultValue="6.0"
+        />
 
     <PreferenceCategory
         android:title="@string/pref_deelgebieden"

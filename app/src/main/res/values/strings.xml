@@ -41,4 +41,6 @@
     <string name="pref_zoom_summ">zoomlevel tussen2.0 en 22.0</string>
     <string name="pref_zoom_title">Zoom</string>
     <string name="action_map_camera">HuidigeLocatie</string>
+    <string name="pref_speed_title">Snelheid van de vossen</string>
+    <string name="pref_speed_summ">snelheid van de vossen in km per uur</string>
 </resources>
