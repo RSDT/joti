@@ -74,13 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
                 return true;
             case R.id.action_refresh:
-                for (int i = 0; i < mapManager.size(); i++) {
-                    if (!mapManager.get(i).getAccessor().matches("hunter")) {
-                        MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(mapManager.get(i));
-                        bindObject.remove();
-                    }
-                }
-                mapManager.sync();
+                mapManager.update();
                 return true;
             case R.id.action__map_camera:
                 mapManager.CameraToCurrentLocation();
