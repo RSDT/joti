@@ -34,4 +34,8 @@
     <string name="sc_sum">show Scouting Groepen</string>
     <string name="foto">FotoOpdrachten</string>
     <string name="foto_sum">show FotoOpdrachten</string>
+    <string name="send_debug_summ">geef debug messages weer.</string>
+    <string name="send_debug_title">Debug</string>
+    <string name="send_post_summ">zend locaties via post(true) of get(false)</string>
+    <string name="send_post_title">zend als locaties door als een post request</string>
 </resources>

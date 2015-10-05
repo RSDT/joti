@@ -31,16 +31,10 @@ public class LocationHandler extends Service implements com.google.android.gms.l
     private GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
 
-    private void debug(CharSequence text) {
-        boolean debug_on = true;
-        if (debug_on) {
-            JotiApp.toast(text);
-        }
-    }
 
     @Override
     public void onCreate() {
-        debug("location service aangemaakt");
+        JotiApp.debug("location service aangemaakt");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         buildGoogleApiClient();
         mGoogleApiClient.connect();
@@ -67,7 +61,7 @@ public class LocationHandler extends Service implements com.google.android.gms.l
 
 
     protected void TryToSendLocation(Location location) {
-        debug("trying to send loc");
+        JotiApp.debug("trying to send loc");
         long time = System.currentTimeMillis();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (time - last_location_send > 60 * 1000) {
@@ -86,10 +80,10 @@ public class LocationHandler extends Service implements com.google.android.gms.l
                     sendlocation(location, username);
                 }
             } else {
-                debug("locatie niet verzonden");
+                JotiApp.debug("locatie niet verzonden");
             }
         } else {
-            debug("nog geen tijd");
+            JotiApp.debug("nog geen tijd");
         }
     }
 
@@ -111,8 +105,9 @@ public class LocationHandler extends Service implements com.google.android.gms.l
     }
 
     public void sendlocation(Location location, String username) {
+
         Context context = getApplicationContext();
-        CharSequence text = "Je locatie is verzonden(fake)";
+        CharSequence text = "Je locatie is verzonden";
         int duration = Toast.LENGTH_SHORT;
         final String username2 = reformatString(username);
         final double lon = location.getLongitude();
@@ -125,12 +120,26 @@ public class LocationHandler extends Service implements com.google.android.gms.l
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://jotihunt-api.area348.nl/hunter");
+                    SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+                    boolean sendPost = sharedpeferences.getBoolean("pref_post", true);
+                    URL url;
+                    if (sendPost){
+                        url = new URL("http://jotihunt-api.area348.nl/hunter/");
+                    }
+                    else
+                    {
+                        url = new URL("http://jotihunt.area348.nl/android/hunters_invoer.php?coords=" + lat + "," + lon + "&naam=" + username2);
+                    }
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     System.out.println(data);
                     //Set to POST
                     connection.setDoOutput(true);
+                    if(sendPost){
                     connection.setRequestMethod("POST");
+                }
+                    else{
+                        connection.setRequestMethod("GET");
+                    }
                     connection.setReadTimeout(10000);
                     Writer writer = new OutputStreamWriter(connection.getOutputStream());
                     writer.write(data);
@@ -151,44 +160,44 @@ public class LocationHandler extends Service implements com.google.android.gms.l
 
     @Override
     public void onLocationChanged(Location location) {
-        debug("locationchanged");
-        debug(location.toString());
+        JotiApp.debug("locationchanged");
+        JotiApp.debug(location.toString());
         TryToSendLocation(location);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        debug("connected");
-        debug("isconnected=" + mGoogleApiClient.isConnected());
-        debug("isconnecting=" + mGoogleApiClient.isConnecting());
+        JotiApp.debug("connected");
+        JotiApp.debug("isconnected=" + mGoogleApiClient.isConnected());
+        JotiApp.debug("isconnecting=" + mGoogleApiClient.isConnecting());
         if (LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient).isLocationAvailable()) {
-            debug(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).toString());
+            JotiApp.debug(LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient).toString());
         } else
-            debug(LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient).toString());
+            JotiApp.debug(LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient).toString());
         startLocationUpdates(mLocationRequest);
     }
 
 
     @Override
     public void onConnectionSuspended(int i) {
-        debug("suspended");
+        JotiApp.debug("suspended");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        debug("conectionfailed");
+        JotiApp.debug("conectionfailed");
     }
 
     protected synchronized void buildGoogleApiClient() {
-        debug("building google iets");
+        JotiApp.debug("building google iets");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
-        debug("isconnecting=" + mGoogleApiClient.isConnecting());
-        debug("isconnected=" + mGoogleApiClient.isConnected());
-        debug(mGoogleApiClient.toString());
+        JotiApp.debug("isconnecting=" + mGoogleApiClient.isConnecting());
+        JotiApp.debug("isconnected=" + mGoogleApiClient.isConnected());
+        JotiApp.debug(mGoogleApiClient.toString());
     }
 }

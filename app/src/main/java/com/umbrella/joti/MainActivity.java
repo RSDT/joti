@@ -19,7 +19,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.umbrella.jotiwa.JotiApp;
-import com.umbrella.jotiwa.communication.enumeration.area348.Area348_API;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.data.objects.area348.BaseInfo;
@@ -108,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             setContentView(R.layout.activity_main);
         }
         Intent StartServiceIntent = new Intent(this, LocationHandler.class);
+        startService(StartServiceIntent);
 
         Intent intent = getIntent();
         Uri data = intent.getData();
