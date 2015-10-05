@@ -38,4 +38,7 @@
     <string name="send_debug_title">Debug</string>
     <string name="send_post_summ">zend locaties via post(true) of get(false)</string>
     <string name="send_post_title">zend als locaties door als een post request</string>
+    <string name="pref_zoom_summ">zoomlevel tussen2.0 en 22.0</string>
+    <string name="pref_zoom_title">Zoom</string>
+    <string name="action_map_camera">HuidigeLocatie</string>
 </resources>

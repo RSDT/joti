@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -81,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 mapManager.sync();
                 return true;
+            case R.id.action__map_camera:
+                mapManager.CameraToCurrentLocation();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -106,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             setContentView(R.layout.activity_main);
         }
-        Intent StartServiceIntent = new Intent(this, LocationHandler.class);
+        Intent StartServiceIntent = new Intent(this, LocationService.class);
         startService(StartServiceIntent);
 
         Intent intent = getIntent();
@@ -170,9 +174,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
             mapManager.update();
         }
-
-        CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.021675, 6.059437), 10);
-        map.moveCamera(camera);
+        mapManager.CameraToCurrentLocation();
     }
 
 
@@ -270,9 +272,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 MapPartState state = mapManager.findState(part, TeamPart.None, splitted[1]);
                 HunterInfo hunterInfo = (HunterInfo) mapManager.getMapStorage().findInfo(state, Integer.parseInt(splitted[2]));
                 infoType.setText("Hunter");
-                naam.setText(hunterInfo.gebruiker);
-                dateTime_adres.setText(hunterInfo.datetime);
-                coordinaat.setText(((Double) hunterInfo.latitude + " , " + ((Double) hunterInfo.longitude).toString()));
+                try {
+                    naam.setText(hunterInfo.gebruiker);
+                    dateTime_adres.setText(hunterInfo.datetime);
+                    coordinaat.setText(((Double) hunterInfo.latitude + " , " + ((Double) hunterInfo.longitude).toString()));
+                }catch (Exception e){
+                    naam.setText("Error");
+                    dateTime_adres.setText(e.toString());
+                    coordinaat.setText("Error");
+                }
+
                 break;
             default:
                 BaseInfo baseInfo = mapManager.getMapStorage().findInfo(new MapPartState(part, TeamPart.None), Integer.parseInt(splitted[1]));

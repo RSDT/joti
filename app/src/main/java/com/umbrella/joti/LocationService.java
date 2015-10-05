@@ -24,7 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class LocationHandler extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class LocationService extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private long last_location_send = 0l;
     private boolean pref_send_loc_old = false;
     private boolean recieving_locations = false;
@@ -99,7 +99,7 @@ public class LocationHandler extends Service implements com.google.android.gms.l
         username = username.replace("'", "");
         username = username.replace("%", "");
         if (username.isEmpty()) {
-            username = "IKMOETMIJNGEBRUIKERSNAAMVERANDEREN";
+            username = "witgezichtsaki";
         }
         return username.toLowerCase();
     }
@@ -123,21 +123,18 @@ public class LocationHandler extends Service implements com.google.android.gms.l
                     SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
                     boolean sendPost = sharedpeferences.getBoolean("pref_post", true);
                     URL url;
-                    if (sendPost){
+                    if (sendPost) {
                         url = new URL("http://jotihunt-api.area348.nl/hunter/");
-                    }
-                    else
-                    {
+                    } else {
                         url = new URL("http://jotihunt.area348.nl/android/hunters_invoer.php?coords=" + lat + "," + lon + "&naam=" + username2);
                     }
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     System.out.println(data);
                     //Set to POST
                     connection.setDoOutput(true);
-                    if(sendPost){
-                    connection.setRequestMethod("POST");
-                }
-                    else{
+                    if (sendPost) {
+                        connection.setRequestMethod("POST");
+                    } else {
                         connection.setRequestMethod("GET");
                     }
                     connection.setReadTimeout(10000);
@@ -162,6 +159,7 @@ public class LocationHandler extends Service implements com.google.android.gms.l
     public void onLocationChanged(Location location) {
         JotiApp.debug("locationchanged");
         JotiApp.debug(location.toString());
+        JotiApp.setLastLocation(location);
         TryToSendLocation(location);
     }
 

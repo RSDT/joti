@@ -3,12 +3,19 @@ package com.umbrella.jotiwa;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 public class JotiApp extends Application {
     private static JotiApp instance;
-
+    private static Location lastloc;
+    public static void setLastLocation(Location loc){
+        lastloc=loc;
+    }
+    public static Location getLastLocation(){
+        return lastloc;
+    }
     public static JotiApp getInstance() {
         return instance;
     }
