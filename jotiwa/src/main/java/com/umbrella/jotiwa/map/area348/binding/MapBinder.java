@@ -1,15 +1,20 @@
 package com.umbrella.jotiwa.map.area348.binding;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.storage.StorageObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Created by stesi on 25-9-2015.
@@ -58,9 +63,14 @@ public class MapBinder extends HashMap<String, MapBindObject> {
         return null;
     }
 
+
     public void add(MapPartState mapPartState, StorageObject storageObject, MapBinderAddOptions options)
     {
-        if(mapPartState.getAccessor() == "hunter") return;
+        if (storageObject == null){
+            JotiApp.debug("ERROR staorage object = null in mapbinder.add");
+            storageObject = new StorageObject();
+        }
+        if(mapPartState.getAccessor().equals( "hunter")) return;
 
         if(!mapPartState.getShow()) return;
 
