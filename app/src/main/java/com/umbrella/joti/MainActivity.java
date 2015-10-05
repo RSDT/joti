@@ -36,6 +36,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -214,18 +217,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public View getInfoWindow(Marker marker) {
 
-        Date date = new Date();
-
-        long duration = date.getTime() - old.getTime();
-
-        long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-
-        float diffInHours = ((float) diffInSeconds / 60f) / 60f;
-
-        float increaseM = diffInHours * 6000;
-
-        old = date;
-
 
         /**
          * Inflate the info window.
@@ -253,10 +244,51 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPart));
                 MapPartState stateVos = mapManager.findState(part, teamPart, MapPartState.getAccesor(part, teamPart));
                 MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
-                double radius = bindObject.getCircles().get(0).getRadius();
-                bindObject.getCircles().get(0).setRadius(radius + increaseM);
+
 
                 VosInfo info = (VosInfo) mapManager.getMapStorage().findInfo(stateVos, Integer.parseInt(splitted[2]));
+                String dateString = info.datetime;
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+                int aantal_meters_per_uur = 6000;
+                try {
+                    Date date = dateFormat.parse(dateString);
+                    SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+                    boolean debug_on = sharedpeferences.getBoolean("pref_debug", false);
+                    if (debug_on) {
+                        date.setMonth(new Date().getMonth());
+                        date.setDate(new Date().getDate());
+                    }
+                    long duration = (new Date()).getTime() - date.getTime();
+
+                    long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+
+                    float diffInHours = ((float) diffInSeconds / 60f) / 60f;
+
+                    float radius = diffInHours * aantal_meters_per_uur;
+
+                    old = date;
+                    boolean isLastMarker = Integer.parseInt(splitted[2]) >= bindObject.getMarkers().size();
+                    if (isLastMarker) {
+                        bindObject.getCircles().get(0).setRadius(radius);
+                    }
+
+
+                } catch (ParseException e) {
+                    Date date = new Date();
+                    long duration = date.getTime() - old.getTime();
+
+                    long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+
+                    float diffInHours = ((float) diffInSeconds / 60f) / 60f;
+
+                    float increaseM = diffInHours * aantal_meters_per_uur;
+                    old = date;
+                    double radius = bindObject.getCircles().get(0).getRadius();
+                    boolean isLastMarker = Integer.parseInt(splitted[2]) == bindObject.getMarkers().size();
+                    if (isLastMarker) {
+                        bindObject.getCircles().get(0).setRadius(increaseM + radius);
+                    }
+                }
                 infoType.setText("Vos");
                 naam.setText(info.team_naam);
                 dateTime_adres.setText(info.datetime);
@@ -270,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     naam.setText(hunterInfo.gebruiker);
                     dateTime_adres.setText(hunterInfo.datetime);
                     coordinaat.setText(((Double) hunterInfo.latitude + " , " + ((Double) hunterInfo.longitude).toString()));
-                }catch (Exception e){
+                } catch (Exception e) {
                     naam.setText("Error");
                     dateTime_adres.setText(e.toString());
                     coordinaat.setText("Error");
