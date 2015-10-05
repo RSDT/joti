@@ -57,6 +57,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
      * */
     public StorageObject getAssociatedStorageObject(MapPartState mapPartState)
     {
+        check(mapPartState.getAccessor());
         return this.get(mapPartState.getAccessor());
     }
 

@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Date old;
 
     ArrayList<MapPartState> oldStates = new ArrayList<>();
+    MapPartState TempMapState= null;
 
     private boolean useActionbar = true;
     private boolean useSafedInstance = false; // TODO zie bijbehoorende commit 'locationhandler 3/3'
@@ -114,7 +115,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         builder.setTitle("Intent");
         if (data != null) {
             String gebied = data.getQueryParameter("gebied").toLowerCase();
-            mapManager.add(new MapPartState(MapPart.Vossen, TeamPart.parse(gebied), true, true));
+            if (TempMapState == null) {
+                TempMapState = new MapPartState(MapPart.Vossen, TeamPart.parse(gebied), true, true);
+            }else{
+                JotiApp.toast("Er is niet geupdate door een error. Herstart de app.");
+            }
             builder.setMessage("Updating " + TeamPart.parse(gebied));
             builder.create().show();
         }
@@ -141,6 +146,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
          * */
         if (oldStates.size() > 0) {
             mapManager.addAll(oldStates);
+            if (TempMapState != null){
+                mapManager.add(TempMapState);
+                TempMapState = null;
+            }
             mapManager.sync();
         }
         /**
