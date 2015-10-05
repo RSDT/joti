@@ -1,9 +1,11 @@
 package com.umbrella.joti;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
@@ -71,10 +74,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
                 return true;
             case R.id.action_refresh:
-                for(int i = 0; i < mapManager.size(); i++)
-                {
-                    if(!mapManager.get(i).getAccessor().matches("hunter"))
-                    {
+                for (int i = 0; i < mapManager.size(); i++) {
+                    if (!mapManager.get(i).getAccessor().matches("hunter")) {
                         MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(mapManager.get(i));
                         bindObject.remove();
                     }
@@ -90,9 +91,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null)
-        {
-            this.oldStates = (ArrayList<MapPartState>)savedInstanceState.getSerializable("mapManager");
+        if (savedInstanceState != null) {
+            this.oldStates = (ArrayList<MapPartState>) savedInstanceState.getSerializable("mapManager");
         }
 
         setContentView(R.layout.activity_main);
@@ -100,12 +100,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         old = new Date();
 
 
-
         PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(this);
 
         if (useActionbar) {
             setContentView(R.layout.mapsonly);
-        } else{
+        } else {
             setContentView(R.layout.activity_main);
         }
         Intent StartServiceIntent = new Intent(this, LocationHandler.class);
@@ -129,8 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment.setOnMapReadyCallback(this);
     }
 
-    public void onSaveInstanceState(Bundle savedInstanceState)
-    {
+    public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable("mapManager", (ArrayList<MapPartState>) mapManager);
     }
 
@@ -143,8 +141,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         /**
          * Checks if there were old states, if so add them and sync the storage with the map.
          * */
-        if(oldStates.size() > 0)
-        {
+        if (oldStates.size() > 0) {
             mapManager.addAll(oldStates);
             mapManager.sync();
         }
@@ -152,8 +149,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
          * If there are no old states, then this is the first run or no states were added.
          * Check the preferences to make sure.
          * */
-        else
-        {
+        else {
             /**
              * TODO: Only update the parts that are enabled in the settings.
              * */
@@ -180,41 +176,39 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        // TODO andere settings werken niet
         String[] typeCode = key.split("_");
-        MapPart mapPart = MapPart.parse(typeCode[1]);
+        if (Objects.equals(typeCode[1], "vos")) {
+            MapPart mapPart = MapPart.parse(typeCode[1]);
 
-        switch (mapPart)
-        {
-            case Vossen:
-                TeamPart teamPart = TeamPart.parse(typeCode[2]);
-                MapPartState stateVos = mapManager.findState(MapPart.Vossen, teamPart, MapPartState.getAccesor(MapPart.Vossen, teamPart));
-                MapBindObject bindObjectVos = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
-                bindObjectVos.setVisiblty(preferences.getBoolean(key, false));
-                break;
-            case Hunters:
+            switch (mapPart) {
+                case Vossen:
+                    TeamPart teamPart = TeamPart.parse(typeCode[2]);
+                    MapPartState stateVos = mapManager.findState(MapPart.Vossen, teamPart, MapPartState.getAccesor(MapPart.Vossen, teamPart));
+                    MapBindObject bindObjectVos = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
+                    bindObjectVos.setVisiblty(preferences.getBoolean(key, false));
+                    break;
+                case Hunters:
 
-                /**
-                 * TODO: Add code for hunter visibilty.
-                 * */
-                for(int i = 0; i < mapManager.size(); i++)
-                {
-                    MapPartState current = mapManager.get(i);
-                    if(current.getMapPart() == MapPart.Hunters && !current.getAccessor().matches("hunter"))
-                    {
-                        MapBindObject mapBindObjectHunter = mapManager.getMapBinder().getAssociatedMapBindObject(current);
-                        mapBindObjectHunter.setVisiblty(preferences.getBoolean(key, false));
+                    /**
+                     * TODO: Add code for hunter visibilty.
+                     * */
+                    for (int i = 0; i < mapManager.size(); i++) {
+                        MapPartState current = mapManager.get(i);
+                        if (current.getMapPart() == MapPart.Hunters && !current.getAccessor().matches("hunter")) {
+                            MapBindObject mapBindObjectHunter = mapManager.getMapBinder().getAssociatedMapBindObject(current);
+                            mapBindObjectHunter.setVisiblty(preferences.getBoolean(key, false));
+                        }
                     }
-                }
-                break;
-            default:
-                MapPartState stateGen = mapManager.findState(mapPart, TeamPart.None, MapPartState.getAccesor(mapPart, TeamPart.None));
-                MapBindObject bindObjectGen = mapManager.getMapBinder().getAssociatedMapBindObject(stateGen);
-                bindObjectGen.setVisiblty(preferences.getBoolean(key, false));
-                break;
-
+                    break;
+                default:
+                    MapPartState stateGen = mapManager.findState(mapPart, TeamPart.None, MapPartState.getAccesor(mapPart, TeamPart.None));
+                    MapBindObject bindObjectGen = mapManager.getMapBinder().getAssociatedMapBindObject(stateGen);
+                    bindObjectGen.setVisiblty(preferences.getBoolean(key, false));
+                    break;
+            }
         }
     }
 
@@ -230,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
 
-        float diffInHours = ((float)diffInSeconds / 60f) / 60f;
+        float diffInHours = ((float) diffInSeconds / 60f) / 60f;
 
         float increaseM = diffInHours * 6000;
 
@@ -257,10 +251,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapPart part = MapPart.parse(splitted[0]);
 
 
-
-
-        switch(part)
-        {
+        switch (part) {
             case Vossen:
                 TeamPart teamPart = TeamPart.parse(splitted[1]);
                 infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPart));
@@ -269,19 +260,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 double radius = bindObject.getCircles().get(0).getRadius();
                 bindObject.getCircles().get(0).setRadius(radius + increaseM);
 
-                VosInfo info = (VosInfo)mapManager.getMapStorage().findInfo(stateVos, Integer.parseInt(splitted[2]));
+                VosInfo info = (VosInfo) mapManager.getMapStorage().findInfo(stateVos, Integer.parseInt(splitted[2]));
                 infoType.setText("Vos");
                 naam.setText(info.team_naam);
                 dateTime_adres.setText(info.datetime);
-                coordinaat.setText(((Double)info.latitude + " , "+ ((Double)info.longitude).toString()));
+                coordinaat.setText(((Double) info.latitude + " , " + ((Double) info.longitude).toString()));
                 break;
             case Hunters:
                 MapPartState state = mapManager.findState(part, TeamPart.None, splitted[1]);
-                HunterInfo hunterInfo = (HunterInfo)mapManager.getMapStorage().findInfo(state, Integer.parseInt(splitted[2]));
+                HunterInfo hunterInfo = (HunterInfo) mapManager.getMapStorage().findInfo(state, Integer.parseInt(splitted[2]));
                 infoType.setText("Hunter");
                 naam.setText(hunterInfo.gebruiker);
                 dateTime_adres.setText(hunterInfo.datetime);
-                coordinaat.setText(((Double)hunterInfo.latitude + " , "+ ((Double)hunterInfo.longitude).toString()));
+                coordinaat.setText(((Double) hunterInfo.latitude + " , " + ((Double) hunterInfo.longitude).toString()));
                 break;
             default:
                 BaseInfo baseInfo = mapManager.getMapStorage().findInfo(new MapPartState(part, TeamPart.None), Integer.parseInt(splitted[1]));

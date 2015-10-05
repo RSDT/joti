@@ -12,19 +12,18 @@ public class JotiApp extends Application {
     }
 
     public static Context getContext() {
-        return instance;
-        // or return instance.getApplicationContext();
+        return instance.getApplicationContext();
     }
 
-    private void toast(String text) {
-        Context context = getApplicationContext();
+    public static void toast(CharSequence text) {
+        Context context = JotiApp.getContext().getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
 
-    private void toast(String text, int duration) {
-        Context context = getApplicationContext();
+    private static void toast(String text, int duration) {
+        Context context = instance.getApplicationContext();
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }

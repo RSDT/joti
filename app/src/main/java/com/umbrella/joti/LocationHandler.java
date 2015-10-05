@@ -16,6 +16,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.umbrella.jotiwa.JotiApp;
 
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -33,11 +34,7 @@ public class LocationHandler extends Service implements com.google.android.gms.l
     private void debug(CharSequence text) {
         boolean debug_on = true;
         if (debug_on) {
-            Context context = getApplicationContext();
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+            JotiApp.toast(text);
         }
     }
 
@@ -114,18 +111,6 @@ public class LocationHandler extends Service implements com.google.android.gms.l
     }
 
     public void sendlocation(Location location, String username) {
-        /*
-        ik wou deze functie kunnen testen dus ik heb maar op internet een functie opgezocht die de een post request kan versturn.
-        ik had deze geïmplemnteerd en... het werkte niet
-        ik heb die string data lopen veranderen en overal " neergezet. werkte t nog steeds niet.
-        toen dacht ik fack it
-        ik heb gegoogled op apk decompiler.
-        heb op upload geklikt.
-        en heb gekeken naar hoe tom t toen verzond.
-        daar kwam ik toevallig een GET URL tegen.
-        en dus verzend ie m zo.
-        maar ik neem aan dat dit toch weer een post moet worden dus het is tijdelijk maar het werkt.
-         */
         Context context = getApplicationContext();
         CharSequence text = "Je locatie is verzonden(fake)";
         int duration = Toast.LENGTH_SHORT;
@@ -133,19 +118,19 @@ public class LocationHandler extends Service implements com.google.android.gms.l
         final double lon = location.getLongitude();
         final double lat = location.getLatitude();
 
-        final String data = "{gebruiker: " + username +
+        final String data = "{gebruiker: " + username2 +
                 ",latitude: " + lat +
                 ",longitude: " + lon + "}";
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://jotihunt.area348.nl/android/hunters_invoer.php?coords=" + lat + "," + lon + "&naam=" + username2);
+                    URL url = new URL("http://jotihunt-api.area348.nl/hunter");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     System.out.println(data);
                     //Set to POST
                     connection.setDoOutput(true);
-                    connection.setRequestMethod("GET");
+                    connection.setRequestMethod("POST");
                     connection.setReadTimeout(10000);
                     Writer writer = new OutputStreamWriter(connection.getOutputStream());
                     writer.write(data);
