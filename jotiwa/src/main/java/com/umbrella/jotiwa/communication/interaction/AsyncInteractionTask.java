@@ -84,8 +84,16 @@ public class AsyncInteractionTask extends AsyncTask<InteractionRequest, Integer,
                 handle.add(results[i]);
             }
         }
-        Message message = new Message();
-        message.obj = handle;
-        MapManager.getDataUpdater().sendMessage(message);
+
+        /**
+         * Only send a message when we got something to handle.
+         * */
+        if(handle.size() > 0)
+        {
+            Message message = new Message();
+            message.obj = handle;
+            MapManager.getDataUpdater().sendMessage(message);
+        }
+
     }
 }

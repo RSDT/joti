@@ -1,9 +1,5 @@
 package com.umbrella.jotiwa.communication.interaction.area348;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
-import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.LinkBuilder;
 import com.umbrella.jotiwa.communication.enumeration.area348.*;
 import com.umbrella.jotiwa.communication.interaction.InteractionManager;
@@ -11,9 +7,11 @@ import com.umbrella.jotiwa.communication.interaction.InteractionRequest;
 import com.umbrella.jotiwa.communication.interaction.InteractionResult;
 import com.umbrella.jotiwa.communication.interaction.InteractionResultState;
 import com.umbrella.jotiwa.communication.interaction.OnRequestTaskCompleted;
+import com.umbrella.jotiwa.data.objects.area348.sendables.HunterInfoSendable;
 import com.umbrella.jotiwa.map.area348.handling.AsyncDataProcessingTask;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by stesi on 22-9-2015.
@@ -27,6 +25,8 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
         setOnRequestTaskCompletedListener(this);
     }
 
+
+    public Date lastHunterUpdate;
 
     public void update(MapPart mapPart)
     {
@@ -64,9 +64,33 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
                 super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), teamPart.getSubChar(), Keywords.All } ), null));
                 break;
             case Hunters:
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
-                sharedPreferences.getString("pref_username", "");
-                super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), Keywords.All }), null));
+                HunterInfoSendable hunterInfoSendable = HunterInfoSendable.get();
+                /**
+                 * Checks if the name is set of the user.
+                 * If set send the name of the user with as excluder.
+                 * If not, just send a normal request to get all hunters.
+                 * */
+                if(!hunterInfoSendable.gebruiker.matches("unknown"))
+                {
+                    /**
+                     * Checks if there was already a hunter update preformed.
+                     * If so send the date with the request, so that we only get the NEW data.
+                     * Else just queue a normal request with the name of the hunter as exclude.
+                     * */
+                    if(lastHunterUpdate != null)
+                    {
+                        super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), Keywords.Special, hunterInfoSendable.gebruiker, lastHunterUpdate.toString() }), null));
+                    }
+                    else
+                    {
+                        super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), Keywords.Special, hunterInfoSendable.gebruiker }), null));
+                    }
+                }
+                else
+                {
+                    super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), Keywords.All }), null));
+                }
+                lastHunterUpdate = new Date();
                 break;
             case ScoutingGroepen:
                 super.queue(new InteractionRequest(LinkBuilder.build(new String[] { mapPart.getValue(), Keywords.All }), null));

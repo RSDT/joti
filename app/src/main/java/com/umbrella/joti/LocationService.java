@@ -94,39 +94,18 @@ public class LocationService extends Service implements com.google.android.gms.l
         }
     }
 
-    public String reformatString(String username) {
-        username = username.replace("\\", "");
-        username = username.replace("\"", "");
-        username = username.replace("\n", "");
-        username = username.replace("/", "");
-        username = username.replace("\t", "");
-        username = username.replace(" ", "");
-        username = username.replace("-", "");
-        username = username.replace("*", "");
-        username = username.replace("'", "");
-        username = username.replace("%", "");
-        if (username.isEmpty()) {
-            username = "witgezichtsaki";
-        }
-        return username.toLowerCase();
-    }
-
     public void sendlocation(Location location, String username) {
-
-        final String safeUsername = reformatString(username);
-        final double lon = location.getLongitude();
-        final double lat = location.getLatitude();
 
         try {
             /**
-             * 1) Create a sendable form of HunterInfo and initialize it with the given values.
+             * 1) Create a sendable form of HunterInfo with the HunterInfoSendable.get() function.
              * 2) Serialize the sendable.
              * 3) Make sure the root of the LinkBuilder is set to the Area348's one.
              * 3) Make a interaction request with the url "http://jotihunt-api.area348.nl/hunter/" with the help of LinkBuilder
              * and set the data to the serialized sendable and finally set needs handling to false.
              * 4) Create a new interaction task and execute it, with the created InteractionRequest.
              * Tested, it works*/
-            HunterInfoSendable sendable = new HunterInfoSendable(safeUsername, lat, lon);
+            HunterInfoSendable sendable = HunterInfoSendable.get();
             String datas = new Gson().toJson(sendable);
             LinkBuilder.setRoot(Area348_API.root);
             InteractionRequest hunterPost = new InteractionRequest(LinkBuilder.build(new String[] { MapPart.Hunters.getValue() }), datas, false);

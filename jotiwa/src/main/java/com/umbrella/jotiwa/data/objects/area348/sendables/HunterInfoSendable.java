@@ -5,6 +5,7 @@ import android.location.Location;
 import android.preference.PreferenceManager;
 
 import com.umbrella.jotiwa.JotiApp;
+import com.umbrella.jotiwa.communication.enumeration.area348.StringChecker;
 
 /**
  * @author Dingenis Sieger Sinke
@@ -55,10 +56,13 @@ public class HunterInfoSendable {
     {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
         HunterInfoSendable buffer = new HunterInfoSendable();
-        buffer.gebruiker = sharedPreferences.getString("pref_username", "unknown");
+        buffer.gebruiker = StringChecker.makeSafe(sharedPreferences.getString("pref_username", "unknown"));
         Location location = JotiApp.getLastLocation();
-        buffer.latitude = location.getLatitude();
-        buffer.longitude = location.getLongitude();
+        if(location != null)
+        {
+            buffer.latitude = location.getLatitude();
+            buffer.longitude = location.getLongitude();
+        }
         return buffer;
     }
 
