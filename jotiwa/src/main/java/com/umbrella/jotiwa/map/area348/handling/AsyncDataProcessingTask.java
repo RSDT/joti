@@ -16,16 +16,15 @@ import com.umbrella.jotiwa.communication.enumeration.area348.Area348_Linker;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.InteractionResult;
-import com.umbrella.jotiwa.data.objects.area348.*;
-import com.umbrella.jotiwa.map.area348.MapManager;
+import com.umbrella.jotiwa.data.objects.area348.receivables.FotoOpdrachtInfo;
+import com.umbrella.jotiwa.data.objects.area348.receivables.HunterInfo;
+import com.umbrella.jotiwa.data.objects.area348.receivables.ScoutingGroepInfo;
+import com.umbrella.jotiwa.data.objects.area348.receivables.VosInfo;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 
 public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Integer, HandlingResult[]> {

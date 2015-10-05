@@ -1,4 +1,4 @@
-package com.umbrella.jotiwa.data.objects.area348;
+package com.umbrella.jotiwa.data.objects.area348.receivables;
 
 /**
  * Created by stesi on 22-9-2015.

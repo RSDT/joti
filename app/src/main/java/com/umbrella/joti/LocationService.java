@@ -16,7 +16,14 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
 import com.umbrella.jotiwa.JotiApp;
+import com.umbrella.jotiwa.communication.LinkBuilder;
+import com.umbrella.jotiwa.communication.enumeration.area348.Area348_API;
+import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
+import com.umbrella.jotiwa.communication.interaction.AsyncInteractionTask;
+import com.umbrella.jotiwa.communication.interaction.InteractionRequest;
+import com.umbrella.jotiwa.data.objects.area348.sendables.HunterInfoSendable;
 
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -87,72 +94,32 @@ public class LocationService extends Service implements com.google.android.gms.l
         }
     }
 
-    public String reformatString(String username) {
-        username = username.replace("\\", "");
-        username = username.replace("\"", "");
-        username = username.replace("\n", "");
-        username = username.replace("/", "");
-        username = username.replace("\t", "");
-        username = username.replace(" ", "");
-        username = username.replace("-", "");
-        username = username.replace("*", "");
-        username = username.replace("'", "");
-        username = username.replace("%", "");
-        if (username.isEmpty()) {
-            username = "witgezichtsaki";
-        }
-        return username.toLowerCase();
-    }
-
     public void sendlocation(Location location, String username) {
 
-        Context context = getApplicationContext();
-        CharSequence text = "Je locatie is verzonden";
-        int duration = Toast.LENGTH_SHORT;
-        final String username2 = reformatString(username);
-        final double lon = location.getLongitude();
-        final double lat = location.getLatitude();
+        try {
+            /**
+             * 1) Create a sendable form of HunterInfo with the HunterInfoSendable.get() function.
+             * 2) Serialize the sendable.
+             * 3) Make sure the root of the LinkBuilder is set to the Area348's one.
+             * 3) Make a interaction request with the url "http://jotihunt-api.area348.nl/hunter/" with the help of LinkBuilder
+             * and set the data to the serialized sendable and finally set needs handling to false.
+             * 4) Create a new interaction task and execute it, with the created InteractionRequest.
+             * Tested, it works*/
+            HunterInfoSendable sendable = HunterInfoSendable.get();
+            String datas = new Gson().toJson(sendable);
+            LinkBuilder.setRoot(Area348_API.root);
+            InteractionRequest hunterPost = new InteractionRequest(LinkBuilder.build(new String[] { MapPart.Hunters.getValue() }), datas, false);
+            new AsyncInteractionTask().execute(hunterPost);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            System.out.println("Locatie niet verzonden");
+            Log.e("Debug", e.toString());
+        }
 
-        final String data = "{gebruiker: " + username2 +
-                ",latitude: " + lat +
-                ",longitude: " + lon + "}";
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
-                    boolean sendPost = sharedpeferences.getBoolean("pref_post", true);
-                    URL url;
-                    if (sendPost) {
-                        url = new URL("http://jotihunt-api.area348.nl/hunter/");
-                    } else {
-                        url = new URL("http://jotihunt.area348.nl/android/hunters_invoer.php?coords=" + lat + "," + lon + "&naam=" + username2);
-                    }
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    System.out.println(data);
-                    //Set to POST
-                    connection.setDoOutput(true);
-                    if (sendPost) {
-                        connection.setRequestMethod("POST");
-                    } else {
-                        connection.setRequestMethod("GET");
-                    }
-                    connection.setReadTimeout(10000);
-                    Writer writer = new OutputStreamWriter(connection.getOutputStream());
-                    writer.write(data);
-                    writer.flush();
-                    writer.close();
-                    System.out.println(connection.getResponseMessage());
-                    System.out.println("location send");
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    System.out.println("location not send");
-                    Log.e("Debug", e.toString());
-                }
-            }
-        }).start();
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        /**
+         * Use mattijn's new fucntion.
+         * */
+        JotiApp.toast("Je locatie is verzonden");
     }
 
     @Override

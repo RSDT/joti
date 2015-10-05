@@ -172,7 +172,9 @@ public class MapPartState implements Serializable {
         SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
         switch (getMapPart()){
             case Vossen:
-                return sharedpeferences.getBoolean("pref_vos_" + teamPart.getSubChar(), show);
+                if(teamPart == TeamPart.All || teamPart == TeamPart.None) return show;
+                String key = "pref_vos_" + teamPart.getSubChar();
+                return sharedpeferences.getBoolean(key , false);
             case ScoutingGroepen:
                 return sharedpeferences.getBoolean("pref_sc", show);
             case Hunters:
@@ -181,6 +183,8 @@ public class MapPartState implements Serializable {
                 return sharedpeferences.getBoolean("pref_foto", show);
             case Me:
                 return sharedpeferences.getBoolean("pref_me", show);
+            case All:
+                return show;
             default:
                 return show;
         }

@@ -9,7 +9,7 @@
     <EditTextPreference
         android:key="pref_username"
         android:title="username"
-        android:summary="testsum"
+        android:summary="unknown"
         android:defaultValue="@string/standard_username"
         />
     <EditTextPreference

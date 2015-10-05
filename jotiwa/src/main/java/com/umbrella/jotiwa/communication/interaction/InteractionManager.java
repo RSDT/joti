@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -63,11 +64,11 @@ public class InteractionManager extends Handler {
         /**
          * Get the results out of the message.
          * */
-        InteractionResult[] results = (InteractionResult[])msg.obj;
-        for(int i = 0; i < results.length; i++)
+        ArrayList<InteractionResult> results = (ArrayList<InteractionResult>)msg.obj;
+        for(int i = 0; i < results.size(); i++)
         {
-            pending.remove(results[i]);
-            completed.add(results[i]);
+            pending.remove(results.get(i));
+            completed.add(results.get(i));
         }
         onRequestTaskCompletedListener.onRequestTaskCompleted(results);
         super.handleMessage(msg);
