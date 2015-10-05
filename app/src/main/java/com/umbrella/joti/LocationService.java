@@ -197,5 +197,5 @@ public class LocationService extends Service implements com.google.android.gms.l
         JotiApp.debug("isconnecting=" + mGoogleApiClient.isConnecting());
         JotiApp.debug("isconnected=" + mGoogleApiClient.isConnected());
         JotiApp.debug(mGoogleApiClient.toString());
-    }
+    } 
 }
