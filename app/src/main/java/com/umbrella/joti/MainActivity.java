@@ -1,13 +1,9 @@
 package com.umbrella.joti;
 
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -38,7 +34,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
@@ -118,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }else{
                 JotiApp.toast("Er is niet geupdate door een error. Herstart de app.");
             }
-
+            JotiApp.toast("Als je niks ziet moet je de app zelf openen.");
 
         }
         if (!useActionbar) {
@@ -178,12 +173,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapManager.CameraToCurrentLocation();
     }
 
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         String[] typeCode = key.split("_");
-        if (Objects.equals(typeCode[1], "vos")) {
+        if (typeCode[1].equals( "vos")) {
             MapPart mapPart = MapPart.parse(typeCode[1]);
 
             switch (mapPart) {
