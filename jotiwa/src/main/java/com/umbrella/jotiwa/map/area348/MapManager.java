@@ -1,9 +1,16 @@
 package com.umbrella.jotiwa.map.area348;
 
+import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.area348.DataUpdater;
@@ -58,6 +65,23 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
 
     public MapBinder getMapBinder() {
         return mapBinder;
+    }
+
+    public void CameraToCurrentLocation() {
+        Location location = JotiApp.getLastLocation();
+        CameraUpdate camera;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+        float zoom= Float.parseFloat(preferences.getString("pref_zoom", "10"));
+        if (location == null) {
+            JotiApp.debug("lastlocation = null");
+            JotiApp.toast("Nog geen locatie gevonden");
+            camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.021675, 6.059437), zoom);
+        }else{
+            JotiApp.debug("lastlocation = " + location.toString());
+            camera = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoom);
+        }
+
+        gMap.moveCamera(camera);
     }
 
     public class MapManagerHandler extends Handler

@@ -1,4 +1,4 @@
-package com.umbrella.jotiwa.data.objects.area348;
+package com.umbrella.jotiwa.data.objects.area348.receivables;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

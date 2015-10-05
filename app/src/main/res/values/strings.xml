@@ -6,7 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">SettingsActivity</string>
-	<string name="action_refresh">Refresh</string>
+	<string name="action_refresh">Update</string>
 
     <string name="standard_username">Gebruikersnaam</string>
     <string name="send_location_summ">elke minuut je locatie verzenden</string>
@@ -34,4 +34,13 @@
     <string name="sc_sum">show Scouting Groepen</string>
     <string name="foto">FotoOpdrachten</string>
     <string name="foto_sum">show FotoOpdrachten</string>
+    <string name="send_debug_summ">geef debug messages weer.</string>
+    <string name="send_debug_title">Debug</string>
+    <string name="send_post_summ">zend locaties via post(true) of get(false)</string>
+    <string name="send_post_title">zend als locaties door als een post request</string>
+    <string name="pref_zoom_summ">zoomlevel tussen2.0 en 22.0</string>
+    <string name="pref_zoom_title">Zoom</string>
+    <string name="action_map_camera">HuidigeLocatie</string>
+    <string name="pref_speed_title">Snelheid van de vossen</string>
+    <string name="pref_speed_summ">snelheid van de vossen in km per uur</string>
 </resources>

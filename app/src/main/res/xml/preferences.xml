@@ -12,6 +12,21 @@
         android:summary="testsum"
         android:defaultValue="@string/standard_username"
         />
+    <EditTextPreference
+        android:key="pref_zoom"
+        android:title="@string/pref_zoom_title"
+        android:summary="@string/pref_zoom_summ"
+        android:inputType="numberDecimal"
+        android:defaultValue="10.0"
+        />
+    <EditTextPreference
+        android:key="pref_speed"
+        android:title="@string/pref_speed_title"
+        android:summary="@string/pref_speed_summ"
+        android:inputType="numberDecimal"
+        android:defaultValue="6.0"
+        />
+
     <PreferenceCategory
         android:title="@string/pref_deelgebieden"
         android:key="pref_delgebieden">
@@ -66,5 +81,18 @@
             android:summary="@string/foto_sum"
             android:defaultValue="true" />
     </PreferenceCategory>
-
+    <PreferenceCategory
+        android:title="debug"
+        android:key="pref_delgebieden">
+        <CheckBoxPreference
+            android:key="pref_debug"
+            android:title="@string/send_debug_title"
+            android:summary="@string/send_debug_summ"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="pref_post"
+            android:title="@string/send_post_title"
+            android:summary="@string/send_post_summ"
+            android:defaultValue="true" />
+    </PreferenceCategory>
 </PreferenceScreen>

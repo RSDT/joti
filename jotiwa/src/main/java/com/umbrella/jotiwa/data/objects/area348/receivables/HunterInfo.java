@@ -1,4 +1,4 @@
-package com.umbrella.jotiwa.data.objects.area348;
+package com.umbrella.jotiwa.data.objects.area348.receivables;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -6,10 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
-import org.json.JSONObject;
-
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by stesi on 13-9-2015.
