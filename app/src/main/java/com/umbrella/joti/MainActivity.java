@@ -110,18 +110,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Intent intent = getIntent();
         Uri data = intent.getData();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Intent");
         if (data != null) {
             String gebied = data.getQueryParameter("gebied").toLowerCase();
             if (TempMapState == null) {
+                JotiApp.toast("Updating " + TeamPart.parse(gebied));
                 TempMapState = new MapPartState(MapPart.Vossen, TeamPart.parse(gebied), true, true);
             }else{
                 JotiApp.toast("Er is niet geupdate door een error. Herstart de app.");
             }
-            builder.setMessage("Updating " + TeamPart.parse(gebied));
-            builder.create().show();
+
+
         }
         if (!useActionbar) {
             pageAdaptor = new PageAdaptor(getSupportFragmentManager());
