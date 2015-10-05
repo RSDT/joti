@@ -3,7 +3,7 @@ package com.umbrella.jotiwa.map.area348.storage;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.umbrella.jotiwa.data.objects.area348.BaseInfo;
+import com.umbrella.jotiwa.data.objects.area348.receivables.BaseInfo;
 
 import java.util.ArrayList;
 

@@ -4,18 +4,17 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
-import com.umbrella.jotiwa.data.objects.area348.BaseInfo;
-import com.umbrella.jotiwa.data.objects.area348.FotoOpdrachtInfo;
-import com.umbrella.jotiwa.data.objects.area348.HunterInfo;
-import com.umbrella.jotiwa.data.objects.area348.ScoutingGroepInfo;
-import com.umbrella.jotiwa.data.objects.area348.VosInfo;
+import com.umbrella.jotiwa.data.objects.area348.receivables.BaseInfo;
+import com.umbrella.jotiwa.data.objects.area348.receivables.FotoOpdrachtInfo;
+import com.umbrella.jotiwa.data.objects.area348.receivables.HunterInfo;
+import com.umbrella.jotiwa.data.objects.area348.receivables.ScoutingGroepInfo;
+import com.umbrella.jotiwa.data.objects.area348.receivables.VosInfo;
 import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.handling.HandlingResult;
 import com.umbrella.jotiwa.map.area348.MapPartState;
@@ -27,7 +26,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

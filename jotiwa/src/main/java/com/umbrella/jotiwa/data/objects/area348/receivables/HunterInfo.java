@@ -1,11 +1,18 @@
 package com.umbrella.jotiwa.data.objects.area348.receivables;
 
+import android.content.SharedPreferences;
+import android.location.Location;
+import android.preference.PreferenceManager;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import com.umbrella.jotiwa.JotiApp;
+import com.umbrella.jotiwa.data.objects.area348.sendables.HunterInfoSendable;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -46,5 +53,4 @@ public class HunterInfo extends BaseInfo {
         }
         return buffer;
     }
-
 }

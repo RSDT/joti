@@ -6,13 +6,18 @@ import android.os.Message;
 import com.umbrella.jotiwa.map.area348.MapManager;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 
 /**
- * Created by stesi on 22-9-2015.
+ * @author Dingenis Sieger Sinke
+ * @version 1.1
+ * @since 22-9-2015
+ * Class that servers as a async interaction task.
+ * @see android.os.AsyncTask
  */
 public class AsyncInteractionTask extends AsyncTask<InteractionRequest, Integer, InteractionResult[]> {
 
@@ -24,14 +29,18 @@ public class AsyncInteractionTask extends AsyncTask<InteractionRequest, Integer,
             try
             {
                 HttpURLConnection connection = (HttpURLConnection)params[i].getUrl().openConnection();
+
+                /**
+                 * Checks if there should be data send.
+                 * */
                 if(params[i].getData() != null)
                 {
                     connection.setRequestMethod("POST");
-                    DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-                    wr.write(params[i].getData().getBytes());
-                    wr.close();
+                    OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream());
+                    streamWriter.write(params[i].getData());
+                    streamWriter.flush();
+                    streamWriter.close();
                 }
-
 
                 InputStream response = connection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response));
@@ -66,9 +75,17 @@ public class AsyncInteractionTask extends AsyncTask<InteractionRequest, Integer,
     }
 
     @Override
-    protected void onPostExecute(InteractionResult[] result) {
+    protected void onPostExecute(InteractionResult[] results) {
+        ArrayList<InteractionResult> handle = new ArrayList<>();
+        for(int i = 0; i < results.length-1; i++)
+        {
+            if(results[i].getRequest().needsHandling())
+            {
+                handle.add(results[i]);
+            }
+        }
         Message message = new Message();
-        message.obj = result;
+        message.obj = handle;
         MapManager.getDataUpdater().sendMessage(message);
     }
 }
