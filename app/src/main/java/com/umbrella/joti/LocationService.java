@@ -31,7 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class LocationService extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class LocationService extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private long last_location_send = 0l;
     private boolean pref_send_loc_old = false;
     private boolean recieving_locations = false;
@@ -59,7 +59,7 @@ public class LocationService extends Service implements com.google.android.gms.l
         mLocationRequest.setInterval(interval);
         mLocationRequest.setFastestInterval(fastest);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        this.recieving_locations = true;
+
     }
 
     protected void startLocationUpdates(LocationRequest mLocationRequest) {
@@ -140,6 +140,7 @@ public class LocationService extends Service implements com.google.android.gms.l
         } else
             JotiApp.debug(LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient).toString());
         startLocationUpdates(mLocationRequest);
+
     }
 
 
@@ -164,5 +165,21 @@ public class LocationService extends Service implements com.google.android.gms.l
         JotiApp.debug("isconnecting=" + mGoogleApiClient.isConnecting());
         JotiApp.debug("isconnected=" + mGoogleApiClient.isConnected());
         JotiApp.debug(mGoogleApiClient.toString());
-    } 
+    }
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, this);
+        this.recieving_locations = false;
+    }
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("pref_send_loc")){
+            if(sharedPreferences.getBoolean("pref_send_loc",false) && !recieving_locations){
+                startLocationUpdates(mLocationRequest);
+
+            }else if (!sharedPreferences.getBoolean("pref_send_loc",false) && recieving_locations){
+                stopLocationUpdates();
+            }
+        }
+    }
 }
