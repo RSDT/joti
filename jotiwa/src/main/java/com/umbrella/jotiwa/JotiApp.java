@@ -23,7 +23,8 @@ public class JotiApp extends Application {
     }
 
     public static Context getContext() {
-        return instance.getApplicationContext();
+        return instance;
+        //return instance.getApplicationContext();
     }
 
     public static void toast(CharSequence text) {

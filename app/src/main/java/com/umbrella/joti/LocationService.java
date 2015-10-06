@@ -108,7 +108,7 @@ public class LocationService extends Service implements com.google.android.gms.l
             HunterInfoSendable sendable = HunterInfoSendable.get();
             String datas = new Gson().toJson(sendable);
             LinkBuilder.setRoot(Area348_API.root);
-            InteractionRequest hunterPost = new InteractionRequest(LinkBuilder.build(new String[] { MapPart.Hunters.getValue() }), datas, false);
+            InteractionRequest hunterPost = new InteractionRequest(LinkBuilder.build(new String[]{MapPart.Hunters.getValue()}), datas, false);
             new AsyncInteractionTask().execute(hunterPost);
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -167,19 +167,23 @@ public class LocationService extends Service implements com.google.android.gms.l
         JotiApp.debug("isconnected=" + mGoogleApiClient.isConnected());
         JotiApp.debug(mGoogleApiClient.toString());
     }
+
     protected void stopLocationUpdates() {
         LocationServices.FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
         this.recieving_locations = false;
     }
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("pref_send_loc")){
-            if(sharedPreferences.getBoolean("pref_send_loc",false) && !recieving_locations){
+        if (key.equals("pref_send_loc")) {
+            JotiApp.debug("setting veranderd");
+            if (sharedPreferences.getBoolean("pref_send_loc", false) && !recieving_locations) {
                 startLocationUpdates(mLocationRequest);
-
-            }else if (!sharedPreferences.getBoolean("pref_send_loc",false) && recieving_locations){
+                JotiApp.debug("setting veranderd naar uit");
+            } else if (!sharedPreferences.getBoolean("pref_send_loc", false) && recieving_locations) {
                 stopLocationUpdates();
+                JotiApp.debug("setting veranderd naar uit");
             }
         }
     }
