@@ -78,7 +78,10 @@ public class MapBinder extends HashMap<String, MapBindObject> {
         }
         if (mapPartState.getAccessor().equals("hunter")) return;
 
-        if (!mapPartState.getShow()) return;
+        /**
+         * If the state is already on the map, it should not be added again.
+         * */
+        if(mapPartState.isOnMap()) return;
 
         String accessor = mapPartState.getAccessor();
         check(accessor);
@@ -113,7 +116,20 @@ public class MapBinder extends HashMap<String, MapBindObject> {
         for (int c = 0; c < circles.size(); c++) {
             bindObject.getCircles().add(gMap.addCircle(circles.get(c)));
         }
+        /**
+         * Sets the flag isOnMap to true, to indicate the state is on the map.
+         * */
+        mapPartState.setOnMap(true);
 
+        /**
+         * If the state should not be shown, set the visibilty of the bind object to false.
+         * This way the items are on the map but only not visible. When the items should be visible
+         * only the map items should change visiblity. Not adding them.
+         * */
+        if(!mapPartState.getShow())
+        {
+            bindObject.setVisiblty(false);
+        }
     }
 
     /**
