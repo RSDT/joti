@@ -2,6 +2,7 @@ package com.umbrella.jotiwa.data.objects.area348.receivables;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 
 /**
  * Created by stesi on 13-9-2015.
@@ -18,6 +19,10 @@ public class ScoutingGroepInfo extends BaseInfo {
      */
     public String adres;
 
+    /**
+     *
+     */
+    public String deelgebied;
     /**
      * @param json
      * @return

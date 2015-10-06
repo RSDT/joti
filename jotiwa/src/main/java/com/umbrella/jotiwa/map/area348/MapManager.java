@@ -141,7 +141,7 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
 
     /**
      * @param mapPartState
-     * @return
+     * @return true if something was added. false if nothing was added.
      */
     @Override
     public boolean add(MapPartState mapPartState) {
@@ -153,7 +153,7 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
             case All:
                 add(new MapPartState(MapPart.Vossen, mapPartState.getTeamPart(), mapPartState.getShow(), mapPartState.update()));
                 add(new MapPartState(MapPart.Hunters, TeamPart.None, mapPartState.getShow(), mapPartState.update()));
-                add(new MapPartState(MapPart.ScoutingGroepen, TeamPart.None, mapPartState.getShow(), mapPartState.update()));
+                add(new MapPartState(MapPart.ScoutingGroepen, mapPartState.getTeamPart(), mapPartState.getShow(), mapPartState.update()));
                 add(new MapPartState(MapPart.FotoOpdrachten, TeamPart.None, mapPartState.getShow(), mapPartState.update()));
                 return true;
             case Vossen:
@@ -162,10 +162,25 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
                             TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
                             TeamPart.Charlie, TeamPart.Delta, TeamPart.Echo,
                             TeamPart.Foxtrot, TeamPart.XRay};
+                    boolean return_value = false;
                     for (int x = 0; x < parts.length; x++) {
-                        this.add(new MapPartState(MapPart.Vossen, parts[x], mapPartState.getShow(), mapPartState.update()));
+                        if(this.add(new MapPartState(MapPart.Vossen, parts[x], mapPartState.getShow(), mapPartState.update())))
+                            return_value = true;
                     }
-                    return true;
+                    return return_value;
+                }
+            case ScoutingGroepen:
+                if (mapPartState.getTeamPart() == TeamPart.All) {
+                    TeamPart[] parts = new TeamPart[]{
+                            TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
+                            TeamPart.Charlie, TeamPart.Delta, TeamPart.Echo,
+                            TeamPart.Foxtrot, TeamPart.XRay};
+                    boolean return_value = false;
+                    for (int x = 0; x < parts.length; x++) {
+                        if(this.add(new MapPartState(MapPart.ScoutingGroepen, parts[x], mapPartState.getShow(), mapPartState.update())))
+                            return_value = true;
+                    }
+                    return return_value;
                 }
         }
 

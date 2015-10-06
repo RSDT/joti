@@ -199,7 +199,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
 
         HandlingResult result = new HandlingResult();
         result.setMapPart(MapPart.ScoutingGroepen);
-        result.setTeamPart(TeamPart.None);
+        result.setTeamPart(TeamPart.All);
         result.setHandler(iResult.getHandler());
 
         List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
@@ -221,7 +221,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
              * */
             MarkerOptions mOptions = new MarkerOptions();
             mOptions.position(new LatLng(groepen[i].latitude, groepen[i].longitude));
-            mOptions.title("sc;" + ((Integer) groepen[i].id).toString());
+            mOptions.title("sc;" + ((Integer) groepen[i].id).toString() + ";" + groepen[i].deelgebied.toLowerCase());
             mOptions.anchor(0.5f, 0.5f);
             mOptions.icon(descriptor);
 
@@ -229,10 +229,10 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
              * Setups the preset circle.
              * */
             CircleOptions cOptions = new CircleOptions();
-            cOptions.fillColor(Color.argb(128, 255, 153, 0));
-            cOptions.radius(300);
+            cOptions.fillColor(TeamPart.getAssociatedAlphaColor(TeamPart.parse(groepen[i].deelgebied.toLowerCase()), 10));
+            cOptions.radius(500);
             cOptions.strokeColor(Color.BLACK);
-            cOptions.strokeWidth(1);
+            cOptions.strokeWidth(2);
             cOptions.center(new LatLng(groepen[i].latitude, groepen[i].longitude));
 
 
