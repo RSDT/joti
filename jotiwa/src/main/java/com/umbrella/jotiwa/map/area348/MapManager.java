@@ -40,10 +40,8 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
             mapManagerHandler = new MapManagerHandler(this);
         }
         if (mapStorage == null) {
-            mapStorage = new MapStorage(this);
-        } else {
-            mapStorage.setOnNewDataAvailableListener(this);
-        }
+            mapStorage = new MapStorage();
+        } 
 
         if (dataUpdater == null) {
             dataUpdater = new DataUpdater();
@@ -240,7 +238,18 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
          * */
         dataUpdater.interact();
     }
-
+    
+    /**
+     * Updates a specific map part.
+     * @deprecated
+     * */
+    public void update(MapPartState mapPartState)
+    {
+        if(mapPartState.update())
+        {
+            dataUpdater.update(mapPartState.getMapPart(), mapPartState.getAreaPart());
+        }
+    }
 
     /**
      * Removes the state from the collection.
@@ -352,6 +361,31 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
                 current.setHasLocalData(true);
                 current.setPending(false);
             }
+        }
+    }
+    /**
+     * @author Dingenis Sieger Sinke
+     * @version 1.0
+     * @since 5-10-2015
+     * Receives messages and then invokes UI code on main thread.
+     * */
+    public static class MapManagerHandler extends Handler
+    {
+        public MapManagerHandler(OnNewDataAvailable onNewDataAvailable)
+        {
+            this.onNewDataAvailable = new WeakReference<>(onNewDataAvailable);
+        }
+
+        WeakReference<OnNewDataAvailable> onNewDataAvailable;
+
+        @Override
+        public void handleMessage(Message msg) {
+            OnNewDataAvailable onNewDataAvailableRef = onNewDataAvailable.get();
+            if( onNewDataAvailableRef != null)
+            {
+                onNewDataAvailableRef.onNewDataAvailable((ArrayList<MapPartState>)msg.obj);
+            }
+            super.handleMessage(msg);
         }
     }
 
