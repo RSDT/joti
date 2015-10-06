@@ -318,11 +318,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
 
                 break;
+
             default:
                 BaseInfo baseInfo = mapManager.getMapStorage().findInfo(new MapPartState(part, TeamPart.None), Integer.parseInt(splitted[1]));
                 coordinaat.setText(((Double) baseInfo.latitude + " , " + ((Double) baseInfo.longitude).toString()));
                 switch (part) {
                     case ScoutingGroepen:
+                        TeamPart teamPartsc = TeamPart.parse(splitted[2].toLowerCase());
+                        infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPartsc));
                         infoType.setText("ScoutingGroep");
                         ScoutingGroepInfo scoutingGroepInfo = (ScoutingGroepInfo) baseInfo;
                         naam.setText(scoutingGroepInfo.naam);

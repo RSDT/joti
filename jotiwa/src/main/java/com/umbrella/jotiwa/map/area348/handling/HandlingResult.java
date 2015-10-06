@@ -9,7 +9,7 @@ import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
  * Created by stesi on 22-9-2015.
  */
 public class HandlingResult {
-    
+
     private Handler handler;
 
     private MapPart mapPart;
