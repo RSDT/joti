@@ -1,14 +1,16 @@
 package com.umbrella.joti;
 
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,34 +29,30 @@ import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.binding.MapBindObject;
 
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    PageAdaptor pageAdaptor;
+    private PageAdaptor pageAdaptor;
 
-    ViewPager pager;
+    private ViewPager pager;
 
-    MapManager mapManager;
+    private MapManager mapManager;
 
-    Date old;
-
-    ArrayList<MapPartState> oldStates = new ArrayList<>();
+    private ArrayList<MapPartState> oldStates = new ArrayList<>();
+    private MapPartState TempMapState = null;
 
     private boolean useActionbar = true;
-    private boolean useSafedInstance = false; // TODO zie bijbehoorende commit 'locationhandler 3/3'
 
+    /**
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
@@ -63,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return true;
     }
 
+    /**
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         setContentView(R.layout.activity_main);
-
-        old = new Date();
 
 
         PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(this);
@@ -107,14 +110,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Intent intent = getIntent();
         Uri data = intent.getData();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Intent");
         if (data != null) {
             String gebied = data.getQueryParameter("gebied").toLowerCase();
-            mapManager.add(new MapPartState(MapPart.Vossen, TeamPart.parse(gebied), true, true));
-            builder.setMessage("Updating " + TeamPart.parse(gebied));
-            builder.create().show();
+            if (TempMapState == null) {
+                JotiApp.toast("Updating " + TeamPart.parse(gebied));
+                TempMapState = new MapPartState(MapPart.Vossen, TeamPart.parse(gebied), true, true);
+            } else {
+                JotiApp.toast("Er is niet geupdate door een error. Herstart de app.");
+            }
+            JotiApp.toast("Als je niks ziet moet je de app zelf openen.");
+
         }
         if (!useActionbar) {
             pageAdaptor = new PageAdaptor(getSupportFragmentManager());
@@ -124,11 +129,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment.setOnMapReadyCallback(this);
     }
 
+    /**
+     * @param savedInstanceState
+     */
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable("mapManager", (ArrayList<MapPartState>) mapManager);
     }
 
 
+    /**
+     * @param map
+     */
     public void onMapReady(GoogleMap map) {
         map.setInfoWindowAdapter(this);
 
@@ -139,6 +150,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
          * */
         if (oldStates.size() > 0) {
             mapManager.addAll(oldStates);
+            if (TempMapState != null) {
+                mapManager.add(TempMapState);
+                TempMapState = null;
+            }
             mapManager.sync();
         }
         /**
@@ -169,12 +184,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapManager.CameraToCurrentLocation();
     }
 
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
+    /**
+     * @param preferences
+     * @param key
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         String[] typeCode = key.split("_");
-        if (Objects.equals(typeCode[1], "vos")) {
+        if (typeCode[1].equals("vos")) {
             MapPart mapPart = MapPart.parse(typeCode[1]);
 
             switch (mapPart) {
@@ -206,10 +223,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    /**
+     * @param marker
+     * @return
+     */
     public View getInfoContents(Marker marker) {
         return null;
     }
 
+    /**
+     * @param marker
+     * @return
+     */
     public View getInfoWindow(Marker marker) {
 
 
@@ -245,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String dateString = info.datetime;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
-                float speed= Float.parseFloat(preferences.getString("pref_speed", "6.0"));
+                float speed = Float.parseFloat(preferences.getString("pref_speed", "6.0"));
                 float aantal_meters_per_uur = speed * 1000;
                 try {
                     Date date = dateFormat.parse(dateString);
@@ -257,35 +282,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                     long duration = (new Date()).getTime() - date.getTime();
 
-                    long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-
-                    float diffInHours = ((float) diffInSeconds / 60f) / 60f;
+                    float diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
 
                     float radius = diffInHours * aantal_meters_per_uur;
 
-                    old = date;
-                    boolean isLastMarker = Integer.parseInt(splitted[2]) >= bindObject.getMarkers().size();
+                    boolean isLastMarker = Integer.parseInt(splitted[2]) >= bindObject.getMarkers().size(); // als dit exacter kan dan graag.
+                                                                                                            // kijkt naar de ids uit de database van micky. als er ooit een marker verwijderd
+                                                                                                            // is dan pakt ie er een paar bij. maar bij de meeste niet eindmarkers zet ie geen cirkel.
+                                                                                                            // maar t was kiezen tussen false postitves of false negatives ik heb gekozen voor false positves.
+                                                                                                            // is ook een leuke easteregg.
                     if (isLastMarker) {
                         bindObject.getCircles().get(0).setRadius(radius);
                     }
-
-
                 } catch (ParseException e) {
-                    Date date = new Date();
-                    long duration = date.getTime() - old.getTime();
-
-                    long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-
-                    float diffInHours = ((float) diffInSeconds / 60f) / 60f;
-
-                    float increaseM = diffInHours * aantal_meters_per_uur;
-                    old = date;
-                    double radius = bindObject.getCircles().get(0).getRadius();
-                    boolean isLastMarker = Integer.parseInt(splitted[2]) == bindObject.getMarkers().size();
-                    if (isLastMarker) {
-                        bindObject.getCircles().get(0).setRadius(increaseM + radius);
-                    }
+                    JotiApp.toast("Error" + e.toString());
                 }
+
                 infoType.setText("Vos");
                 naam.setText(info.team_naam);
                 dateTime_adres.setText(info.datetime);
@@ -306,11 +318,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
 
                 break;
+
             default:
                 BaseInfo baseInfo = mapManager.getMapStorage().findInfo(new MapPartState(part, TeamPart.None), Integer.parseInt(splitted[1]));
                 coordinaat.setText(((Double) baseInfo.latitude + " , " + ((Double) baseInfo.longitude).toString()));
                 switch (part) {
                     case ScoutingGroepen:
+                        TeamPart teamPartsc = TeamPart.parse(splitted[2].toLowerCase());
+                        infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPartsc));
                         infoType.setText("ScoutingGroep");
                         ScoutingGroepInfo scoutingGroepInfo = (ScoutingGroepInfo) baseInfo;
                         naam.setText(scoutingGroepInfo.naam);
@@ -327,6 +342,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return view;
     }
-
-
 }

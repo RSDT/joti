@@ -8,25 +8,46 @@ import com.google.gson.stream.JsonReader;
  */
 public class VosInfo extends BaseInfo {
 
+    /**
+     *
+     */
     public String datetime;
 
+    /**
+     *
+     */
     public String team;
 
+    /**
+     *
+     */
     public String team_naam;
 
+    /**
+     *
+     */
     public String opmerking;
 
+    /**
+     *
+     */
     public String gebruiker;
 
-    public static VosInfo fromJson(String json)
-    {
+    /**
+     * @param json
+     * @return
+     */
+    public static VosInfo fromJson(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, VosInfo.class);
     }
 
-    public static VosInfo[] fromJsonArray(String json)
-    {
+    /**
+     * @param json
+     * @return
+     */
+    public static VosInfo[] fromJsonArray(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, VosInfo[].class);

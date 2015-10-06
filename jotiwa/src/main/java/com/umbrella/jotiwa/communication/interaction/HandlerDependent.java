@@ -9,10 +9,16 @@ public class HandlerDependent {
 
     protected Handler handler;
 
+    /**
+     * @return
+     */
     public Handler getHandler() {
         return handler;
     }
 
+    /**
+     * @param handler
+     */
     public void setHandler(Handler handler) {
         this.handler = handler;
     }

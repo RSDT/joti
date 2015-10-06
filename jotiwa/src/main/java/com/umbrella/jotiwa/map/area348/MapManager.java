@@ -28,22 +28,22 @@ import java.util.Iterator;
  */
 public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvailable {
 
-    public MapManager(GoogleMap gMap)
-    {
+    /**
+     * Initializes a new instance of MapManger.
+     * @param gMap The google map the manager should manage on.
+     */
+    public MapManager(GoogleMap gMap) {
         super();
         this.gMap = gMap;
         this.mapBinder = new MapBinder(gMap);
-        if(mapManagerHandler == null)
-        {
-            mapManagerHandler = new MapManagerHandler();
+        if (mapManagerHandler == null) {
+            mapManagerHandler = new MapManagerHandler(this);
         }
-        if(mapStorage == null)
-        {
-            mapStorage = new MapStorage(this);
-        } else { mapStorage.setOnNewDataAvailableListener(this); }
+        if (mapStorage == null) {
+            mapStorage = new MapStorage();
+        } 
 
-        if(dataUpdater == null)
-        {
+        if (dataUpdater == null) {
             dataUpdater = new DataUpdater();
         }
         this.operable = true;
@@ -51,32 +51,41 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
 
     /**
      * Value indicating if the manager is operable.
-     * */
+     */
     boolean operable = false;
 
     /**
      * The reference to the GoogleMap.
-     * */
+     */
     GoogleMap gMap;
 
 
+    /**
+     * The binder that controls on the map items.
+     */
     MapBinder mapBinder;
 
 
+    /**
+     * @return
+     */
     public MapBinder getMapBinder() {
         return mapBinder;
     }
 
+    /**
+     * Updates the camera location to the current location.
+     */
     public void CameraToCurrentLocation() {
         Location location = JotiApp.getLastLocation();
         CameraUpdate camera;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
-        float zoom= Float.parseFloat(preferences.getString("pref_zoom", "10"));
+        float zoom = Float.parseFloat(preferences.getString("pref_zoom", "10"));
         if (location == null) {
             JotiApp.debug("lastlocation = null");
             JotiApp.toast("Nog geen locatie gevonden");
             camera = CameraUpdateFactory.newLatLngZoom(new LatLng(52.021675, 6.059437), zoom);
-        }else{
+        } else {
             JotiApp.debug("lastlocation = " + location.toString());
             camera = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoom);
         }
@@ -84,76 +93,100 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         gMap.moveCamera(camera);
     }
 
-    public class MapManagerHandler extends Handler
-    {
+    /**
+     *
+     */
+    public class MapManagerHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            switch(msg.what)
-            {
-
-            }
-            onNewDataAvailable((ArrayList<MapPartState>)msg.obj);
+            onNewDataAvailable((ArrayList<MapPartState>) msg.obj);
+            if( onNewDataAvailableRef != null) {
+                onNewDataAvailableRef.onNewDataAvailable((ArrayList<MapPartState>)msg.obj);
+             }
             super.handleMessage(msg);
         }
     }
 
     private static MapManagerHandler mapManagerHandler;
 
+    /**
+     * @return
+     */
     public static MapManagerHandler getMapManagerHandler() {
         return mapManagerHandler;
     }
 
-    /**
+    /*
      * TODO:Consider making MapStorage and DataUpdater static, handler should be static else memory leaking.
-     * */
+     */
     private static MapStorage mapStorage;
 
     private static DataUpdater dataUpdater;
 
+    /**
+     * @return
+     */
     public static DataUpdater getDataUpdater() {
         return dataUpdater;
     }
 
+    /**
+     * @return
+     */
     public static MapStorage getMapStorage() {
         return mapStorage;
     }
 
 
+    /**
+     * @param mapPartState
+     * @return true if something was added. false if nothing was added.
+     */
     @Override
-    public boolean add(MapPartState mapPartState)
-    {
+    public boolean add(MapPartState mapPartState) {
         /**
          * Some recursive calls, the All identifiers signal that ALL states of that part should be added.
          * Here we detect if the all identifier is used.
          * */
-        switch(mapPartState.getMapPart())
-        {
+        switch (mapPartState.getMapPart()) {
             case All:
                 add(new MapPartState(MapPart.Vossen, mapPartState.getTeamPart(), mapPartState.getShow(), mapPartState.update()));
                 add(new MapPartState(MapPart.Hunters, TeamPart.None, mapPartState.getShow(), mapPartState.update()));
-                add(new MapPartState(MapPart.ScoutingGroepen, TeamPart.None, mapPartState.getShow(), mapPartState.update()));
+                add(new MapPartState(MapPart.ScoutingGroepen, mapPartState.getTeamPart(), mapPartState.getShow(), mapPartState.update()));
                 add(new MapPartState(MapPart.FotoOpdrachten, TeamPart.None, mapPartState.getShow(), mapPartState.update()));
                 return true;
             case Vossen:
-                if(mapPartState.getTeamPart() == TeamPart.All)
-                {
-                    TeamPart[] parts = new TeamPart[] {
+                if (mapPartState.getTeamPart() == TeamPart.All) {
+                    TeamPart[] parts = new TeamPart[]{
                             TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
                             TeamPart.Charlie, TeamPart.Delta, TeamPart.Echo,
-                            TeamPart.Foxtrot, TeamPart.XRay };
-                    for(int x = 0; x < parts.length; x++)
-                    {
-                        this.add(new MapPartState(MapPart.Vossen, parts[x], mapPartState.getShow(), mapPartState.update()));
+                            TeamPart.Foxtrot, TeamPart.XRay};
+                    boolean return_value = false;
+                    for (int x = 0; x < parts.length; x++) {
+                        if(this.add(new MapPartState(MapPart.Vossen, parts[x], mapPartState.getShow(), mapPartState.update())))
+                            return_value = true;
                     }
-                    return true;
+                    return return_value;
+                }
+            case ScoutingGroepen:
+                if (mapPartState.getTeamPart() == TeamPart.All) {
+                    TeamPart[] parts = new TeamPart[]{
+                            TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
+                            TeamPart.Charlie, TeamPart.Delta, TeamPart.Echo,
+                            TeamPart.Foxtrot, TeamPart.XRay};
+                    boolean return_value = false;
+                    for (int x = 0; x < parts.length; x++) {
+                        if(this.add(new MapPartState(MapPart.ScoutingGroepen, parts[x], mapPartState.getShow(), mapPartState.update())))
+                            return_value = true;
+                    }
+                    return return_value;
                 }
         }
 
         /**
          * Checks if the state collection already has the spefic state, if so there's no point in adding it.
          * */
-        if(!this.contains(mapPartState))
-        {
+        if (!this.contains(mapPartState)) {
             return super.add(mapPartState);
         }
 
@@ -163,32 +196,35 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         return false;
     }
 
+    /**
+     * @param collection
+     * @return
+     */
     @Override
     public boolean addAll(Collection<? extends MapPartState> collection) {
 
         Iterator iterator = collection.iterator();
-        while(iterator.hasNext())
-        {
-            this.add((MapPartState)iterator.next());
+        while (iterator.hasNext()) {
+            this.add((MapPartState) iterator.next());
         }
         return true;
     }
 
 
-    public void update()
-    {
+    /**
+     *
+     */
+    public void update() {
         /**
          * Loops trough each, state and updates it.
          * */
-        for(int i = 0; i < this.size(); i++)
-        {
+        for (int i = 0; i < this.size(); i++) {
             MapPartState current = this.get(i);
 
             /**
              * Checks if the state needs updating.
              * */
-            if(current.update())
-            {
+            if (current.update()) {
                 /**
                  * Activated the chain update, and sets the pending value to true,
                  * to indicate that a update is beining preform on the state.
@@ -202,32 +238,47 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
          * */
         dataUpdater.interact();
     }
+    
+    /**
+     * Updates a specific map part.
+     * @deprecated
+     * */
+    public void update(MapPartState mapPartState)
+    {
+        if(mapPartState.update())
+        {
+            dataUpdater.update(mapPartState.getMapPart(), mapPartState.getAreaPart());
+        }
+    }
 
-    @Override
     /**
      * Removes the state from the collection.
      * NOTE: Data will be kept at the storage.
      * TODO: Remove MapItems from the map.
-     * */
-    public boolean remove(Object object)
-    {
+     *
+     * @param object
+     * @return
+     */
+    @Override
+    public boolean remove(Object object) {
         return super.remove(object);
     }
 
     /**
      * Syncs the specific state's storage with the Map with help of the MapBinder.
-     * */
-    private void sync(MapPartState mapPartState)
-    {
+     *
+     * @param mapPartState
+     */
+    private void sync(MapPartState mapPartState) {
         mapBinder.add(mapPartState, mapStorage.getAssociatedStorageObject(mapPartState), MapBinder.MapBinderAddOptions.MAP_BINDER_ADD_OPTIONS_CLEAR);
     }
 
-    public void sync(ArrayList<MapPartState> states)
-    {
-        for(int i = 0; i < states.size(); i++)
-        {
-            if(this.get(i).hasLocalData())
-            {
+    /**
+     * @param states
+     */
+    public void sync(ArrayList<MapPartState> states) {
+        for (int i = 0; i < states.size(); i++) {
+            if (this.get(i).hasLocalData()) {
                 sync(states.get(i));
             }
         }
@@ -235,37 +286,35 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
 
     /**
      * Syncs the storage with the Map with help of the MapBinder.
-     * */
-    public void sync()
-    {
-        for(int i = 0; i < this.size(); i++)
-        {
-            if(this.get(i).hasLocalData())
-            {
+     */
+    public void sync() {
+        for (int i = 0; i < this.size(); i++) {
+            if (this.get(i).hasLocalData()) {
                 sync(this.get(i));
             }
         }
     }
 
-    @Override
+
     /**
      * Checks if a state is present or a similar state is present.
-     * */
+     *
+     * @param object
+     * @return
+     */
+    @Override
     public boolean contains(Object object) {
         /**
          * Checks if the object is a MapPartState.
          * */
-        if(super.contains(object))
-        {
+        if (super.contains(object)) {
             /**
              * Checks if a similar state does exist, if so return true.
              * */
-            MapPartState state = (MapPartState)object;
-            for(int i = 0; i < this.size(); i++)
-            {
+            MapPartState state = (MapPartState) object;
+            for (int i = 0; i < this.size(); i++) {
                 MapPartState current = this.get(i);
-                if(current.getMapPart() == state.getMapPart() && current.getTeamPart() == state.getTeamPart() && current.getAccessor().matches(state.getAccessor()))
-                {
+                if (current.getMapPart() == state.getMapPart() && current.getTeamPart() == state.getTeamPart() && current.getAccessor().matches(state.getAccessor())) {
                     return true;
                 }
             }
@@ -273,43 +322,70 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         return false;
     }
 
+
     /**
      * Finds a state.
-     * */
-    public MapPartState findState(MapPart mapPart, TeamPart teamPart, String accessor)
-    {
-        for(int i = 0; i < this.size(); i++)
-        {
+     *
+     * @param mapPart
+     * @param teamPart
+     * @param accessor
+     * @return
+     */
+    public MapPartState findState(MapPart mapPart, TeamPart teamPart, String accessor) {
+        for (int i = 0; i < this.size(); i++) {
             MapPartState state = this.get(i);
-            if(state.getMapPart() == mapPart && state.getTeamPart() == teamPart && state.getAccessor().matches(accessor))
-            {
+            if (state.getMapPart() == mapPart && state.getTeamPart() == teamPart && state.getAccessor().matches(accessor)) {
                 return state;
             }
         }
         return null;
     }
 
-    @Override
     /**
      * Gets invoked when new data is available -> update the states and sync them.
-     * */
+     *
+     * @param newStates
+     */
+    @Override
     public void onNewDataAvailable(ArrayList<MapPartState> newStates) {
-        if(!this.operable) return;
+        if (!this.operable) return;
 
-        if(newStates != null)
-        {
+        if (newStates != null) {
             this.addAll(newStates);
         }
 
-        for(int i = 0; i < this.size(); i++)
-        {
+        for (int i = 0; i < this.size(); i++) {
             MapPartState current = this.get(i);
-            if(current.isPending())
-            {
+            if (current.isPending()) {
                 sync(current);
                 current.setHasLocalData(true);
                 current.setPending(false);
             }
+        }
+    }
+    /**
+     * @author Dingenis Sieger Sinke
+     * @version 1.0
+     * @since 5-10-2015
+     * Receives messages and then invokes UI code on main thread.
+     * */
+    public static class MapManagerHandler extends Handler
+    {
+        public MapManagerHandler(OnNewDataAvailable onNewDataAvailable)
+        {
+            this.onNewDataAvailable = new WeakReference<>(onNewDataAvailable);
+        }
+
+        WeakReference<OnNewDataAvailable> onNewDataAvailable;
+
+        @Override
+        public void handleMessage(Message msg) {
+            OnNewDataAvailable onNewDataAvailableRef = onNewDataAvailable.get();
+            if( onNewDataAvailableRef != null)
+            {
+                onNewDataAvailableRef.onNewDataAvailable((ArrayList<MapPartState>)msg.obj);
+            }
+            super.handleMessage(msg);
         }
     }
 

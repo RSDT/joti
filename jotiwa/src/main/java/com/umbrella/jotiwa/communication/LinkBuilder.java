@@ -9,14 +9,24 @@ public class LinkBuilder {
 
     private static String root;
 
+    /**
+     * @return
+     */
     public static String getRoot() {
         return root;
     }
 
+    /**
+     * @param root
+     */
     public static void setRoot(String root) {
         LinkBuilder.root = root;
     }
 
+    /**
+     * @param args
+     * @return
+     */
     public static URL build(String[] args)
     {
         String pasted = root;

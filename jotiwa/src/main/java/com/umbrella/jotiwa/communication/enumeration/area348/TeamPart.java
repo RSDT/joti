@@ -31,15 +31,12 @@ public enum TeamPart {
         return subChar;
     }
 
-    TeamPart(String subChar)
-    {
+    TeamPart(String subChar) {
         this.subChar = subChar;
     }
 
-    public static TeamPart parse(String string)
-    {
-        switch(string)
-        {
+    public static TeamPart parse(String string) {
+        switch (string) {
             case "a":
                 return TeamPart.Alpha;
             case "b":
@@ -59,10 +56,8 @@ public enum TeamPart {
         }
     }
 
-    public static int getAssociatedColor(TeamPart teamPart)
-    {
-        switch (teamPart)
-        {
+    public static int getAssociatedColor(TeamPart teamPart) {
+        switch (teamPart) {
             case Alpha:
                 return Color.argb(255, 255, 0, 0);
             case Bravo:
@@ -82,10 +77,8 @@ public enum TeamPart {
         }
     }
 
-    public static int getAssociatedAlphaColor(TeamPart teamPart, int a)
-    {
-        switch (teamPart)
-        {
+    public static int getAssociatedAlphaColor(TeamPart teamPart, int a) {
+        switch (teamPart) {
             case Alpha:
                 return Color.argb(a, 255, 0, 0);
             case Bravo:
