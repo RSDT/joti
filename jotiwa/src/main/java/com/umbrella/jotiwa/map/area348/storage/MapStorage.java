@@ -53,7 +53,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
      * @param onNewDataAvailableListener
      */
     public void setOnNewDataAvailableListener(OnNewDataAvailable onNewDataAvailableListener) {
-        this.onNewDataAvailableListener = onNewDataAvailableListener;
+        this.onNewDataAvailableListener = onNewDataAvailableListener; // event listeners zijn toch vaak lists of iets dat daar p lijkt?
     }
 
     private OnNewDataAvailable onNewDataAvailableListener;
@@ -105,7 +105,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
     }
 
     /**
-     * Class that servers as a encapsulation for the extraction task.
+     * Class that serves as a encapsulation for the extraction task.
      */
     class ExtractionTask implements Runnable {
         /**

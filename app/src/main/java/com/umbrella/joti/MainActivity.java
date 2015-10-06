@@ -44,16 +44,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private MapManager mapManager;
 
-    /**
-     *
-     */
-    private Date old;
-
     private ArrayList<MapPartState> oldStates = new ArrayList<>();
     private MapPartState TempMapState = null;
 
     private boolean useActionbar = true;
-    private boolean useSafedInstance = false; // TODO zie bijbehoorende commit 'locationhandler 3/3'
 
     /**
      * @param menu
@@ -102,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         setContentView(R.layout.activity_main);
-
-        old = new Date();
 
 
         PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(this);
@@ -290,35 +282,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                     long duration = (new Date()).getTime() - date.getTime();
 
-                    long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-
-                    float diffInHours = ((float) diffInSeconds / 60f) / 60f;
+                    float diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
 
                     float radius = diffInHours * aantal_meters_per_uur;
 
-                    old = date;
-                    boolean isLastMarker = Integer.parseInt(splitted[2]) >= bindObject.getMarkers().size();
+                    boolean isLastMarker = Integer.parseInt(splitted[2]) >= bindObject.getMarkers().size(); // als dit exacter kan dan graag.
+                                                                                                            // kijkt naar de ids uit de database van micky. als er ooit een marker verwijderd
+                                                                                                            // is dan pakt ie er een paar bij. maar bij de meeste niet eindmarkers zet ie geen cirkel.
+                                                                                                            // maar t was kiezen tussen false postitves of false negatives ik heb gekozen voor false positves.
+                                                                                                            // is ook een leuke easteregg.
                     if (isLastMarker) {
                         bindObject.getCircles().get(0).setRadius(radius);
                     }
-
-
                 } catch (ParseException e) {
-                    Date date = new Date();
-                    long duration = date.getTime() - old.getTime();
-
-                    long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-
-                    float diffInHours = ((float) diffInSeconds / 60f) / 60f;
-
-                    float increaseM = diffInHours * aantal_meters_per_uur;
-                    old = date;
-                    double radius = bindObject.getCircles().get(0).getRadius();
-                    boolean isLastMarker = Integer.parseInt(splitted[2]) == bindObject.getMarkers().size();
-                    if (isLastMarker) {
-                        bindObject.getCircles().get(0).setRadius(increaseM + radius);
-                    }
+                    JotiApp.toast("Error" + e.toString());
                 }
+
                 infoType.setText("Vos");
                 naam.setText(info.team_naam);
                 dateTime_adres.setText(info.datetime);

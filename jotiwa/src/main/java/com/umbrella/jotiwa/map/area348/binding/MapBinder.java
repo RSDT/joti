@@ -73,7 +73,7 @@ public class MapBinder extends HashMap<String, MapBindObject> {
      */
     public void add(MapPartState mapPartState, StorageObject storageObject, MapBinderAddOptions options) {
         if (storageObject == null) {
-            JotiApp.debug("ERROR staorage object = null in mapbinder.add");
+            JotiApp.debug("ERROR storage object = null in MapBinder.add");
             storageObject = new StorageObject();
         }
         if (mapPartState.getAccessor().equals("hunter")) return;
