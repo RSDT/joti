@@ -8,25 +8,15 @@ import java.util.Map;
  */
 public class MapItemListManager<T> {
 
-    /**
-     *
-     */
     private Map<String, T> collections = new HashMap<>();
 
-    /**
-     * @param id
-     * @param t
-     * @return
-     */
-    public T newItem(String id, T t) {
+    public T newItem(String id, T t)
+    {
         return collections.put(id, t);
     }
 
-    /**
-     * @param id
-     * @return
-     */
-    public T getItem(String id) {
+    public T getItem(String id)
+    {
         return collections.get(id);
     }
 }

@@ -12,10 +12,8 @@ import java.util.ArrayList;
  */
 public class StorageObject<T> {
 
-    /**
-     *
-     */
-    public StorageObject() {
+    public StorageObject()
+    {
         this.associatedInfo = new ArrayList<>();
         this.markers = new ArrayList<>();
         this.polylines = new ArrayList<>();
@@ -36,67 +34,44 @@ public class StorageObject<T> {
 
     //region fields
 
-    /**
-     * @return
-     */
     //region get
     public ArrayList<MarkerOptions> getMarkers() {
         return markers;
     }
 
-    /**
-     * @return
-     */
     public ArrayList<PolylineOptions> getPolylines() {
         return polylines;
     }
 
-    /**
-     * @return
-     */
     public ArrayList<CircleOptions> getCircles() {
         return circles;
     }
 
-    /**
-     * @return
-     */
     public ArrayList<BaseInfo> getAssociatedInfo() {
         return associatedInfo;
     }
     //endregion
 
-    /**
-     * @param markers
-     */
     //region set
     public void setMarkers(ArrayList<MarkerOptions> markers) {
         this.markers = markers;
     }
 
-    /**
-     * @param polylines
-     */
     public void setPolylines(ArrayList<PolylineOptions> polylines) {
         this.polylines = polylines;
     }
 
-    /**
-     * @param circles
-     */
     public void setCircles(ArrayList<CircleOptions> circles) {
         this.circles = circles;
     }
 
-    /**
-     * @param associatedInfo
-     */
     public void setAssociatedInfo(ArrayList<BaseInfo> associatedInfo) {
         this.associatedInfo = associatedInfo;
     }
     //endregion
 
     //endregion
+
 
 
 }

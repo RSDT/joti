@@ -16,10 +16,11 @@ import com.umbrella.jotiwa.data.objects.area348.receivables.HunterInfo;
 import com.umbrella.jotiwa.data.objects.area348.receivables.ScoutingGroepInfo;
 import com.umbrella.jotiwa.data.objects.area348.receivables.VosInfo;
 import com.umbrella.jotiwa.map.area348.MapManager;
-import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.handling.HandlingResult;
+import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.handling.HunterObject;
 import com.umbrella.jotiwa.map.area348.handling.OnNewDataAvailable;
+
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -33,93 +34,79 @@ import java.util.Map;
  */
 public class MapStorage extends HashMap<String, StorageObject> implements Extractor {
 
-    /**
-     * 
-     */
-    public MapStorage() {
+    protected MapStorage(Parcel in) {
         storageHandler = new StorageHandler(this);
+        Object[] objects = (Object[])in.readSerializable();
     }
-    /**
-     * Checks if the storage contains the StorageObject associated with the given MapPartState.
-     * */
-    public boolean hasAssociatedStorageObject(MapPartState mapPartState)
+
+    public MapStorage(OnNewDataAvailable onNewDataAvailableListener)
     {
-        return (this.get(mapPartState.getAccessor()) != null);
+        storageHandler = new StorageHandler(this);
+        this.onNewDataAvailableListener = onNewDataAvailableListener;
     }
+
+    public void setOnNewDataAvailableListener(OnNewDataAvailable onNewDataAvailableListener) {
+        this.onNewDataAvailableListener = onNewDataAvailableListener;
+    }
+
     private OnNewDataAvailable onNewDataAvailableListener;
+
 
     /**
      * Gets the associated StorageObject from a id.
-     *
-     * @param mapPartState
-     * @return
-     */
-    public StorageObject getAssociatedStorageObject(MapPartState mapPartState) {
-        check(mapPartState.getAccessor());
+     * */
+    public StorageObject getAssociatedStorageObject(MapPartState mapPartState)
+    {
         return this.get(mapPartState.getAccessor());
     }
 
     /**
      * Gets a info from a id.
-     *
-     * @param storageObject
-     * @param id
-     * @return
-     */
-    public BaseInfo getAssociatedInfoFromId(StorageObject storageObject, int id) {
+     * */
+    public BaseInfo getAssociatedInfoFromId(StorageObject storageObject, int id)
+    {
         ArrayList<BaseInfo> info = storageObject.getAssociatedInfo();
-        for (int i = 0; i < info.size(); i++) {
-            if (info.get(i).id == id) return info.get(i);
+        for(int i = 0; i < info.size(); i++)
+        {
+            if(info.get(i).id == id) return info.get(i);
         }
         return null;
     }
 
     /**
      * Finds a spefic info with it's id.
-     *
-     * @param mapPartState
-     * @param id
-     * @return
-     */
-    public BaseInfo findInfo(MapPartState mapPartState, int id) {
+     * */
+    public BaseInfo findInfo(MapPartState mapPartState, int id)
+    {
         return this.getAssociatedInfoFromId(this.getAssociatedStorageObject(mapPartState), id);
     }
 
 
-    /**
-     * @param results
-     */
-    public void extract(HandlingResult[] results) {
+
+    public void extract(HandlingResult[] results)
+    {
         Thread thread = new Thread(new ExtractionTask(results));
         thread.start();
     }
 
     /**
-     * Class that serves as a encapsulation for the extraction task.
-     */
+     * Class that servers as a encapsulation for the extraction task.
+     * */
     class ExtractionTask implements Runnable {
-        /**
-         * @param results
-         */
         public ExtractionTask(HandlingResult[] results) {
             this.results = results;
         }
 
-        /**
-         *
-         */
         final HandlingResult[] results;
 
-        /**
-         *
-         */
         @Override
         public void run() {
             ArrayList<MapPartState> newStates = new ArrayList<>();
             for (int i = 0; i < results.length; i++) {
                 HandlingResult current = results[i];
 
-                if (current.getMapPart() == MapPart.Hunters) {
+                if(current.getMapPart() == MapPart.Hunters)
+                {
                     HunterInfo[][] hunterInfos = (HunterInfo[][]) current.getObjects()[1];
                     int count = hunterInfos.length - 1;
                     for (Map.Entry<String, HunterObject> entry : ((HashMap<String, HunterObject>) current.getObjects()[0]).entrySet()) {
@@ -145,7 +132,9 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
                         count--;
                     }
 
-                } else {
+                }
+                else
+                {
                     /**
                      * Gets the associated map part state accessor.
                      * */
@@ -212,54 +201,46 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
 
     }
 
-
     /**
      * Checks if the collection exists if not, create one with the given accessor.
-     *
-     * @param accessor
-     */
-    public void check(String accessor) {
-        if (this.get(accessor) == null) this.put(accessor, new StorageObject());
+     * */
+    public void check(String accessor)
+    {
+        if(this.get(accessor) == null) this.put(accessor, new StorageObject());
     }
 
     /**
      * The storage handler.
-     */
+     * */
     private static StorageHandler storageHandler;
 
-    /**
-     * @return
-     */
     public static StorageHandler getStorageHandler() {
         return storageHandler;
     }
 
     /**
      * Static handler to prevent memory leaking.
-     *
      * @see @link {http://stackoverflow.com/questions/11407943/this-handler-class-should-be-static-or-leaks-might-occur-incominghandler}
-     */
-    private static class StorageHandler extends Handler {
+     * */
+    private static class StorageHandler extends Handler
+    {
         /**
          * Weak reference so that no memory leak occur.
-         */
+         * */
         WeakReference<Extractor> extractor;
 
         /**
          * Constructor for the handler.
-         *
-         * @param extractor
-         */
-        StorageHandler(Extractor extractor) {
-            this.extractor = new WeakReference<>(extractor);
+         * */
+        StorageHandler(Extractor extractor)
+        {
+            this.extractor = new WeakReference<Extractor>(extractor);
         }
 
-        /**
-         * @param msg
-         */
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
+            switch(msg.what)
+            {
                 case StorageHandlerMessageType.EXTRACT_DATA:
                     Extractor extractorRef = extractor.get();
                     extractorRef.extract((HandlingResult[]) msg.obj);

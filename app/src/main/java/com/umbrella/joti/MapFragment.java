@@ -1,47 +1,39 @@
 package com.umbrella.joti;
 
-import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- *
- */
-public class MapFragment extends android.support.v4.app.Fragment {
+public class MapFragment extends android.support.v4.app.Fragment{
 
 
     private SupportMapFragment fragment;
 
-    /**
-     *
-     */
     static OnMapReadyCallback onMapReadyCallbacks;
 
-    /**
-     * @param onMapReadyCallback
-     */
-    public static void setOnMapReadyCallback(OnMapReadyCallback onMapReadyCallback) {
+    public static void setOnMapReadyCallback(OnMapReadyCallback onMapReadyCallback)
+    {
         onMapReadyCallbacks = onMapReadyCallback;
     }
 
-    /**
-     * @param savedInstanceState
-     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    /**
-     * @param savedInstanceState
-     */
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
         FragmentManager fm = getChildFragmentManager();
         fragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
@@ -52,12 +44,6 @@ public class MapFragment extends android.support.v4.app.Fragment {
         fragment.getMapAsync(onMapReadyCallbacks);
     }
 
-    /**
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

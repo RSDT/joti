@@ -8,8 +8,5 @@ import java.util.ArrayList;
  */
 public interface OnRequestTaskCompleted {
 
-    /**
-     * @param results
-     */
     void onRequestTaskCompleted(ArrayList<InteractionResult> results);
 }

@@ -6,18 +6,9 @@ package com.umbrella.jotiwa.data.objects.area348.receivables;
  */
 public class BaseInfo {
 
-    /**
-     *
-     */
     public int id;
 
-    /**
-     *
-     */
     public double latitude;
 
-    /**
-     *
-     */
     public double longitude;
 }

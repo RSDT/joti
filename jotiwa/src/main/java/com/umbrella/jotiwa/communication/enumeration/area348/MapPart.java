@@ -5,7 +5,8 @@ package com.umbrella.jotiwa.communication.enumeration.area348;
  * Contains all the different map parts.
  * And some helper functions to improve flow.
  */
-public enum MapPart {
+public enum MapPart
+{
     Vossen("vos"),
 
     Hunters("hunter"),
@@ -26,12 +27,15 @@ public enum MapPart {
         return value;
     }
 
-    MapPart(String string) {
-        this.value = string;
+    MapPart(String string)
+    {
+     this.value = string;
     }
 
-    public static MapPart parse(String string) {
-        switch (string) {
+    public static MapPart parse(String string)
+    {
+        switch(string)
+        {
             case "vos":
                 return MapPart.Vossen;
             case "hunter":

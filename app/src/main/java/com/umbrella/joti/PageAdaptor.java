@@ -9,36 +9,24 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class PageAdaptor extends FragmentPagerAdapter {
 
-    /**
-     *
-     */
     String[] pages;
 
     int currentPage = 0;
 
-    /**
-     * @return
-     */
     public int getCurrentPage() {
         return currentPage;
     }
 
-    /**
-     * @param fm
-     */
     public PageAdaptor(FragmentManager fm) {
         super(fm);
     }
 
 
-    /**
-     * @param position
-     * @return
-     */
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = null;
-        switch (position) {
+        switch(position)
+        {
             case AppPage.HOME:
                 fragment = new InfoFragment();
                 break;
@@ -52,9 +40,6 @@ public class PageAdaptor extends FragmentPagerAdapter {
         return fragment;
     }
 
-    /**
-     * @return
-     */
     @Override
     public int getCount() {
         return 3;

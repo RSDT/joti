@@ -13,44 +13,26 @@ public class InteractionResult extends HandlerDependent {
     private InteractionResultState resultState;
 
 
-    /**
-     * @return
-     */
     public InteractionRequest getRequest() {
         return request;
     }
 
-    /**
-     * @return
-     */
     public InteractionResultState getResultState() {
         return resultState;
     }
 
-    /**
-     * @return
-     */
     public String getReceivedData() {
         return receivedData;
     }
 
-    /**
-     * @param receivedData
-     */
     public void setReceivedData(String receivedData) {
         this.receivedData = receivedData;
     }
 
-    /**
-     * @param request
-     */
     public void setRequest(InteractionRequest request) {
         this.request = request;
     }
 
-    /**
-     * @param resultState
-     */
     public void setResultState(InteractionResultState resultState) {
         this.resultState = resultState;
     }

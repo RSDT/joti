@@ -7,13 +7,6 @@
         android:summary="@string/send_location_summ"
         android:defaultValue="false" />
     <EditTextPreference
-        android:key="pref_send_loc_interval"
-        android:title="@string/pref_location_interval_title"
-        android:summary="@string/pref_location_interval_summ"
-        android:inputType="number"
-        android:defaultValue="1"
-        />
-    <EditTextPreference
         android:key="pref_username"
         android:title="username"
         android:summary="unknown"
