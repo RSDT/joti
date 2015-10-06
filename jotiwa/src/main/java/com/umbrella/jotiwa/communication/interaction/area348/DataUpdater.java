@@ -31,7 +31,9 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
         setOnRequestTaskCompletedListener(this);
     }
 
-
+    /**
+     * The last known date the hunter is updated.
+     */
     public Date lastHunterUpdate;
 
     /**
