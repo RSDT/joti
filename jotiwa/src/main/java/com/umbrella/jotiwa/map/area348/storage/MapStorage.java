@@ -34,28 +34,18 @@ import java.util.Map;
 public class MapStorage extends HashMap<String, StorageObject> implements Extractor {
 
     /**
-     * @param in
+     * 
      */
-    protected MapStorage(Parcel in) {
+    public MapStorage() {
         storageHandler = new StorageHandler(this);
-        Object[] objects = (Object[]) in.readSerializable();
     }
-
     /**
-     * @param onNewDataAvailableListener
-     */
-    public MapStorage(OnNewDataAvailable onNewDataAvailableListener) {
-        storageHandler = new StorageHandler(this);
-        this.onNewDataAvailableListener = onNewDataAvailableListener;
+     * Checks if the storage contains the StorageObject associated with the given MapPartState.
+     * */
+    public boolean hasAssociatedStorageObject(MapPartState mapPartState)
+    {
+        return (this.get(mapPartState.getAccessor()) != null);
     }
-
-    /**
-     * @param onNewDataAvailableListener
-     */
-    public void setOnNewDataAvailableListener(OnNewDataAvailable onNewDataAvailableListener) {
-        this.onNewDataAvailableListener = onNewDataAvailableListener; // event listeners zijn toch vaak lists of iets dat daar p lijkt?
-    }
-
     private OnNewDataAvailable onNewDataAvailableListener;
 
     /**
@@ -261,7 +251,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
          * @param extractor
          */
         StorageHandler(Extractor extractor) {
-            this.extractor = new WeakReference<Extractor>(extractor);
+            this.extractor = new WeakReference<>(extractor);
         }
 
         /**
