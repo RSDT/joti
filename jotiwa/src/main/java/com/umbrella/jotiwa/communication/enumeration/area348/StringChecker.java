@@ -7,8 +7,7 @@ import com.umbrella.jotiwa.JotiApp;
  */
 public class StringChecker {
 
-    public static String makeSafe(String string)
-    {
+    public static String makeSafe(String string) {
         string = string.replace("\\", "");
         string = string.replace("\"", "");
         string = string.replace("\n", "");

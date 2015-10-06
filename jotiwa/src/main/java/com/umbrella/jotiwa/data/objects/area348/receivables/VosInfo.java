@@ -18,15 +18,13 @@ public class VosInfo extends BaseInfo {
 
     public String gebruiker;
 
-    public static VosInfo fromJson(String json)
-    {
+    public static VosInfo fromJson(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, VosInfo.class);
     }
 
-    public static VosInfo[] fromJsonArray(String json)
-    {
+    public static VosInfo[] fromJsonArray(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, VosInfo[].class);

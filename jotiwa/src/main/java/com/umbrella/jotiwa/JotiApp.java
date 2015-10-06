@@ -12,12 +12,14 @@ public class JotiApp extends Application {
     private static Location lastloc;
     private static String noUsername = "unknown";
 
-    public static void setLastLocation(Location loc){
-        lastloc=loc;
+    public static void setLastLocation(Location loc) {
+        lastloc = loc;
     }
-    public static Location getLastLocation(){
+
+    public static Location getLastLocation() {
         return lastloc;
     }
+
     public static JotiApp getInstance() {
         return instance;
     }
@@ -41,6 +43,7 @@ public class JotiApp extends Application {
             JotiApp.toast(text);
         }
     }
+
     private static void toast(String text, int duration) {
         Context context = instance.getApplicationContext();
         Toast toast = Toast.makeText(context, text, duration);

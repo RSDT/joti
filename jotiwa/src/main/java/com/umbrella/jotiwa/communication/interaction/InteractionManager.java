@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -13,8 +12,7 @@ import java.util.List;
  */
 public class InteractionManager extends Handler {
 
-    public InteractionManager()
-    {
+    public InteractionManager() {
         this.queued = new ArrayList<>();
         this.pending = new ArrayList<>();
         this.completed = new ArrayList<>();
@@ -46,14 +44,12 @@ public class InteractionManager extends Handler {
     }
 
 
-    public void queue(InteractionRequest request)
-    {
+    public void queue(InteractionRequest request) {
         request.setHandler(this);
         this.queued.add(request);
     }
 
-    public void interact()
-    {
+    public void interact() {
         pending.addAll(queued);
         new AsyncInteractionTask().execute(queued.toArray(new InteractionRequest[queued.size()]));
         queued.clear();
@@ -64,9 +60,8 @@ public class InteractionManager extends Handler {
         /**
          * Get the results out of the message.
          * */
-        ArrayList<InteractionResult> results = (ArrayList<InteractionResult>)msg.obj;
-        for(int i = 0; i < results.size(); i++)
-        {
+        ArrayList<InteractionResult> results = (ArrayList<InteractionResult>) msg.obj;
+        for (int i = 0; i < results.size(); i++) {
             pending.remove(results.get(i));
             completed.add(results.get(i));
         }

@@ -10,13 +10,11 @@ public class MapItemListManager<T> {
 
     private Map<String, T> collections = new HashMap<>();
 
-    public T newItem(String id, T t)
-    {
+    public T newItem(String id, T t) {
         return collections.put(id, t);
     }
 
-    public T getItem(String id)
-    {
+    public T getItem(String id) {
         return collections.get(id);
     }
 }

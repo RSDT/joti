@@ -8,8 +8,7 @@ import java.net.URL;
  * Class that servers as a tool, to retrieve info from a url.
  */
 public class Area348_Linker {
-    public static MapPart parseMapPart(URL url)
-    {
+    public static MapPart parseMapPart(URL url) {
         String s = url.toString().split("/")[3];
         return MapPart.parse(s);
     }

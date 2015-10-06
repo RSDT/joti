@@ -7,9 +7,10 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
-public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
+public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
     private static final String KEY_EDIT_TEXT_PREFERENCE = "pref_username";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -18,7 +19,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         // Set up a listener whenever a key changes
         getPreferenceScreen().getSharedPreferences()
@@ -40,14 +41,14 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
         updatePreference(key);
     }
 
-    private void updatePreference(String key){
-        if (key.equals(KEY_EDIT_TEXT_PREFERENCE)){
+    private void updatePreference(String key) {
+        if (key.equals(KEY_EDIT_TEXT_PREFERENCE)) {
             Preference preference = findPreference(key);
-            if (preference instanceof EditTextPreference){
-                EditTextPreference editTextPreference =  (EditTextPreference)preference;
-                if (editTextPreference.getText().trim().length() > 0){
+            if (preference instanceof EditTextPreference) {
+                EditTextPreference editTextPreference = (EditTextPreference) preference;
+                if (editTextPreference.getText().trim().length() > 0) {
                     editTextPreference.setSummary(editTextPreference.getText());
-                }else{
+                } else {
                     editTextPreference.setSummary(getString(R.string.standard_username));
                     editTextPreference.setDefaultValue(getString(R.string.standard_username));
                 }

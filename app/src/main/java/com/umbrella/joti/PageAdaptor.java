@@ -25,8 +25,7 @@ public class PageAdaptor extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = null;
-        switch(position)
-        {
+        switch (position) {
             case AppPage.HOME:
                 fragment = new InfoFragment();
                 break;

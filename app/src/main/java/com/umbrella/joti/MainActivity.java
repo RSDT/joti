@@ -4,9 +4,13 @@ package com.umbrella.joti;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,11 +28,6 @@ import com.umbrella.jotiwa.data.objects.area348.receivables.VosInfo;
 import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.binding.MapBindObject;
-
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Date old;
 
     ArrayList<MapPartState> oldStates = new ArrayList<>();
-    MapPartState TempMapState= null;
+    MapPartState TempMapState = null;
 
     private boolean useActionbar = true;
     private boolean useSafedInstance = false; // TODO zie bijbehoorende commit 'locationhandler 3/3'
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (TempMapState == null) {
                 JotiApp.toast("Updating " + TeamPart.parse(gebied));
                 TempMapState = new MapPartState(MapPart.Vossen, TeamPart.parse(gebied), true, true);
-            }else{
+            } else {
                 JotiApp.toast("Er is niet geupdate door een error. Herstart de app.");
             }
             JotiApp.toast("Als je niks ziet moet je de app zelf openen.");
@@ -139,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
          * */
         if (oldStates.size() > 0) {
             mapManager.addAll(oldStates);
-            if (TempMapState != null){
+            if (TempMapState != null) {
                 mapManager.add(TempMapState);
                 TempMapState = null;
             }
@@ -176,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         String[] typeCode = key.split("_");
-        if (typeCode[1].equals( "vos")) {
+        if (typeCode[1].equals("vos")) {
             MapPart mapPart = MapPart.parse(typeCode[1]);
 
             switch (mapPart) {
@@ -247,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String dateString = info.datetime;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
-                float speed= Float.parseFloat(preferences.getString("pref_speed", "6.0"));
+                float speed = Float.parseFloat(preferences.getString("pref_speed", "6.0"));
                 float aantal_meters_per_uur = speed * 1000;
                 try {
                     Date date = dateFormat.parse(dateString);

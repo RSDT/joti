@@ -10,7 +10,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.communication.enumeration.area348.Area348_Linker;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
@@ -30,15 +29,11 @@ import java.util.List;
 public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Integer, HandlingResult[]> {
 
     @Override
-    protected HandlingResult[] doInBackground(InteractionResult... params)
-    {
+    protected HandlingResult[] doInBackground(InteractionResult... params) {
         HandlingResult[] results = new HandlingResult[params.length];
-        for(int i = 0; i < params.length; i++)
-        {
-            if(params[i].getRequest().getHandler() != null)
-            {
-                switch(Area348_Linker.parseMapPart(params[i].getRequest().getUrl()))
-                {
+        for (int i = 0; i < params.length; i++) {
+            if (params[i].getRequest().getHandler() != null) {
+                switch (Area348_Linker.parseMapPart(params[i].getRequest().getUrl())) {
                     case Vossen:
                         results[i] = handleVossen(params[i]);
                         break;
@@ -57,8 +52,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         return results;
     }
 
-    private HandlingResult handleVossen(InteractionResult iResult)
-    {
+    private HandlingResult handleVossen(InteractionResult iResult) {
         /**
          * Deserialize the json into a VosInfo array.
          * */
@@ -101,8 +95,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         /**
          * Loop trough each vos info and add it to the map.
          * */
-        for(int i = 0; i < vossen.length; i++)
-        {
+        for (int i = 0; i < vossen.length; i++) {
             /**
              * Setup marker with the current VosInfo data.
              * */
@@ -119,8 +112,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
             /**
              * Checks if this is the first vos, if so use different marker.
              * */
-            if(i == 0)
-            {
+            if (i == 0) {
                 mOptions.icon(BitmapDescriptorFactory.fromAsset("vos_pointers/markers/" + vossen[0].team + "-Vossen-30x30.png"));
 
                 /**
@@ -137,16 +129,14 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
              * */
             markers.add(mOptions);
         }
-        result.setObjects(new Object[] { markers, pOptions, cOptions, vossen });
+        result.setObjects(new Object[]{markers, pOptions, cOptions, vossen});
         return result;
     }
 
     /**
-     *
      * TODO:The older locations, only have to be retrieved once. They are stored offline. Only the newest location should be retrieved.
-     * */
-    private HandlingResult handleHunters(InteractionResult iResult)
-    {
+     */
+    private HandlingResult handleHunters(InteractionResult iResult) {
         HunterInfo[][] hunterInfos = HunterInfo.formJsonArrayOfArray(iResult.getReceivedData());
 
         /**
@@ -161,18 +151,15 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
 
         HashMap<String, HunterObject> entries = new HashMap<>();
 
-        for(int h = 0; h < hunterInfos.length; h++)
-        {
+        for (int h = 0; h < hunterInfos.length; h++) {
             entries.put(hunterInfos[h][0].gebruiker, new HunterObject());
             HunterObject current = entries.get(hunterInfos[h][0].gebruiker);
-            for(int i = 0; i < hunterInfos[h].length; i++)
-            {
+            for (int i = 0; i < hunterInfos[h].length; i++) {
                 /**
                  * Checks if the current info is the last, if it is the info is the newest.
                  * TRUE: Creates
                  * */
-                if(i == (hunterInfos.length - 1))
-                {
+                if (i == (hunterInfos.length - 1)) {
                     MarkerOptions mOptions = new MarkerOptions();
                     mOptions.title("hunter" + ";" + hunterInfos[h][0].gebruiker + ";" + ((Integer) hunterInfos[h][i].id).toString());
                     mOptions.position(new LatLng(hunterInfos[h][i].latitude, hunterInfos[h][i].longitude));
@@ -182,12 +169,11 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
                 current.getPositions().add(new LatLng(hunterInfos[h][i].latitude, hunterInfos[h][i].longitude));
             }
         }
-        result.setObjects(new Object[] { entries, hunterInfos });
+        result.setObjects(new Object[]{entries, hunterInfos});
         return result;
     }
 
-    private HandlingResult handleScoutingGroepen(InteractionResult iResult)
-    {
+    private HandlingResult handleScoutingGroepen(InteractionResult iResult) {
         /**
          * Deserializes the json into a array of ScoutingGroepInfo.
          * */
@@ -210,14 +196,14 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         /**
          * Loops through each ScoutingGroepInfo, adding a marker and circle for each one.
          * */
-        for(int i = 0; i < groepen.length; i++) {
+        for (int i = 0; i < groepen.length; i++) {
 
             /**
              * Setups the marker.
              * */
             MarkerOptions mOptions = new MarkerOptions();
             mOptions.position(new LatLng(groepen[i].latitude, groepen[i].longitude));
-            mOptions.title("sc;" + ((Integer)groepen[i].id).toString());
+            mOptions.title("sc;" + ((Integer) groepen[i].id).toString());
             mOptions.anchor(0.5f, 0.5f);
             mOptions.icon(descriptor);
 
@@ -239,12 +225,11 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
             circles.add(cOptions);
         }
 
-        result.setObjects(new Object[] { markers, circles, groepen });
+        result.setObjects(new Object[]{markers, circles, groepen});
         return result;
     }
 
-    private HandlingResult handleFotoOpdrachten(InteractionResult iResult)
-    {
+    private HandlingResult handleFotoOpdrachten(InteractionResult iResult) {
         FotoOpdrachtInfo[] fotoOpdrachten = FotoOpdrachtInfo.fromJsonArray(iResult.getReceivedData());
 
         HandlingResult result = new HandlingResult();
@@ -260,27 +245,26 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         /**
          * Loops through each FotoOpdrachtInfo.
          * */
-        for (int i = 0; i < fotoOpdrachten.length; i++)
-        {
+        for (int i = 0; i < fotoOpdrachten.length; i++) {
             MarkerOptions mOptions = new MarkerOptions();
             mOptions.icon(descriptor);
             mOptions.anchor(0.5f, 0.5f);
-            if(fotoOpdrachten[i].klaar == 1) {
-                mOptions.icon(descriptorDone); }
+            if (fotoOpdrachten[i].klaar == 1) {
+                mOptions.icon(descriptorDone);
+            }
             mOptions.position(new LatLng(fotoOpdrachten[i].latitude, fotoOpdrachten[i].longitude));
             mOptions.title("foto;" + ((Integer) fotoOpdrachten[i].id).toString());
             markers.add(mOptions);
         }
-        result.setObjects(new Object[] { markers, fotoOpdrachten });
+        result.setObjects(new Object[]{markers, fotoOpdrachten});
         return result;
     }
 
     @Override
-    protected void onPostExecute(HandlingResult handlingResults[])
-    {
+    protected void onPostExecute(HandlingResult handlingResults[]) {
         Message message = new Message();
         message.obj = handlingResults;
-        ((Handler)MapStorage.getStorageHandler()).sendMessage(message);
+        ((Handler) MapStorage.getStorageHandler()).sendMessage(message);
     }
 }
 

@@ -12,15 +12,13 @@ public class ScoutingGroepInfo extends BaseInfo {
 
     public String adres;
 
-    public static ScoutingGroepInfo fromJson(String json)
-    {
+    public static ScoutingGroepInfo fromJson(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, ScoutingGroepInfo.class);
     }
 
-    public static ScoutingGroepInfo[] fromJsonArray(String json)
-    {
+    public static ScoutingGroepInfo[] fromJsonArray(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, ScoutingGroepInfo[].class);

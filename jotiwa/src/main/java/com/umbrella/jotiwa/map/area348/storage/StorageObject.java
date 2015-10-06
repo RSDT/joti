@@ -12,8 +12,7 @@ import java.util.ArrayList;
  */
 public class StorageObject<T> {
 
-    public StorageObject()
-    {
+    public StorageObject() {
         this.associatedInfo = new ArrayList<>();
         this.markers = new ArrayList<>();
         this.polylines = new ArrayList<>();
@@ -71,7 +70,6 @@ public class StorageObject<T> {
     //endregion
 
     //endregion
-
 
 
 }

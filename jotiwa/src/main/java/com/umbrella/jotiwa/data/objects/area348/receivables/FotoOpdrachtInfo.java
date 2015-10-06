@@ -16,15 +16,13 @@ public class FotoOpdrachtInfo extends BaseInfo {
 
     public int klaar;
 
-    public static FotoOpdrachtInfo fromJson(String json)
-    {
+    public static FotoOpdrachtInfo fromJson(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, FotoOpdrachtInfo.class);
     }
 
-    public static FotoOpdrachtInfo[] fromJsonArray(String json)
-    {
+    public static FotoOpdrachtInfo[] fromJsonArray(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, FotoOpdrachtInfo[].class);
