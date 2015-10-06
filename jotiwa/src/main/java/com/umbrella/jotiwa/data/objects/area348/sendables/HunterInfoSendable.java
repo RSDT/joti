@@ -53,10 +53,11 @@ public class HunterInfoSendable {
     /**
      * Gets the current state of this hunter in the sendable form.
      */
-    public static HunterInfoSendable get(Location location) {
+    public static HunterInfoSendable get() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
         HunterInfoSendable buffer = new HunterInfoSendable();
         buffer.gebruiker = StringChecker.makeSafe(sharedPreferences.getString("pref_username", JotiApp.getNoUsername()));
+        Location location = JotiApp.getLastLocation();
         if (location != null) {
             buffer.latitude = location.getLatitude();
             buffer.longitude = location.getLongitude();

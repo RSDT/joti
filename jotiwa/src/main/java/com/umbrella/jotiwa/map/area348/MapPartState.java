@@ -130,9 +130,9 @@ public class MapPartState implements Serializable {
     private boolean hasLocalData = false;
 
     /**
-     * Value indicating if the state can be added to the map.
+     * Value indicating if the state has markers.
      */
-    private boolean addable = true;
+    private boolean hasMarkers = false;
 
     /**
      * Value indicating if the state has polylines.
@@ -168,12 +168,7 @@ public class MapPartState implements Serializable {
     public String getAccessor() {
         return accessor;
     }
-    
-    public boolean isAddable() {
-        return addable;
-    }
-    public void setOnMap(boolean isOnMap) { this.isOnMap = isOnMap; }
-    public void setAddable(boolean addable) { this.addable = addable; }
+
     /**
      * @return
      */
