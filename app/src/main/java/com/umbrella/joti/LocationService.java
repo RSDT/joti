@@ -42,10 +42,17 @@ public class LocationService extends Service implements com.google.android.gms.l
     @Override
     public void onCreate() {
         JotiApp.debug("location service aangemaakt");
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         buildGoogleApiClient();
         mGoogleApiClient.connect();
-        createLocationRequest(120000, 60000);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+        int interval= Integer.parseInt(preferences.getString("pref_send_loc_interval", "1"));
+        if (interval <1){
+            interval = 1;
+        }
+        if (interval > 5){
+            interval = 5;
+        }
+        createLocationRequest(interval * 60 * 1000, 60000);
     }
 
     @Override
@@ -61,7 +68,9 @@ public class LocationService extends Service implements com.google.android.gms.l
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
     }
-
+    protected void startLocationUpdates(){
+        startLocationUpdates(this.mLocationRequest);
+    }
     protected void startLocationUpdates(LocationRequest mLocationRequest) {
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
@@ -179,12 +188,22 @@ public class LocationService extends Service implements com.google.android.gms.l
         if (key.equals("pref_send_loc")) {
             JotiApp.debug("setting veranderd");
             if (sharedPreferences.getBoolean("pref_send_loc", false)) {
-                startLocationUpdates(mLocationRequest);
+                startLocationUpdates();
                 JotiApp.debug("setting veranderd naar uit");
             } else if (!sharedPreferences.getBoolean("pref_send_loc", false) ) {
                 stopLocationUpdates();
                 JotiApp.debug("setting veranderd naar uit");
             }
+        }else if(key.equals("pref_send_loc_interval")){
+            JotiApp.toast("location update interval is nog neit getest.");
+            int interval= Integer.parseInt(sharedPreferences.getString("pref_send_loc_interval", "1"));
+            if (interval <1){
+                interval = 1;
+            }
+            if (interval > 5){
+                interval = 5;
+            }
+            createLocationRequest(interval * 60 * 1000, 60000);
         }
     }
 }
