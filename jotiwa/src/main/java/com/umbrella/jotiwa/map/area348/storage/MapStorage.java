@@ -33,25 +33,36 @@ import java.util.Map;
  */
 public class MapStorage extends HashMap<String, StorageObject> implements Extractor {
 
+    /**
+     * @param in
+     */
     protected MapStorage(Parcel in) {
         storageHandler = new StorageHandler(this);
         Object[] objects = (Object[]) in.readSerializable();
     }
 
+    /**
+     * @param onNewDataAvailableListener
+     */
     public MapStorage(OnNewDataAvailable onNewDataAvailableListener) {
         storageHandler = new StorageHandler(this);
         this.onNewDataAvailableListener = onNewDataAvailableListener;
     }
 
+    /**
+     * @param onNewDataAvailableListener
+     */
     public void setOnNewDataAvailableListener(OnNewDataAvailable onNewDataAvailableListener) {
         this.onNewDataAvailableListener = onNewDataAvailableListener;
     }
 
     private OnNewDataAvailable onNewDataAvailableListener;
 
-
     /**
      * Gets the associated StorageObject from a id.
+     *
+     * @param mapPartState
+     * @return
      */
     public StorageObject getAssociatedStorageObject(MapPartState mapPartState) {
         check(mapPartState.getAccessor());
@@ -60,6 +71,10 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
 
     /**
      * Gets a info from a id.
+     *
+     * @param storageObject
+     * @param id
+     * @return
      */
     public BaseInfo getAssociatedInfoFromId(StorageObject storageObject, int id) {
         ArrayList<BaseInfo> info = storageObject.getAssociatedInfo();
@@ -71,12 +86,19 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
 
     /**
      * Finds a spefic info with it's id.
+     *
+     * @param mapPartState
+     * @param id
+     * @return
      */
     public BaseInfo findInfo(MapPartState mapPartState, int id) {
         return this.getAssociatedInfoFromId(this.getAssociatedStorageObject(mapPartState), id);
     }
 
 
+    /**
+     * @param results
+     */
     public void extract(HandlingResult[] results) {
         Thread thread = new Thread(new ExtractionTask(results));
         thread.start();
@@ -86,12 +108,21 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
      * Class that servers as a encapsulation for the extraction task.
      */
     class ExtractionTask implements Runnable {
+        /**
+         * @param results
+         */
         public ExtractionTask(HandlingResult[] results) {
             this.results = results;
         }
 
+        /**
+         *
+         */
         final HandlingResult[] results;
 
+        /**
+         *
+         */
         @Override
         public void run() {
             ArrayList<MapPartState> newStates = new ArrayList<>();
@@ -191,8 +222,11 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
 
     }
 
+
     /**
      * Checks if the collection exists if not, create one with the given accessor.
+     *
+     * @param accessor
      */
     public void check(String accessor) {
         if (this.get(accessor) == null) this.put(accessor, new StorageObject());
@@ -203,6 +237,9 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
      */
     private static StorageHandler storageHandler;
 
+    /**
+     * @return
+     */
     public static StorageHandler getStorageHandler() {
         return storageHandler;
     }
@@ -220,11 +257,16 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
 
         /**
          * Constructor for the handler.
+         *
+         * @param extractor
          */
         StorageHandler(Extractor extractor) {
             this.extractor = new WeakReference<Extractor>(extractor);
         }
 
+        /**
+         * @param msg
+         */
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {

@@ -17,6 +17,9 @@ import java.util.HashMap;
  */
 public class MapBinder extends HashMap<String, MapBindObject> {
 
+    /**
+     * @param gMap
+     */
     public MapBinder(GoogleMap gMap) {
         this.gMap = gMap;
     }
@@ -24,11 +27,20 @@ public class MapBinder extends HashMap<String, MapBindObject> {
     private GoogleMap gMap;
 
 
+    /**
+     * @param mapPartState
+     * @return
+     */
     public MapBindObject getAssociatedMapBindObject(MapPartState mapPartState) {
         check(mapPartState.getAccessor());
         return this.get(mapPartState.getAccessor());
     }
 
+    /**
+     * @param mapPartState
+     * @param id
+     * @return
+     */
     public Marker findMarker(MapPartState mapPartState, int id) {
         MapBindObject mapBindObject = this.getAssociatedMapBindObject(mapPartState);
         ArrayList<Marker> markers = mapBindObject.getMarkers();
@@ -54,6 +66,11 @@ public class MapBinder extends HashMap<String, MapBindObject> {
     }
 
 
+    /**
+     * @param mapPartState
+     * @param storageObject
+     * @param options
+     */
     public void add(MapPartState mapPartState, StorageObject storageObject, MapBinderAddOptions options) {
         if (storageObject == null) {
             JotiApp.debug("ERROR staorage object = null in mapbinder.add");

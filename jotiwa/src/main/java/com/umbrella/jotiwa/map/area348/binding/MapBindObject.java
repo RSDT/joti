@@ -18,36 +18,60 @@ public class MapBindObject {
     private ArrayList<Circle> circles;
 
 
+    /**
+     *
+     */
     public MapBindObject() {
         markers = new ArrayList<>();
         polylines = new ArrayList<>();
         circles = new ArrayList<>();
     }
 
+    /**
+     * @param circles
+     */
     public void setCircles(ArrayList<Circle> circles) {
         this.circles = circles;
     }
 
+    /**
+     * @param polylines
+     */
     public void setPolylines(ArrayList<Polyline> polylines) {
         this.polylines = polylines;
     }
 
+    /**
+     * @param markers
+     */
     public void setMarkers(ArrayList<Marker> markers) {
         this.markers = markers;
     }
 
+    /**
+     * @return
+     */
     public ArrayList<Circle> getCircles() {
         return circles;
     }
 
+    /**
+     * @return
+     */
     public ArrayList<Marker> getMarkers() {
         return markers;
     }
 
+    /**
+     * @return
+     */
     public ArrayList<Polyline> getPolylines() {
         return polylines;
     }
 
+    /**
+     * @param visible
+     */
     public void setVisiblty(boolean visible) {
         for (int m = 0; m < this.markers.size(); m++) {
             this.markers.get(m).setVisible(visible);
@@ -62,6 +86,9 @@ public class MapBindObject {
         }
     }
 
+    /**
+     *
+     */
     public void remove() {
         for (int m = 0; m < this.markers.size(); m++) {
             this.markers.get(m).remove();

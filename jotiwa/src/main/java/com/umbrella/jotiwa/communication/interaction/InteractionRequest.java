@@ -49,14 +49,23 @@ public class InteractionRequest extends HandlerDependent {
      */
     private boolean needsHandling = true;
 
+    /**
+     * @return
+     */
     public boolean needsHandling() {
         return needsHandling;
     }
 
+    /**
+     * @return
+     */
     public URL getUrl() {
         return url;
     }
 
+    /**
+     * @return
+     */
     public String getData() {
         return data;
     }

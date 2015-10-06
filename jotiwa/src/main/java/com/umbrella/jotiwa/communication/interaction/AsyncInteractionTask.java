@@ -21,6 +21,10 @@ import java.util.ArrayList;
  */
 public class AsyncInteractionTask extends AsyncTask<InteractionRequest, Integer, InteractionResult[]> {
 
+    /**
+     * @param params
+     * @return
+     */
     protected InteractionResult[] doInBackground(InteractionRequest... params) {
         InteractionResult[] results = new InteractionResult[params.length];
         for (int i = 0; i < params.length; i++) {

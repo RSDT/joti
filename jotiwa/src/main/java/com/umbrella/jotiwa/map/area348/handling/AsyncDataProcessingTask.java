@@ -28,6 +28,10 @@ import java.util.List;
 
 public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Integer, HandlingResult[]> {
 
+    /**
+     * @param params
+     * @return
+     */
     @Override
     protected HandlingResult[] doInBackground(InteractionResult... params) {
         HandlingResult[] results = new HandlingResult[params.length];
@@ -52,6 +56,10 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         return results;
     }
 
+    /**
+     * @param iResult
+     * @return
+     */
     private HandlingResult handleVossen(InteractionResult iResult) {
         /**
          * Deserialize the json into a VosInfo array.
@@ -133,8 +141,12 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         return result;
     }
 
+
     /**
      * TODO:The older locations, only have to be retrieved once. They are stored offline. Only the newest location should be retrieved.
+     *
+     * @param iResult
+     * @return
      */
     private HandlingResult handleHunters(InteractionResult iResult) {
         HunterInfo[][] hunterInfos = HunterInfo.formJsonArrayOfArray(iResult.getReceivedData());
@@ -173,6 +185,10 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         return result;
     }
 
+    /**
+     * @param iResult
+     * @return
+     */
     private HandlingResult handleScoutingGroepen(InteractionResult iResult) {
         /**
          * Deserializes the json into a array of ScoutingGroepInfo.
@@ -229,6 +245,10 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         return result;
     }
 
+    /**
+     * @param iResult
+     * @return
+     */
     private HandlingResult handleFotoOpdrachten(InteractionResult iResult) {
         FotoOpdrachtInfo[] fotoOpdrachten = FotoOpdrachtInfo.fromJsonArray(iResult.getReceivedData());
 
@@ -260,6 +280,9 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         return result;
     }
 
+    /**
+     * @param handlingResults
+     */
     @Override
     protected void onPostExecute(HandlingResult handlingResults[]) {
         Message message = new Message();

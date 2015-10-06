@@ -11,6 +11,9 @@ import java.util.ArrayList;
 public class HunterObject {
 
 
+    /**
+     *
+     */
     public HunterObject() {
         marker = new MarkerOptions();
         positions = new ArrayList<>();
@@ -21,18 +24,30 @@ public class HunterObject {
     private ArrayList<LatLng> positions;
 
 
+    /**
+     * @return
+     */
     public ArrayList<LatLng> getPositions() {
         return positions;
     }
 
+    /**
+     * @return
+     */
     public MarkerOptions getMarker() {
         return marker;
     }
 
+    /**
+     * @param marker
+     */
     public void setMarker(MarkerOptions marker) {
         this.marker = marker;
     }
 
+    /**
+     * @param positions
+     */
     public void setPositions(ArrayList<LatLng> positions) {
         this.positions = positions;
     }

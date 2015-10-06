@@ -10,22 +10,37 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+/**
+ *
+ */
 public class MapFragment extends android.support.v4.app.Fragment {
 
 
     private SupportMapFragment fragment;
 
+    /**
+     *
+     */
     static OnMapReadyCallback onMapReadyCallbacks;
 
+    /**
+     * @param onMapReadyCallback
+     */
     public static void setOnMapReadyCallback(OnMapReadyCallback onMapReadyCallback) {
         onMapReadyCallbacks = onMapReadyCallback;
     }
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * @param savedInstanceState
+     */
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         FragmentManager fm = getChildFragmentManager();
@@ -37,6 +52,12 @@ public class MapFragment extends android.support.v4.app.Fragment {
         fragment.getMapAsync(onMapReadyCallbacks);
     }
 
+    /**
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

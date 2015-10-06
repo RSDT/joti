@@ -38,20 +38,27 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    PageAdaptor pageAdaptor;
+    private PageAdaptor pageAdaptor;
 
-    ViewPager pager;
+    private ViewPager pager;
 
-    MapManager mapManager;
+    private MapManager mapManager;
 
-    Date old;
+    /**
+     *
+     */
+    private Date old;
 
-    ArrayList<MapPartState> oldStates = new ArrayList<>();
-    MapPartState TempMapState = null;
+    private ArrayList<MapPartState> oldStates = new ArrayList<>();
+    private MapPartState TempMapState = null;
 
     private boolean useActionbar = true;
     private boolean useSafedInstance = false; // TODO zie bijbehoorende commit 'locationhandler 3/3'
 
+    /**
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
@@ -60,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return true;
     }
 
+    /**
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
@@ -79,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,11 +137,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment.setOnMapReadyCallback(this);
     }
 
+    /**
+     * @param savedInstanceState
+     */
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable("mapManager", (ArrayList<MapPartState>) mapManager);
     }
 
 
+    /**
+     * @param map
+     */
     public void onMapReady(GoogleMap map) {
         map.setInfoWindowAdapter(this);
 
@@ -172,6 +192,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapManager.CameraToCurrentLocation();
     }
 
+    /**
+     * @param preferences
+     * @param key
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
         String[] typeCode = key.split("_");
@@ -207,10 +231,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    /**
+     * @param marker
+     * @return
+     */
     public View getInfoContents(Marker marker) {
         return null;
     }
 
+    /**
+     * @param marker
+     * @return
+     */
     public View getInfoWindow(Marker marker) {
 
 
@@ -328,6 +360,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return view;
     }
-
-
 }

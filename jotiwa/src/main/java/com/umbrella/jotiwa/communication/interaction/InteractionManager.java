@@ -12,6 +12,9 @@ import java.util.List;
  */
 public class InteractionManager extends Handler {
 
+    /**
+     *
+     */
     public InteractionManager() {
         this.queued = new ArrayList<>();
         this.pending = new ArrayList<>();
@@ -21,6 +24,9 @@ public class InteractionManager extends Handler {
 
     private OnRequestTaskCompleted onRequestTaskCompletedListener;
 
+    /**
+     * @param onRequestTaskCompletedListener
+     */
     public void setOnRequestTaskCompletedListener(OnRequestTaskCompleted onRequestTaskCompletedListener) {
         this.onRequestTaskCompletedListener = onRequestTaskCompletedListener;
     }
@@ -31,30 +37,48 @@ public class InteractionManager extends Handler {
 
     private List<InteractionResult> completed;
 
+    /**
+     * @return
+     */
     public List<InteractionRequest> getQueued() {
         return queued;
     }
 
+    /**
+     * @return
+     */
     public List<InteractionResult> getCompleted() {
         return completed;
     }
 
+    /**
+     * @return
+     */
     public List<InteractionRequest> getPending() {
         return pending;
     }
 
 
+    /**
+     * @param request
+     */
     public void queue(InteractionRequest request) {
         request.setHandler(this);
         this.queued.add(request);
     }
 
+    /**
+     *
+     */
     public void interact() {
         pending.addAll(queued);
         new AsyncInteractionTask().execute(queued.toArray(new InteractionRequest[queued.size()]));
         queued.clear();
     }
 
+    /**
+     * @param msg
+     */
     @Override
     public void handleMessage(Message msg) {
         /**

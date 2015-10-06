@@ -13,22 +13,40 @@ import java.util.Map;
  */
 public class HunterInfo extends BaseInfo {
 
+    /**
+     *
+     */
     public String datetime;
 
+    /**
+     *
+     */
     public String gebruiker;
 
+    /**
+     * @param json
+     * @return
+     */
     public static HunterInfo fromJson(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, HunterInfo.class);
     }
 
+    /**
+     * @param json
+     * @return
+     */
     public static HunterInfo[] fromJsonArray(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, HunterInfo[].class);
     }
 
+    /**
+     * @param json
+     * @return
+     */
     public static HunterInfo[][] formJsonArrayOfArray(String json) {
 
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));

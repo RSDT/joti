@@ -31,9 +31,12 @@ public class LocationService extends Service implements com.google.android.gms.l
     private boolean pref_send_loc_old = false;
     private boolean recieving_locations = false;
     private GoogleApiClient mGoogleApiClient;
-    LocationRequest mLocationRequest;
+    private LocationRequest mLocationRequest;
 
 
+    /**
+     *
+     */
     @Override
     public void onCreate() {
         JotiApp.debug("location service aangemaakt");
@@ -50,12 +53,20 @@ public class LocationService extends Service implements com.google.android.gms.l
         createLocationRequest(interval * 60 * 1000, 60000);
     }
 
+    /**
+     * @param intent
+     * @return
+     */
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         return null;
     }
 
+    /**
+     * @param interval
+     * @param fastest
+     */
     public void createLocationRequest(int interval, int fastest) {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(interval);
@@ -64,15 +75,24 @@ public class LocationService extends Service implements com.google.android.gms.l
 
     }
 
+    /**
+     *
+     */
     protected void startLocationUpdates() {
         startLocationUpdates(this.mLocationRequest);
     }
 
+    /**
+     * @param mLocationRequest
+     */
     protected void startLocationUpdates(LocationRequest mLocationRequest) {
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
 
+    /**
+     * @param location
+     */
     protected void TryToSendLocation(Location location) {
         JotiApp.debug("trying to send loc");
         long time = System.currentTimeMillis();
@@ -100,6 +120,10 @@ public class LocationService extends Service implements com.google.android.gms.l
         }
     }
 
+    /**
+     * @param location
+     * @param username
+     */
     public void sendlocation(Location location, String username) {
 
         try {
@@ -128,6 +152,9 @@ public class LocationService extends Service implements com.google.android.gms.l
         JotiApp.toast("Je locatie is verzonden");
     }
 
+    /**
+     * @param location
+     */
     @Override
     public void onLocationChanged(Location location) {
         JotiApp.debug("locationchanged");
@@ -136,6 +163,9 @@ public class LocationService extends Service implements com.google.android.gms.l
         TryToSendLocation(location);
     }
 
+    /**
+     * @param bundle
+     */
     @Override
     public void onConnected(Bundle bundle) {
         JotiApp.debug("connected");
@@ -154,16 +184,25 @@ public class LocationService extends Service implements com.google.android.gms.l
     }
 
 
+    /**
+     * @param i
+     */
     @Override
     public void onConnectionSuspended(int i) {
         JotiApp.debug("suspended");
     }
 
+    /**
+     * @param connectionResult
+     */
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         JotiApp.debug("conectionfailed");
     }
 
+    /**
+     *
+     */
     protected synchronized void buildGoogleApiClient() {
         JotiApp.debug("building google iets");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -177,12 +216,19 @@ public class LocationService extends Service implements com.google.android.gms.l
         JotiApp.debug(mGoogleApiClient.toString());
     }
 
+    /**
+     *
+     */
     protected void stopLocationUpdates() {
         LocationServices.FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
         this.recieving_locations = false;
     }
 
+    /**
+     * @param sharedPreferences
+     * @param key
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("pref_send_loc")) {

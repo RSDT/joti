@@ -7,6 +7,9 @@ import com.umbrella.jotiwa.map.area348.handling.HandlingResult;
  */
 public interface Extractor {
 
+    /**
+     * @param results
+     */
     void extract(HandlingResult[] results);
 
 }

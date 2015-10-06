@@ -12,6 +12,12 @@ import android.view.ViewGroup;
  */
 public class InfoFragment extends Fragment {
 
+    /**
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

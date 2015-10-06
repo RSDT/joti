@@ -69,9 +69,14 @@ public class MapPartState implements Serializable {
         this.accessor = accessor;
     }
 
+
     /**
      * Get the accessor of a map part.
      * Defines a standard accessor layout.
+     *
+     * @param mapPart
+     * @param teamPart
+     * @return
      */
     public static String getAccesor(MapPart mapPart, TeamPart teamPart) {
         if (mapPart == MapPart.Vossen) {
@@ -142,27 +147,45 @@ public class MapPartState implements Serializable {
 
     //region fields
 
+    /**
+     * @return
+     */
     //region get
     public MapPart getMapPart() {
         return mapPart;
     }
 
+    /**
+     * @return
+     */
     public TeamPart getTeamPart() {
         return teamPart;
     }
 
+    /**
+     * @return
+     */
     public String getAccessor() {
         return accessor;
     }
 
+    /**
+     * @return
+     */
     public boolean isPending() {
         return pending;
     }
 
+    /**
+     * @return
+     */
     public boolean isOnMap() {
         return isOnMap;
     }
 
+    /**
+     * @return
+     */
     public boolean getShow() {
         SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
         switch (getMapPart()) {
@@ -185,10 +208,16 @@ public class MapPartState implements Serializable {
         }
     }
 
+    /**
+     * @return
+     */
     public boolean update() {
         return update;
     }
 
+    /**
+     * @return
+     */
     public boolean hasLocalData() {
         return hasLocalData;
     }
@@ -196,10 +225,16 @@ public class MapPartState implements Serializable {
 
     //region set
 
+    /**
+     * @param pending
+     */
     public void setPending(boolean pending) {
         this.pending = pending;
     }
 
+    /**
+     * @param hasLocalData
+     */
     public void setHasLocalData(boolean hasLocalData) {
         this.hasLocalData = hasLocalData;
     }
@@ -209,6 +244,10 @@ public class MapPartState implements Serializable {
     //endregion
 
 
+    /**
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof MapPartState))
@@ -221,6 +260,9 @@ public class MapPartState implements Serializable {
         return false;
     }
 
+    /**
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 3;

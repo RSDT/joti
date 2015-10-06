@@ -23,6 +23,9 @@ import java.util.Date;
  */
 public class DataUpdater extends InteractionManager implements OnRequestTaskCompleted {
 
+    /**
+     *
+     */
     public DataUpdater() {
         super();
         setOnRequestTaskCompletedListener(this);
@@ -31,14 +34,21 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
 
     public Date lastHunterUpdate;
 
+    /**
+     * @param mapPart
+     */
     public void update(MapPart mapPart) {
         update(mapPart, TeamPart.None);
     }
 
     /**
      * Updates a certain map part.
+     * <p/>
      * TODO: Interaction is now instant, is this smart?
      * TODO: Implement hunter interaction.
+     *
+     * @param mapPart
+     * @param teamPart
      */
     public void update(MapPart mapPart, TeamPart teamPart) {
         /**
@@ -94,6 +104,9 @@ public class DataUpdater extends InteractionManager implements OnRequestTaskComp
         }
     }
 
+    /**
+     * @param results
+     */
     @Override
     public void onRequestTaskCompleted(ArrayList<InteractionResult> results) {
         ArrayList<InteractionResult> successful = new ArrayList<>();

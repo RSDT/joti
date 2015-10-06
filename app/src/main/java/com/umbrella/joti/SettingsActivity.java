@@ -7,10 +7,16 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
+/**
+ *
+ */
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
     private static final String KEY_EDIT_TEXT_PREFERENCE = "pref_username";
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -18,6 +24,9 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
         addPreferencesFromResource(R.xml.preferences);
     }
 
+    /**
+     *
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -35,12 +44,19 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    /**
+     * @param sharedPreferences
+     * @param key
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key) {
         updatePreference(key);
     }
 
+    /**
+     * @param key
+     */
     private void updatePreference(String key) {
         if (key.equals(KEY_EDIT_TEXT_PREFERENCE)) {
             Preference preference = findPreference(key);

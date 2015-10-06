@@ -8,16 +8,30 @@ import com.google.gson.stream.JsonReader;
  */
 public class ScoutingGroepInfo extends BaseInfo {
 
+    /**
+     *
+     */
     public String naam;
 
+    /**
+     *
+     */
     public String adres;
 
+    /**
+     * @param json
+     * @return
+     */
     public static ScoutingGroepInfo fromJson(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);
         return new Gson().fromJson(jsonReader, ScoutingGroepInfo.class);
     }
 
+    /**
+     * @param json
+     * @return
+     */
     public static ScoutingGroepInfo[] fromJsonArray(String json) {
         JsonReader jsonReader = new JsonReader(new java.io.StringReader(json));
         jsonReader.setLenient(true);

@@ -28,6 +28,9 @@ import java.util.Iterator;
  */
 public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvailable {
 
+    /**
+     * @param gMap
+     */
     public MapManager(GoogleMap gMap) {
         super();
         this.gMap = gMap;
@@ -58,13 +61,22 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
     GoogleMap gMap;
 
 
+    /**
+     *
+     */
     MapBinder mapBinder;
 
 
+    /**
+     * @return
+     */
     public MapBinder getMapBinder() {
         return mapBinder;
     }
 
+    /**
+     *
+     */
     public void CameraToCurrentLocation() {
         Location location = JotiApp.getLastLocation();
         CameraUpdate camera;
@@ -82,6 +94,9 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         gMap.moveCamera(camera);
     }
 
+    /**
+     *
+     */
     public class MapManagerHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -95,26 +110,39 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
 
     private static MapManagerHandler mapManagerHandler;
 
+    /**
+     * @return
+     */
     public static MapManagerHandler getMapManagerHandler() {
         return mapManagerHandler;
     }
 
-    /**
+    /*
      * TODO:Consider making MapStorage and DataUpdater static, handler should be static else memory leaking.
      */
     private static MapStorage mapStorage;
 
     private static DataUpdater dataUpdater;
 
+    /**
+     * @return
+     */
     public static DataUpdater getDataUpdater() {
         return dataUpdater;
     }
 
+    /**
+     * @return
+     */
     public static MapStorage getMapStorage() {
         return mapStorage;
     }
 
 
+    /**
+     * @param mapPartState
+     * @return
+     */
     @Override
     public boolean add(MapPartState mapPartState) {
         /**
@@ -154,6 +182,10 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         return false;
     }
 
+    /**
+     * @param collection
+     * @return
+     */
     @Override
     public boolean addAll(Collection<? extends MapPartState> collection) {
 
@@ -165,6 +197,9 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
     }
 
 
+    /**
+     *
+     */
     public void update() {
         /**
          * Loops trough each, state and updates it.
@@ -190,23 +225,32 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         dataUpdater.interact();
     }
 
-    @Override
+
     /**
      * Removes the state from the collection.
      * NOTE: Data will be kept at the storage.
      * TODO: Remove MapItems from the map.
-     * */
+     *
+     * @param object
+     * @return
+     */
+    @Override
     public boolean remove(Object object) {
         return super.remove(object);
     }
 
     /**
      * Syncs the specific state's storage with the Map with help of the MapBinder.
+     *
+     * @param mapPartState
      */
     private void sync(MapPartState mapPartState) {
         mapBinder.add(mapPartState, mapStorage.getAssociatedStorageObject(mapPartState), MapBinder.MapBinderAddOptions.MAP_BINDER_ADD_OPTIONS_CLEAR);
     }
 
+    /**
+     * @param states
+     */
     public void sync(ArrayList<MapPartState> states) {
         for (int i = 0; i < states.size(); i++) {
             if (this.get(i).hasLocalData()) {
@@ -226,10 +270,14 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         }
     }
 
-    @Override
+
     /**
      * Checks if a state is present or a similar state is present.
-     * */
+     *
+     * @param object
+     * @return
+     */
+    @Override
     public boolean contains(Object object) {
         /**
          * Checks if the object is a MapPartState.
@@ -249,8 +297,14 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         return false;
     }
 
+
     /**
      * Finds a state.
+     *
+     * @param mapPart
+     * @param teamPart
+     * @param accessor
+     * @return
      */
     public MapPartState findState(MapPart mapPart, TeamPart teamPart, String accessor) {
         for (int i = 0; i < this.size(); i++) {
@@ -262,10 +316,12 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         return null;
     }
 
-    @Override
     /**
      * Gets invoked when new data is available -> update the states and sync them.
-     * */
+     *
+     * @param newStates
+     */
+    @Override
     public void onNewDataAvailable(ArrayList<MapPartState> newStates) {
         if (!this.operable) return;
 
