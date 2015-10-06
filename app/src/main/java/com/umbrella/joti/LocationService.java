@@ -178,10 +178,10 @@ public class LocationService extends Service implements com.google.android.gms.l
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("pref_send_loc")) {
             JotiApp.debug("setting veranderd");
-            if (sharedPreferences.getBoolean("pref_send_loc", false) && !recieving_locations) {
+            if (sharedPreferences.getBoolean("pref_send_loc", false)) {
                 startLocationUpdates(mLocationRequest);
                 JotiApp.debug("setting veranderd naar uit");
-            } else if (!sharedPreferences.getBoolean("pref_send_loc", false) && recieving_locations) {
+            } else if (!sharedPreferences.getBoolean("pref_send_loc", false) ) {
                 stopLocationUpdates();
                 JotiApp.debug("setting veranderd naar uit");
             }
