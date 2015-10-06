@@ -133,6 +133,7 @@ public class LocationService extends Service implements com.google.android.gms.l
     @Override
     public void onConnected(Bundle bundle) {
         JotiApp.debug("connected");
+        PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(this);
         JotiApp.debug("isconnected=" + mGoogleApiClient.isConnected());
         JotiApp.debug("isconnecting=" + mGoogleApiClient.isConnecting());
         if (LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient).isLocationAvailable()) {
