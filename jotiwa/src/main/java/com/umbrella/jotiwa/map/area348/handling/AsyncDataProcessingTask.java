@@ -166,20 +166,22 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         for (int h = 0; h < hunterInfos.length; h++) {
             entries.put(hunterInfos[h][0].gebruiker, new HunterObject());
             HunterObject current = entries.get(hunterInfos[h][0].gebruiker);
+            HunterInfo last = hunterInfos[h][0];
             for (int i = 0; i < hunterInfos[h].length; i++) {
                 /**
                  * Checks if the current info is the last, if it is the info is the newest.
                  * TRUE: Creates
                  * */
-                if (i == (hunterInfos.length - 1)) {
-                    MarkerOptions mOptions = new MarkerOptions();
-                    mOptions.title("hunter" + ";" + hunterInfos[h][0].gebruiker + ";" + ((Integer) hunterInfos[h][i].id).toString());
-                    mOptions.position(new LatLng(hunterInfos[h][i].latitude, hunterInfos[h][i].longitude));
-                    mOptions.icon(descriptor);
-                    current.setMarker(mOptions);
+                if (hunterInfos[h][i].id > last.id) {
+                    last = hunterInfos[h][0];
                 }
                 current.getPositions().add(new LatLng(hunterInfos[h][i].latitude, hunterInfos[h][i].longitude));
             }
+            MarkerOptions mOptions = new MarkerOptions();
+            mOptions.title("hunter" + ";" + last.gebruiker + ";" + ((Integer) last.id).toString());
+            mOptions.position(new LatLng(last.latitude, last.longitude));
+            mOptions.icon(descriptor);
+            current.setMarker(mOptions);
         }
         result.setObjects(new Object[]{entries, hunterInfos});
         return result;
