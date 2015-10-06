@@ -29,14 +29,15 @@ import java.util.Iterator;
 public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvailable {
 
     /**
-     * @param gMap
+     * Initializes a new instance of MapManger.
+     * @param gMap The google map the manager should manage on.
      */
     public MapManager(GoogleMap gMap) {
         super();
         this.gMap = gMap;
         this.mapBinder = new MapBinder(gMap);
         if (mapManagerHandler == null) {
-            mapManagerHandler = new MapManagerHandler();
+            mapManagerHandler = new MapManagerHandler(this);
         }
         if (mapStorage == null) {
             mapStorage = new MapStorage(this);
@@ -62,7 +63,7 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
 
 
     /**
-     *
+     * The binder that controls on the map items.
      */
     MapBinder mapBinder;
 
@@ -75,7 +76,7 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
     }
 
     /**
-     *
+     * Updates the camera location to the current location.
      */
     public void CameraToCurrentLocation() {
         Location location = JotiApp.getLastLocation();
@@ -100,10 +101,10 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
     public class MapManagerHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-
-            }
             onNewDataAvailable((ArrayList<MapPartState>) msg.obj);
+            if( onNewDataAvailableRef != null) {
+                onNewDataAvailableRef.onNewDataAvailable((ArrayList<MapPartState>)msg.obj);
+             }
             super.handleMessage(msg);
         }
     }
