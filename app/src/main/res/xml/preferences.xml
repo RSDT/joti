@@ -96,10 +96,9 @@
             android:title="@string/send_debug_title"
             android:summary="@string/send_debug_summ"
             android:defaultValue="false" />
-        <CheckBoxPreference
-            android:key="pref_post"
-            android:title="@string/send_post_title"
-            android:summary="@string/send_post_summ"
-            android:defaultValue="true" />
     </PreferenceCategory>
+    <Preference
+        android:title="version"
+        android:summary="@string/version"
+        android:key="pref_version"/>
 </PreferenceScreen>

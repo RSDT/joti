@@ -102,7 +102,7 @@ public class LocationService extends Service implements com.google.android.gms.l
             if (send_location) {
                 String default_username = this.getString(R.string.standard_username);
                 String username = preferences.getString("pref_username", default_username);
-                if (username == default_username || username == "") {
+                if (username.equals(default_username) || username.equals("")) {
                     Context context = getApplicationContext();
                     int duration = Toast.LENGTH_SHORT;
                     String text = getString(R.string.username_not_set);
@@ -140,16 +140,14 @@ public class LocationService extends Service implements com.google.android.gms.l
             LinkBuilder.setRoot(Area348_API.root);
             InteractionRequest hunterPost = new InteractionRequest(LinkBuilder.build(new String[]{MapPart.Hunters.getValue()}), datas, false);
             new AsyncInteractionTask().execute(hunterPost);
+            JotiApp.toast("Je locatie is verzonden");
         } catch (Exception e) {
             // TODO Auto-generated catch block
+            JotiApp.toast("Je locatie is niet verzonden");
             System.out.println("Locatie niet verzonden");
             Log.e("Debug", e.toString());
         }
 
-        /**
-         * Use mattijn's new fucntion.
-         * */
-        JotiApp.toast("Je locatie is verzonden");
     }
 
     /**

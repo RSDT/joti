@@ -283,7 +283,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     long duration = (new Date()).getTime() - date.getTime();
 
                     float diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
-
+                    if (diffInHours >30)
+                        diffInHours  = 30;
                     float radius = diffInHours * aantal_meters_per_uur;
 
                     boolean isLastMarker = Integer.parseInt(splitted[2]) >= bindObject.getMarkers().size(); // als dit exacter kan dan graag.

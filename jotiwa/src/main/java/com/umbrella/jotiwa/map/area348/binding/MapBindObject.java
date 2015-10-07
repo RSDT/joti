@@ -61,7 +61,6 @@ public class MapBindObject {
     public ArrayList<Marker> getMarkers() {
         return markers;
     }
-
     /**
      * @return
      */

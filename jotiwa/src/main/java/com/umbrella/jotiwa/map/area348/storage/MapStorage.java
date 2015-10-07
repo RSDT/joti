@@ -77,6 +77,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
      * @return
      */
     public BaseInfo getAssociatedInfoFromId(StorageObject storageObject, int id) {
+
         ArrayList<BaseInfo> info = storageObject.getAssociatedInfo();
         for (int i = 0; i < info.size(); i++) {
             if (info.get(i).id == id) return info.get(i);
@@ -92,6 +93,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
      * @return
      */
     public BaseInfo findInfo(MapPartState mapPartState, int id) {
+        check(mapPartState.getAccessor());
         return this.getAssociatedInfoFromId(this.getAssociatedStorageObject(mapPartState), id);
     }
 
