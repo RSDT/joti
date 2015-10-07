@@ -2,6 +2,7 @@ package com.umbrella.jotiwa.map.area348.handling;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.umbrella.jotiwa.data.objects.area348.receivables.HunterInfo;
 
 import java.util.ArrayList;
 
@@ -17,11 +18,14 @@ public class HunterObject {
     public HunterObject() {
         marker = new MarkerOptions();
         positions = new ArrayList<>();
+        hunterInfo = new ArrayList<>();
     }
 
     private MarkerOptions marker;
 
     private ArrayList<LatLng> positions;
+
+    private ArrayList<HunterInfo> hunterInfo;
 
 
     /**
@@ -38,6 +42,11 @@ public class HunterObject {
         return marker;
     }
 
+    public ArrayList<HunterInfo> getHunterInfo()
+    {
+        return hunterInfo;
+    }
+
     /**
      * @param marker
      */
@@ -50,5 +59,9 @@ public class HunterObject {
      */
     public void setPositions(ArrayList<LatLng> positions) {
         this.positions = positions;
+    }
+
+    public void setHunterInfo(ArrayList<HunterInfo> hunterInfo) {
+        this.hunterInfo = hunterInfo;
     }
 }

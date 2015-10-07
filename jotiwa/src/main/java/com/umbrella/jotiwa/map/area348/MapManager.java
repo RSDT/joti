@@ -271,7 +271,7 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
     /**
      * Syncs each state's storage with the Map with help of the MapBinder.
      */
-    public void sync() {
+    public void syncAll() {
         for (int i = 0; i < this.size(); i++) {
             if (this.get(i).hasLocalData()) {
                 sync(this.get(i));

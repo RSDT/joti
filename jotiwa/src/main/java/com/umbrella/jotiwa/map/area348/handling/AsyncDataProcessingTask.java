@@ -22,6 +22,7 @@ import com.umbrella.jotiwa.data.objects.area348.receivables.VosInfo;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -182,6 +183,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
             mOptions.position(new LatLng(last.latitude, last.longitude));
             mOptions.icon(descriptor);
             current.setMarker(mOptions);
+            current.getHunterInfo().addAll(Arrays.asList(hunterInfos[h]));
         }
         result.setObjects(new Object[]{entries, hunterInfos});
         return result;

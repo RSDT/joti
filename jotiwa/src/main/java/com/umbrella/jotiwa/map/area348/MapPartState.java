@@ -129,9 +129,14 @@ public class MapPartState implements Serializable {
     private boolean hasLocalData = false;
 
     /**
+     * Value indicating if the state has new data availiabe at the storage.
+     * */
+    private boolean hasNewData = false;
+
+    /**
      * Value indicating if the state is addable to the map.
      * */
-    private boolean addable = false;
+    private boolean addable = true;
 
 
     //endregion
@@ -174,6 +179,7 @@ public class MapPartState implements Serializable {
         return isOnMap;
     }
 
+
     /**
      * @return
      */
@@ -212,6 +218,21 @@ public class MapPartState implements Serializable {
     public boolean hasLocalData() {
         return hasLocalData;
     }
+
+    /**
+     * @return Value indicating if the state has new data avaibible at the storage.
+     * */
+    public boolean hasNewData() {
+        return hasNewData;
+    }
+
+    /**
+     * @return Value indicating if the state is addable to the map.
+     * */
+    public boolean isAddable() {
+        return addable;
+    }
+
     //endregion
 
     //region set
@@ -228,6 +249,14 @@ public class MapPartState implements Serializable {
      */
     public void setHasLocalData(boolean hasLocalData) {
         this.hasLocalData = hasLocalData;
+    }
+
+    public void setHasNewData(boolean hasNewData) {
+        this.hasNewData = hasNewData;
+    }
+
+    public void setAddable(boolean addable) {
+        this.addable = addable;
     }
 
     //endregion

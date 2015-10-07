@@ -67,18 +67,18 @@ public class MapBinder extends HashMap<String, MapBindObject> {
 
 
     /**
-     * @param mapPartState
-     * @param storageObject
-     * @param options
+     * Adds a state's data to the map.
+     * @param mapPartState The state to add to the map.
+     * @param storageObject The storage object that contains the data.
+     * @param options The options for the adding.
      */
     public void add(MapPartState mapPartState, StorageObject storageObject, MapBinderAddOptions options) {
         if (storageObject == null) {
             JotiApp.debug("ERROR storage object = null in MapBinder.add");
             storageObject = new StorageObject();
         }
-        if (mapPartState.getAccessor().equals("hunter")) return;
 
-        if (!mapPartState.getShow()) return;
+        if(!mapPartState.isAddable()) return;
 
         String accessor = mapPartState.getAccessor();
         check(accessor);
@@ -112,6 +112,14 @@ public class MapBinder extends HashMap<String, MapBindObject> {
          * */
         for (int c = 0; c < circles.size(); c++) {
             bindObject.getCircles().add(gMap.addCircle(circles.get(c)));
+        }
+
+        /**
+         * If the state should not be shown
+         * */
+        if(!mapPartState.getShow())
+        {
+            bindObject.setVisiblty(false);
         }
 
     }

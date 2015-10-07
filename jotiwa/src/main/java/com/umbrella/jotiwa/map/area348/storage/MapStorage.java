@@ -3,6 +3,7 @@ package com.umbrella.jotiwa.map.area348.storage;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -57,7 +58,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
      *
      * @param storageObject The storage object that should be search through for the matching id.
      * @param id The id that identifies the info.
-     * @return The id associated info.
+     * @return The id associated info. Returns a empty info if no match was found.
      */
     public BaseInfo getAssociatedInfoFromId(StorageObject storageObject, int id) {
 
@@ -65,7 +66,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
         for (int i = 0; i < info.size(); i++) {
             if (info.get(i).id == id) return info.get(i);
         }
-        return null;
+        return new BaseInfo();
     }
 
     /**
@@ -137,7 +138,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
 
                 if (current.getMapPart() == MapPart.Hunters) {
                     HunterInfo[][] hunterInfos = (HunterInfo[][]) current.getObjects()[1];
-                    int count = hunterInfos.length - 1;
+                    int count = hunterInfos.length;
                     for (Map.Entry<String, HunterObject> entry : ((HashMap<String, HunterObject>) current.getObjects()[0]).entrySet()) {
                         check(entry.getKey());
                         StorageObject storageObjectHunter = get(entry.getKey());
@@ -152,7 +153,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
                             pOptions.width(5);
                             storageObjectHunter.getPolylines().add(pOptions);
                         }
-                        storageObjectHunter.getAssociatedInfo().addAll(Arrays.asList(hunterInfos[count]));
+                        storageObjectHunter.setAssociatedInfo(entry.getValue().getHunterInfo());
 
                         /**
                          * Add a state to the new state list, so for each hunter a state is created.

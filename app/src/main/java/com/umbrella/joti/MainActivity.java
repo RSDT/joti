@@ -75,12 +75,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
             case R.id.action_refresh:
                 mapManager.update();
-                for (int i = 0; i < mapManager.size(); i++) {
-                    MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(mapManager.get(i));
-                    bindObject.remove();
-                }
-                mapManager.update();
-                mapManager.sync();
+                mapManager.syncAll();
                 return true;
             case R.id.action__map_camera:
                 mapManager.cameraToCurrentLocation();
@@ -160,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mapManager.add(TempMapState);
                 TempMapState = null;
             }
-            mapManager.sync();
+            mapManager.syncAll();
         }
         /**
          * If there are no old states, then this is the first run or no states were added.
