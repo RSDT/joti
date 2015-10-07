@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
@@ -28,6 +30,7 @@ import com.umbrella.jotiwa.data.objects.area348.receivables.VosInfo;
 import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.binding.MapBindObject;
+import com.umbrella.jotiwa.map.area348.storage.StorageObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -202,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     bindObjectVos.setVisiblty(preferences.getBoolean(key, false));
                     break;
                 case Hunters:
-
                     /**
                      * TODO: Add code for hunter visibilty.
                      * */
@@ -263,8 +265,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 TeamPart teamPart = TeamPart.parse(splitted[1]);
                 infoType.setBackgroundColor(TeamPart.getAssociatedColor(teamPart));
                 MapPartState stateVos = mapManager.findState(part, teamPart, MapPartState.getAccesor(part, teamPart));
-                MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
-
+                StorageObject storageObject = mapManager.getMapStorage().getAssociatedStorageObject(stateVos);
 
                 VosInfo info = (VosInfo) mapManager.getMapStorage().findInfo(stateVos, Integer.parseInt(splitted[2]));
                 String dateString = info.datetime;
@@ -287,14 +288,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         diffInHours = 30;
                     float radius = diffInHours * aantal_meters_per_uur;
 
-                    boolean isLastMarker = Integer.parseInt(splitted[2]) >= bindObject.getMarkers().size(); // als dit exacter kan dan graag.
-                    // kijkt naar de ids uit de database van micky. als er ooit een marker verwijderd
-                    // is dan pakt ie er een paar bij. maar bij de meeste niet eindmarkers zet ie geen cirkel.
-                    // maar t was kiezen tussen false postitves of false negatives ik heb gekozen voor false positves.
-                    // is ook een leuke easteregg.
-                    if (isLastMarker) {
-                        bindObject.getCircles().get(0).setRadius(radius);
+
+                    if(mapManager.getMapStorage().isLastInfo(stateVos, info))
+                    {
+                        ((Circle)storageObject.getCircles().get(0)).setRadius(radius);
+                        mapManager.sync(stateVos);
                     }
+
                 } catch (ParseException e) {
                     JotiApp.toast("Error" + e.toString());
                 }

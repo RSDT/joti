@@ -51,6 +51,36 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
         return this.get(mapPartState.getAccessor());
     }
 
+
+    /**
+     * Gets the last info of the storage object.
+     * */
+    public BaseInfo getLastInfo(StorageObject storageObject)
+    {
+        ArrayList<BaseInfo> info = storageObject.getAssociatedInfo();
+        BaseInfo greatestInfo = new BaseInfo();
+        for(int i = 0; i < info.size(); i++)
+        {
+            BaseInfo baseInfo = info.get(i);
+            if(baseInfo.id > greatestInfo.id)
+            {
+                greatestInfo = baseInfo;
+            }
+        }
+        return greatestInfo;
+    }
+
+
+    /**
+     * Gets the value indicating if the info is the last.
+     * */
+    public boolean isLastInfo(MapPartState mapPartState, BaseInfo info)
+    {
+        BaseInfo last = getLastInfo(getAssociatedStorageObject(mapPartState));
+        if(last.id == info.id) return true;
+        return false;
+    }
+
     /**
      * Gets a info from a id.
      *
