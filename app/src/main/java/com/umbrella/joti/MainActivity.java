@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 JotiApp.toast("Er is niet geupdate door een error. Herstart de app.");
             }
             JotiApp.toast("Als je niks ziet moet je de app zelf openen.");
-
         }
         if (!useActionbar) {
             pageAdaptor = new PageAdaptor(getSupportFragmentManager());
