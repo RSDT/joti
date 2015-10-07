@@ -140,6 +140,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
                     for (Map.Entry<String, HunterObject> entry : ((HashMap<String, HunterObject>) current.getObjects()[0]).entrySet()) {
                         check(entry.getKey());
                         StorageObject storageObjectHunter = get(entry.getKey());
+                        storageObjectHunter.getMarkers().clear();
                         storageObjectHunter.getMarkers().add(entry.getValue().getMarker());
                         if (storageObjectHunter.getPolylines().size() > 0) {
                             PolylineOptions options = (PolylineOptions) storageObjectHunter.getPolylines().get(0);
