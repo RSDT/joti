@@ -3,7 +3,6 @@ package com.umbrella.jotiwa.map.area348.storage;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -19,7 +18,6 @@ import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.handling.HandlingResult;
 import com.umbrella.jotiwa.map.area348.handling.HunterObject;
-import com.umbrella.jotiwa.map.area348.handling.OnNewDataAvailable;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

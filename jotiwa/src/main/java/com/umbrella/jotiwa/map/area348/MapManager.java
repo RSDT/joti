@@ -350,9 +350,10 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
              * Check if the state is pending, so thereby is expecting a update.
              * */
             if (current.isPending()) {
-                sync(current);
                 current.setHasLocalData(true);
+                current.setHasNewData(true);
                 current.setPending(false);
+                sync(current);
             }
         }
     }

@@ -244,6 +244,11 @@ public class MapPartState implements Serializable {
         this.pending = pending;
     }
 
+
+    public void setIsOnMap(boolean isOnMap) {
+        this.isOnMap = isOnMap;
+    }
+
     /**
      * @param hasLocalData
      */

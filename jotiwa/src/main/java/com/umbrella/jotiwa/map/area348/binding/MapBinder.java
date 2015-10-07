@@ -80,9 +80,16 @@ public class MapBinder extends HashMap<String, MapBindObject> {
 
         if(!mapPartState.isAddable()) return;
 
+        if(!mapPartState.hasNewData()) return;
+
         String accessor = mapPartState.getAccessor();
         check(accessor);
         MapBindObject bindObject = this.get(accessor);
+
+        if(mapPartState.isOnMap())
+        {
+            bindObject.remove();
+        }
 
         if (options == MapBinderAddOptions.MAP_BINDER_ADD_OPTIONS_CLEAR) {
             bindObject.getMarkers().clear();
@@ -122,6 +129,7 @@ public class MapBinder extends HashMap<String, MapBindObject> {
             bindObject.setVisiblty(false);
         }
 
+        mapPartState.setIsOnMap(true);
     }
 
     /**
