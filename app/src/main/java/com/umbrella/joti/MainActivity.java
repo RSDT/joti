@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mapManager.sync();
                 return true;
             case R.id.action__map_camera:
-                mapManager.CameraToCurrentLocation();
+                mapManager.cameraToCurrentLocation();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
             mapManager.update();
         }
-        mapManager.CameraToCurrentLocation();
+        mapManager.cameraToCurrentLocation();
     }
 
     /**
