@@ -18,6 +18,7 @@ import com.umbrella.jotiwa.map.area348.binding.MapBinder;
 import com.umbrella.jotiwa.map.area348.handling.OnNewDataAvailable;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -92,20 +93,6 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         }
 
         gMap.moveCamera(camera);
-    }
-
-    /**
-     *
-     */
-    public class MapManagerHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-
-            }
-            onNewDataAvailable((ArrayList<MapPartState>) msg.obj);
-            super.handleMessage(msg);
-        }
     }
 
     private static MapManagerHandler mapManagerHandler;
@@ -351,6 +338,30 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
                 current.setHasLocalData(true);
                 current.setPending(false);
             }
+        }
+    }
+
+    /**
+     * The handler that receives messages and thereby executes the associated UI code on the main thread.
+     */
+    public static class MapManagerHandler extends Handler {
+
+        public MapManagerHandler(OnNewDataAvailable onNewDataAvailable)
+        {
+            this.onNewDataAvailableWeakReference = new WeakReference<>(onNewDataAvailable);
+        }
+
+        private WeakReference<OnNewDataAvailable> onNewDataAvailableWeakReference;
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            OnNewDataAvailable onNewDataAvailableRef = this.onNewDataAvailableWeakReference.get();
+            if(onNewDataAvailableRef != null)
+            {
+                onNewDataAvailableRef.onNewDataAvailable((ArrayList<MapPartState>)msg.obj);
+            }
+            super.handleMessage(msg);
         }
     }
 
