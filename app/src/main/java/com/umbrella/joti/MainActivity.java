@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     float radius = diffInHours * aantal_meters_per_uur;
 
 
-                    if(mapManager.getMapStorage().isLastInfo(stateVos, info))
+                    if(mapManager.getMapStorage().isLastInfo(stateVos, info)||true) // // TODO: 7-10-2015  fix dit. 
                     {
                         ((Circle)storageObject.getCircles().get(0)).setRadius(radius);
                         mapManager.sync(stateVos);
