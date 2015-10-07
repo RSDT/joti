@@ -75,6 +75,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
             case R.id.action_refresh:
                 mapManager.update();
+                for (int i = 0; i < mapManager.size(); i++) {
+                    MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(mapManager.get(i));
+                    bindObject.remove();
+                }
+                mapManager.update();
+                mapManager.sync();
                 return true;
             case R.id.action__map_camera:
                 mapManager.CameraToCurrentLocation();
@@ -283,15 +289,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     long duration = (new Date()).getTime() - date.getTime();
 
                     float diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
-                    if (diffInHours >30)
-                        diffInHours  = 30;
+                    if (diffInHours > 30)
+                        diffInHours = 30;
                     float radius = diffInHours * aantal_meters_per_uur;
 
                     boolean isLastMarker = Integer.parseInt(splitted[2]) >= bindObject.getMarkers().size(); // als dit exacter kan dan graag.
-                                                                                                            // kijkt naar de ids uit de database van micky. als er ooit een marker verwijderd
-                                                                                                            // is dan pakt ie er een paar bij. maar bij de meeste niet eindmarkers zet ie geen cirkel.
-                                                                                                            // maar t was kiezen tussen false postitves of false negatives ik heb gekozen voor false positves.
-                                                                                                            // is ook een leuke easteregg.
+                    // kijkt naar de ids uit de database van micky. als er ooit een marker verwijderd
+                    // is dan pakt ie er een paar bij. maar bij de meeste niet eindmarkers zet ie geen cirkel.
+                    // maar t was kiezen tussen false postitves of false negatives ik heb gekozen voor false positves.
+                    // is ook een leuke easteregg.
                     if (isLastMarker) {
                         bindObject.getCircles().get(0).setRadius(radius);
                     }
