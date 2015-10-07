@@ -3,7 +3,6 @@ package com.umbrella.jotiwa.map.area348.storage;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcel;
 
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -28,40 +27,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by stesi on 22-9-2015.
  * Class for storing map data.
+ * @author Dingenis Sieger Sinke
+ * @version 1.0
+ * @since 22-9-2015
  */
 public class MapStorage extends HashMap<String, StorageObject> implements Extractor {
 
     /**
-     * @param in
+     * Initializes a new instance of MapStorage.
      */
-    protected MapStorage(Parcel in) {
+    public MapStorage() {
         storageHandler = new StorageHandler(this);
-        Object[] objects = (Object[]) in.readSerializable();
     }
-
-    /**
-     * @param onNewDataAvailableListener
-     */
-    public MapStorage(OnNewDataAvailable onNewDataAvailableListener) {
-        storageHandler = new StorageHandler(this);
-        this.onNewDataAvailableListener = onNewDataAvailableListener;
-    }
-
-    /**
-     * @param onNewDataAvailableListener
-     */
-    public void setOnNewDataAvailableListener(OnNewDataAvailable onNewDataAvailableListener) {
-        this.onNewDataAvailableListener = onNewDataAvailableListener; // event listeners zijn toch vaak lists of iets dat daar p lijkt?
-    }
-
-    private OnNewDataAvailable onNewDataAvailableListener;
 
     /**
      * Gets the associated StorageObject from a id.
      *
-     * @param mapPartState
+     * @param mapPartState The state the storage object is associated with.
      * @return
      */
     public StorageObject getAssociatedStorageObject(MapPartState mapPartState) {
@@ -72,9 +55,9 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
     /**
      * Gets a info from a id.
      *
-     * @param storageObject
-     * @param id
-     * @return
+     * @param storageObject The storage object that should be search through for the matching id.
+     * @param id The id that identifies the info.
+     * @return The id associated info.
      */
     public BaseInfo getAssociatedInfoFromId(StorageObject storageObject, int id) {
 
@@ -88,12 +71,11 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
     /**
      * Finds a spefic info with it's id.
      *
-     * @param mapPartState
-     * @param id
-     * @return
+     * @param mapPartState The state where the info should be located.
+     * @param id The id that identifies the info.
+     * @return The associated info.
      */
     public BaseInfo findInfo(MapPartState mapPartState, int id) {
-        check(mapPartState.getAccessor());
         return this.getAssociatedInfoFromId(this.getAssociatedStorageObject(mapPartState), id);
     }
 
@@ -105,6 +87,28 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
         Thread thread = new Thread(new ExtractionTask(results));
         thread.start();
     }
+
+    /**
+     * Checks if the collection exists if not, create one with the given accessor.
+     *
+     * @param accessor
+     */
+    public void check(String accessor) {
+        if (this.get(accessor) == null) this.put(accessor, new StorageObject());
+    }
+
+    /**
+     * The storage handler.
+     */
+    private static StorageHandler storageHandler;
+
+    /**
+     * @return
+     */
+    public static StorageHandler getStorageHandler() {
+        return storageHandler;
+    }
+
 
     /**
      * Class that serves as a encapsulation for the extraction task.
@@ -222,28 +226,6 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
             MapManager.getMapManagerHandler().sendMessage(message);
         }
 
-    }
-
-
-    /**
-     * Checks if the collection exists if not, create one with the given accessor.
-     *
-     * @param accessor
-     */
-    public void check(String accessor) {
-        if (this.get(accessor) == null) this.put(accessor, new StorageObject());
-    }
-
-    /**
-     * The storage handler.
-     */
-    private static StorageHandler storageHandler;
-
-    /**
-     * @return
-     */
-    public static StorageHandler getStorageHandler() {
-        return storageHandler;
     }
 
     /**

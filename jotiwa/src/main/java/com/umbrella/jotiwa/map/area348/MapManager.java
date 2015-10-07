@@ -37,7 +37,7 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         this.gMap = gMap;
         this.mapBinder = new MapBinder(gMap);
         if (mapManagerHandler == null) {
-            mapManagerHandler = new MapManagerHandler();
+            mapManagerHandler = new MapManagerHandler(this);
         }
         if (mapStorage == null) {
             mapStorage = new MapStorage(this);
@@ -104,10 +104,7 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         return mapManagerHandler;
     }
 
-    /*
-     * TODO:Consider making MapStorage and DataUpdater static, handler should be static else memory leaking.
-     */
-    private static MapStorage mapStorage;
+    private MapStorage mapStorage;
 
     private static DataUpdater dataUpdater;
 
