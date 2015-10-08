@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +17,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
@@ -36,6 +35,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import java.util.concurrent.TimeUnit;
 
 
@@ -45,12 +45,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private ViewPager pager;
 
+    private Runnable updateTask = new Runnable() {
+        @Override
+        public void run() {
+            JotiApp.toast("updating Data");
+            refresh();
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+            int updateTime = Integer.parseInt(preferences.getString("pref_update", "1"));
+            if (updateTime < 1){
+                updateTime = 1;
+            }
+            updateHandler.postDelayed(updateTask, updateTime* 60 * 1000); //loop
+        }
+    };
     private MapManager mapManager;
 
     private ArrayList<MapPartState> oldStates = new ArrayList<>();
     private MapPartState TempMapState = null;
 
     private boolean useActionbar = true;
+    private Handler updateHandler;
 
     /**
      * @param menu
@@ -77,8 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
                 return true;
             case R.id.action_refresh:
-                mapManager.update();
-                mapManager.syncAll();
+                refresh();
                 return true;
             case R.id.action__map_camera:
                 mapManager.cameraToCurrentLocation();
@@ -86,6 +99,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void refresh() {
+        if (mapManager != null) {
+            mapManager.update();
+            mapManager.syncAll();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        updateHandler = new Handler();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+        int updateTime = Integer.parseInt(preferences.getString("pref_update", "1"));
+        if (updateTime < 1){
+            updateTime = 1;
+        }
+        updateHandler.postDelayed(updateTask, updateTime * 60 * 1000);// update everyminute
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        updateHandler.removeCallbacks(updateTask);
+        super.onPause();
     }
 
     /**
@@ -203,10 +241,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         switch (mapPart) {
             case Vossen:
-                    TeamPart teamPart = TeamPart.parse(typeCode[2]);
-                    MapPartState stateVos = mapManager.findState(MapPart.Vossen, teamPart, MapPartState.getAccesor(MapPart.Vossen, teamPart));
-                    MapBindObject bindObjectVos = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
-                    bindObjectVos.setVisiblty(preferences.getBoolean(key, false));
+                TeamPart teamPart = TeamPart.parse(typeCode[2]);
+                MapPartState stateVos = mapManager.findState(MapPart.Vossen, teamPart, MapPartState.getAccesor(MapPart.Vossen, teamPart));
+                MapBindObject bindObjectVos = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
+                bindObjectVos.setVisiblty(preferences.getBoolean(key, false));
                 break;
             case ScoutingGroepen:
                 TeamPart[] parts = new TeamPart[]{

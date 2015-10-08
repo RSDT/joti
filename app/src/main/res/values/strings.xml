@@ -1,6 +1,6 @@
 <resources>
-    <string name="version">Beta-3</string>
-    <string name="versionCode">6</string>
+    <string name="version">Beta-4</string>
+    <string name="versionCode">7</string>
     <string name="app_name">joti</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">Jotihunter</string>
@@ -47,4 +47,8 @@
     <string name="pref_speed_summ">snelheid van de vossen in km per uur</string>
     <string name="pref_location_interval_title">Interval locatie updates in minuten</string>
     <string name="pref_location_interval_summ">tussen de 1 en 5 minuten</string>
+    <string name="pref_update_summ">update inteval in minuten</string>
+    <string name="pref_update_title">update interval</string>
+    <string name="pref_map_cat">Map</string>
+    <string name="pref_loc_cat">Locatie settings</string>
 </resources>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
+    <PreferenceCategory
+        android:title="@string/pref_loc_cat"
+        android:key="pref_loc_cat">
     <CheckBoxPreference
         android:key="pref_send_loc"
         android:title="@string/send_loction_title"
@@ -19,6 +22,10 @@
         android:summary="unknown"
         android:defaultValue="@string/standard_username"
         />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_map_cat"
+        android:key="pref_map_cat">
     <EditTextPreference
         android:key="pref_zoom"
         android:title="@string/pref_zoom_title"
@@ -33,7 +40,14 @@
         android:inputType="numberDecimal"
         android:defaultValue="6.0"
         />
-
+    <EditTextPreference
+        android:key="pref_update"
+        android:title="@string/pref_update_title"
+        android:summary="@string/pref_update_summ"
+        android:inputType="number"
+        android:defaultValue="1"
+        />
+    </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_deelgebieden"
         android:key="pref_delgebieden">
