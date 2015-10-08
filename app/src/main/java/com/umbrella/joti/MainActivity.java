@@ -3,6 +3,7 @@ package com.umbrella.joti;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,9 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
@@ -39,11 +46,13 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, SharedPreferences.OnSharedPreferenceChangeListener,com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    private static final String LOCATION_FOLLOW_KEY = "pref_follow";
     private PageAdaptor pageAdaptor;
 
     private ViewPager pager;
+    private Marker me;
 
     private Runnable updateTask = new Runnable() {
         @Override
@@ -65,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private boolean useActionbar = true;
     private Handler updateHandler;
+    private GoogleMap gmap;
+    private GoogleApiClient mGoogleApiClient;
+    private boolean locationUpdates = false;
+    private LocationRequest mLocationRequest;
 
     /**
      * @param menu
@@ -123,6 +136,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onResume() {
+        buildGoogleApiClient();
+        createLocationRequest();
+
         updateHandler = new Handler();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
         int updateTime = Integer.parseInt(preferences.getString("pref_update", "1"));
@@ -136,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onPause() {
         updateHandler.removeCallbacks(updateTask);
+        stopLocationUpdates();
         super.onPause();
     }
 
@@ -145,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         if (savedInstanceState != null) {
             this.oldStates = (ArrayList<MapPartState>) savedInstanceState.getSerializable("mapManager");
@@ -196,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     public void onMapReady(GoogleMap map) {
         map.setInfoWindowAdapter(this);
-
+        gmap = map;
         mapManager = new MapManager(map);
 
         /**
@@ -244,6 +262,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (key == LOCATION_FOLLOW_KEY){
+            if (preferences.getBoolean("pref_send_loc_interval", true)){
+                if (!locationUpdates){
+                    startLocationUpdates(mLocationRequest);
+                }
+            }else{
+                if (locationUpdates){
+                    stopLocationUpdates();
+                }
+            }
+        }
         String[] temp = key.split("_");
         String[] typeCode = new String[3];
         for (int i = 0; i < temp.length && i < 3; i++) {
@@ -409,5 +438,65 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
         }
         return view;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (me != null)
+        {
+            me.remove();
+        }
+        if (gmap != null) {
+            me = this.gmap.addMarker(new MarkerOptions()
+                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .title("me"));
+        }
+        JotiApp.setLastLocation(location);
+        mapManager.cameraToCurrentLocation();
+
+    }
+    protected synchronized void buildGoogleApiClient() {
+        JotiApp.debug("building google iets");
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+    @Override
+    public void onConnected(Bundle bundle) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+        createLocationRequest();
+        if (preferences.getBoolean(LOCATION_FOLLOW_KEY, false)) {
+            startLocationUpdates(mLocationRequest);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+
+    public void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);}
+
+    protected void startLocationUpdates(LocationRequest mLocationRequest) {
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        locationUpdates= true;
+    }
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, this);
+        locationUpdates= false;
     }
 }

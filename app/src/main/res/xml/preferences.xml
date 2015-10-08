@@ -31,8 +31,13 @@
         android:title="@string/pref_zoom_title"
         android:summary="@string/pref_zoom_summ"
         android:inputType="numberDecimal"
-        android:defaultValue="10.0"
+        android:defaultValue="15.0"
         />
+        <CheckBoxPreference
+            android:key="pref_follow"
+            android:title="@string/send_follow_title"
+            android:summary="@string/send_follow_summ"
+            android:defaultValue="false" />
     <EditTextPreference
         android:key="pref_speed"
         android:title="@string/pref_speed_title"
@@ -40,7 +45,7 @@
         android:inputType="numberDecimal"
         android:defaultValue="6.0"
         />
-    <EditTextPreference
+        <EditTextPreference
         android:key="pref_update"
         android:title="@string/pref_update_title"
         android:summary="@string/pref_update_summ"

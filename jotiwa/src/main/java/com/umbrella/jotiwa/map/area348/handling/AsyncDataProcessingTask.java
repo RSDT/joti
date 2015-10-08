@@ -21,8 +21,11 @@ import com.umbrella.jotiwa.data.objects.area348.receivables.ScoutingGroepInfo;
 import com.umbrella.jotiwa.data.objects.area348.receivables.VosInfo;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -99,7 +102,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         cOptions.fillColor(TeamPart.getAssociatedAlphaColor(result.getTeamPart(), 128));
         cOptions.strokeColor(Color.BLACK);
         cOptions.strokeWidth(1);
-        cOptions.radius(100);
+        cOptions.radius(1);
 
         /**
          * Loop trough each vos info and add it to the map.
@@ -142,7 +145,18 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         return result;
     }
 
-
+    private void insertionSort(HunterInfo[] a){
+        if (a == null ) return;
+        if (a.length  == 0) return;
+        for (int i=1; i <a.length; i++){
+            HunterInfo temp = a[i];
+            int j;
+            for (j = i -1; j >=0 && temp.id < a[j].id; j--){
+                a[j+1] = a[j];
+                a[j+1] = temp;
+            }
+        }
+    }
     /**
      * TODO:The older locations, only have to be retrieved once. They are stored offline. Only the newest location should be retrieved.
      *
@@ -165,9 +179,13 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         HashMap<String, HunterObject> entries = new HashMap<>();
 
         for (int h = 0; h < hunterInfos.length; h++) {
+            //insertionSort(hunterInfos[h]);
             entries.put(hunterInfos[h][0].gebruiker, new HunterObject());
             HunterObject current = entries.get(hunterInfos[h][0].gebruiker);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
             HunterInfo last = hunterInfos[h][0];
+            Date errorDate = new Date();
+            Date lastDate;
             for (int i = 0; i < hunterInfos[h].length; i++) {
                 /**
                  * Checks if the current info is the last, if it is the info is the newest.

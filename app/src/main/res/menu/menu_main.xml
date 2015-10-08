@@ -2,9 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context="com.umbrella.joti.MainActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="ifRoom" />
+        android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_refresh" android:title="@string/action_refresh"
-        android:orderInCategory="100" app:showAsAction="ifRoom" />
+        android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action__map_camera" android:title="@string/action_map_camera"
     android:orderInCategory="100" app:showAsAction="ifRoom" />
     <item android:id="@+id/action_reset_circles" android:title="@string/action_reset_circles"
