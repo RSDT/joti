@@ -199,18 +199,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             typeCode[i] = temp[i];
         }
         MapPart mapPart = MapPart.parse(typeCode[1]);
-
+        if (mapPart == null)
+            return;
         switch (mapPart) {
             case Vossen:
-                if (typeCode[1].equals("vos")) { // fix for out of bound error
                     TeamPart teamPart = TeamPart.parse(typeCode[2]);
                     MapPartState stateVos = mapManager.findState(MapPart.Vossen, teamPart, MapPartState.getAccesor(MapPart.Vossen, teamPart));
                     MapBindObject bindObjectVos = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
                     bindObjectVos.setVisiblty(preferences.getBoolean(key, false));
-                    //MapPartState stateSC = mapManager.findState(MapPart.ScoutingGroepen, teamPart, MapPartState.getAccesor(MapPart.ScoutingGroepen, teamPart));
-                    //MapBindObject bindObjectSC = mapManager.getMapBinder().getAssociatedMapBindObject(stateSC);
-                    // bindObjectSC.setVisiblty(preferences.getBoolean(key, false));
-                }
                 break;
             case ScoutingGroepen:
                 TeamPart[] parts = new TeamPart[]{
@@ -238,11 +234,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             default:
                 MapPartState stateGen = mapManager.findState(mapPart, TeamPart.None, MapPartState.getAccesor(mapPart, TeamPart.None));
+                if (stateGen == null) return;
                 MapBindObject bindObjectGen = mapManager.getMapBinder().getAssociatedMapBindObject(stateGen);
                 bindObjectGen.setVisiblty(preferences.getBoolean(key, false));
                 break;
         }
-        //    }
     }
 
     /**
