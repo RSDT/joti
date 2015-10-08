@@ -1,6 +1,6 @@
 <resources>
-    <string name="version">Beta-1</string>
-    <string name="versionCode">4</string>
+    <string name="version">Beta-2</string>
+    <string name="versionCode">5</string>
     <string name="app_name">joti</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">Jotihunter</string>
@@ -17,19 +17,19 @@
 
     <string name="pref_deelgebieden">Deelgebieden</string>
     <string name="alpha">Alpha</string>
-    <string name="alpha_sum">show Alpha</string>
+    <string name="alpha_sum">show Alpha(Rood)</string>
     <string name="bravo">Bravo</string>
-    <string name="bravo_sum">show Bravo</string>
+    <string name="bravo_sum">show Bravo(Groen)</string>
     <string name="charlie">Charlie</string>
-    <string name="charlie_sum">show Charlie</string>
+    <string name="charlie_sum">show Charlie(Blauw)</string>
     <string name="delta">Delta</string>
-    <string name="delta_sum">show Delta</string>
+    <string name="delta_sum">show Delta(Turquoise)</string>
     <string name="echo">Echo</string>
-    <string name="echo_sum">show Echo</string>
+    <string name="echo_sum">show Echo(Paars)</string>
     <string name="foxtrot">Foxtrot</string>
-    <string name="foxtrot_sum">show Foxtrot</string>
+    <string name="foxtrot_sum">show Foxtrot(Geel)</string>
     <string name="xray">Xray</string>
-    <string name="xray_sum">show Xray</string>
+    <string name="xray_sum">show Xray(Zwart)</string>
     <string name="tail">Hunters</string>
     <string name="tail_sum">show hunters</string>
     <string name="sc">Scouting Groepen</string>
