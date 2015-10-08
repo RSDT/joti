@@ -148,7 +148,8 @@ public class MapBinder extends HashMap<String, MapBindObject> {
     }
 
     private void check(String accessor) {
-        if (this.get(accessor) == null) this.put(accessor, new MapBindObject());
+        if (this.get(accessor) == null)
+            this.put(accessor, new MapBindObject());
     }
 
 }

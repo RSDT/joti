@@ -193,36 +193,56 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        String[] typeCode = key.split("_");
-        if (typeCode[1].equals("vos")) {
-            MapPart mapPart = MapPart.parse(typeCode[1]);
+        String[] temp = key.split("_");
+        String[] typeCode = new String[3];
+        for (int i = 0; i < temp.length && i < 3; i++) {
+            typeCode[i] = temp[i];
+        }
+        MapPart mapPart = MapPart.parse(typeCode[1]);
 
-            switch (mapPart) {
-                case Vossen:
+        switch (mapPart) {
+            case Vossen:
+                if (typeCode[1].equals("vos")) { // fix for out of bound error
                     TeamPart teamPart = TeamPart.parse(typeCode[2]);
                     MapPartState stateVos = mapManager.findState(MapPart.Vossen, teamPart, MapPartState.getAccesor(MapPart.Vossen, teamPart));
                     MapBindObject bindObjectVos = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
                     bindObjectVos.setVisiblty(preferences.getBoolean(key, false));
-                    break;
-                case Hunters:
-                    /**
-                     * TODO: Add code for hunter visibilty.
-                     * */
-                    for (int i = 0; i < mapManager.size(); i++) {
-                        MapPartState current = mapManager.get(i);
-                        if (current.getMapPart() == MapPart.Hunters && !current.getAccessor().matches("hunter")) {
-                            MapBindObject mapBindObjectHunter = mapManager.getMapBinder().getAssociatedMapBindObject(current);
-                            mapBindObjectHunter.setVisiblty(preferences.getBoolean(key, false));
-                        }
+                    //MapPartState stateSC = mapManager.findState(MapPart.ScoutingGroepen, teamPart, MapPartState.getAccesor(MapPart.ScoutingGroepen, teamPart));
+                    //MapBindObject bindObjectSC = mapManager.getMapBinder().getAssociatedMapBindObject(stateSC);
+                    // bindObjectSC.setVisiblty(preferences.getBoolean(key, false));
+                }
+                break;
+            case ScoutingGroepen:
+                TeamPart[] parts = new TeamPart[]{
+                        TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
+                        TeamPart.Charlie, TeamPart.Delta, TeamPart.Echo,
+                        TeamPart.Foxtrot, TeamPart.XRay};
+                for (int i = 0; i < parts.length; i++) {
+                    MapPartState stateGen = mapManager.findState(mapPart, parts[0], MapPartState.getAccesor(mapPart, parts[0]));
+                    if (stateGen != null) {
+                        MapBindObject bindObjectGen = mapManager.getMapBinder().getAssociatedMapBindObject(stateGen);
+                        bindObjectGen.setVisiblty(preferences.getBoolean(key, false));
                     }
-                    break;
-                default:
-                    MapPartState stateGen = mapManager.findState(mapPart, TeamPart.None, MapPartState.getAccesor(mapPart, TeamPart.None));
-                    MapBindObject bindObjectGen = mapManager.getMapBinder().getAssociatedMapBindObject(stateGen);
-                    bindObjectGen.setVisiblty(preferences.getBoolean(key, false));
-                    break;
-            }
+                }
+            case Hunters:
+                /**
+                 * TODO: Add code for hunter visibilty.
+                 * */
+                for (int i = 0; i < mapManager.size(); i++) {
+                    MapPartState current = mapManager.get(i);
+                    if (current.getMapPart() == MapPart.Hunters && !current.getAccessor().matches("hunter")) {
+                        MapBindObject mapBindObjectHunter = mapManager.getMapBinder().getAssociatedMapBindObject(current);
+                        mapBindObjectHunter.setVisiblty(preferences.getBoolean(key, false));
+                    }
+                }
+                break;
+            default:
+                MapPartState stateGen = mapManager.findState(mapPart, TeamPart.None, MapPartState.getAccesor(mapPart, TeamPart.None));
+                MapBindObject bindObjectGen = mapManager.getMapBinder().getAssociatedMapBindObject(stateGen);
+                bindObjectGen.setVisiblty(preferences.getBoolean(key, false));
+                break;
         }
+        //    }
     }
 
     /**
@@ -287,12 +307,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if (diffInHours > 30)
                         diffInHours = 30;
                     float radius = diffInHours * aantal_meters_per_uur;
+                    MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
 
-
-                    if(mapManager.getMapStorage().isLastInfo(stateVos, info)||true) // // TODO: 7-10-2015  fix dit. 
-                    {
-                        ((Circle)storageObject.getCircles().get(0)).setRadius(radius);
-                        mapManager.sync(stateVos);
+                    if (mapManager.getMapStorage().isLastInfo(stateVos, info)) {
+                        bindObject.getCircles().get(0).setRadius(radius);
+                        //((Circle)storageObject.getCircles().get(0)).setRadius(radius);
+                        //mapManager.sync(stateVos);
                     }
 
                 } catch (ParseException e) {
