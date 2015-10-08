@@ -51,4 +51,5 @@
     <string name="pref_update_title">update interval</string>
     <string name="pref_map_cat">Map</string>
     <string name="pref_loc_cat">Locatie settings</string>
+    <string name="action_reset_circles">Verwijder cirkels</string>
 </resources>

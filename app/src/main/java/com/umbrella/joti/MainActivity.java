@@ -96,6 +96,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.action__map_camera:
                 mapManager.cameraToCurrentLocation();
                 return true;
+            case R.id.action_reset_circles:
+                TeamPart[] parts = new TeamPart[]{
+                        TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
+                        TeamPart.Charlie, TeamPart.Delta, TeamPart.Echo,
+                        TeamPart.Foxtrot, TeamPart.XRay};
+                for (int i = 0; i < parts.length; i++) {
+                    MapPart part = MapPart.Vossen;
+                    MapPartState stateVos = mapManager.findState(part, parts[i], MapPartState.getAccesor(part, parts[i]));
+                    MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
+
+                    bindObject.getCircles().get(0).setRadius(0);
+                }
+
             default:
                 return super.onOptionsItemSelected(item);
         }
