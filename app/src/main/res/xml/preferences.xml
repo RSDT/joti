@@ -115,12 +115,17 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:title="debug"
-        android:key="pref_delgebieden">
+        android:key="pref_debug_cat">
         <CheckBoxPreference
             android:key="pref_debug"
             android:title="@string/send_debug_title"
             android:summary="@string/send_debug_summ"
             android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="pref_toast"
+            android:title="@string/send_toast_title"
+            android:summary="@string/send_toast_summ"
+            android:defaultValue="true" />
     </PreferenceCategory>
     <Preference
         android:title="version"

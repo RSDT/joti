@@ -38,6 +38,8 @@ import java.util.Iterator;
  */
 public class MapManager extends ArrayList<MapPartState> implements Manager {
 
+    private LatLng oldFarRight;
+
     /**
      * @param gMap The google map that the manager should manage on.
      */
@@ -107,6 +109,7 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
         }
 
         gMap.moveCamera(camera);
+        oldFarRight =gMap.getProjection().getVisibleRegion().farRight;
     }
 
     private static MapManagerHandler mapManagerHandler;
@@ -374,12 +377,10 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
             state = new MapPartState(MapPart.Me, TeamPart.None, true , true);
             this.add(state);
         }
-        LatLng oldLatLng = gMap.getCameraPosition().target;
         StorageObject storageObject = mapStorage.getAssociatedStorageObject(state);
         if(storageObject.getMarkers().size() > 0)
         {
             MarkerOptions options = storageObject.getMarkers().get(0);
-            oldLatLng = options.getPosition();
             options.position(new LatLng(location.getLatitude(), location.getLongitude()));
 
             PolylineOptions polylineOptions = storageObject.getPolylines().get(0);
@@ -404,10 +405,15 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
         this.sync(state);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
 
-        boolean onSelf = oldLatLng.equals(new LatLng(location.getLatitude(),location.getLongitude()));
+
+        if (oldFarRight == null)
+        {
+            this.cameraToCurrentLocation();
+        }
+        boolean onSelf = oldFarRight.equals(gMap.getProjection().getVisibleRegion().farRight);
         if (onSelf)
         {
-           this.cameraToCurrentLocation();
+            this.cameraToCurrentLocation();
         }
     }
 

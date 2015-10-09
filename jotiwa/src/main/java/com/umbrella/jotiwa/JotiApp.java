@@ -55,9 +55,13 @@ public class JotiApp extends Application {
      */
     public static void toast(CharSequence text) {
         Context context = JotiApp.getContext().getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+        boolean toast_on = sharedpeferences.getBoolean("pref_toast", false);
+        if (toast_on) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
     }
 
     /**
