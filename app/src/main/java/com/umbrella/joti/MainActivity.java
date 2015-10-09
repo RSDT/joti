@@ -452,7 +452,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .title("me"));
         }
         JotiApp.setLastLocation(location);
-        mapManager.cameraToCurrentLocation();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+
+        if (preferences.getBoolean("pref_follow_reset_map", false))
+            mapManager.cameraToCurrentLocation();
 
     }
     protected synchronized void buildGoogleApiClient() {
@@ -486,8 +489,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void createLocationRequest() {
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(5000);
-        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(100);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);}
 
     protected void startLocationUpdates(LocationRequest mLocationRequest) {

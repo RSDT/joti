@@ -1,6 +1,6 @@
 <resources>
-    <string name="version">Beta-6</string>
-    <string name="versionCode">9</string>
+    <string name="version">Beta-7</string>
+    <string name="versionCode">10</string>
     <string name="app_name">joti</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">Jotihunter</string>
@@ -54,4 +54,6 @@
     <string name="action_reset_circles">Verwijder cirkels</string>
     <string name="send_follow_title">Volgen</string>
     <string name="send_follow_summ">huidigelocatie volgen gebruiken icm zoom.</string>
+    <string name="send_follow_reset_map_title">resemaponlocationupdate</string>
+    <string name="send_follow_reset_map_summ">De map focust op de huidigelocatie.</string>
 </resources>

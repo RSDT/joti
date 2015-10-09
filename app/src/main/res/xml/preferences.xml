@@ -38,6 +38,11 @@
             android:title="@string/send_follow_title"
             android:summary="@string/send_follow_summ"
             android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="pref_follow_reset_map"
+            android:title="@string/send_follow_reset_map_title"
+            android:summary="@string/send_follow_reset_map_summ"
+            android:defaultValue="false" />
     <EditTextPreference
         android:key="pref_speed"
         android:title="@string/pref_speed_title"
