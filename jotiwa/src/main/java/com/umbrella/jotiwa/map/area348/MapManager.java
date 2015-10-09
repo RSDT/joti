@@ -16,7 +16,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.JotiApp;
-import com.umbrella.jotiwa.R;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.area348.DataUpdater;
@@ -387,7 +386,7 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
         {
             MarkerOptions options = new MarkerOptions();
             options.title("me;");
-            options.icon(BitmapDescriptorFactory.fromAsset("navigation-icon-30-30.png"));
+            options.icon(BitmapDescriptorFactory.fromAsset("navigation-icon.png"));
             options.flat(true);
             options.position(new LatLng(location.getLatitude(), location.getLongitude()));
             storageObject.getMarkers().add(options);

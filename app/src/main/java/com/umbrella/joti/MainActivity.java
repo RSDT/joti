@@ -7,6 +7,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.Marker;
 import com.umbrella.jotiwa.JotiApp;
+import com.umbrella.jotiwa.RealTimeTracker;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.data.objects.area348.receivables.BaseInfo;
@@ -47,6 +49,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private ViewPager pager;
 
+    private RealTimeTracker listener = new RealTimeTracker() {
+        @Override
+        public void onNewLocation(Location location) {
+            if(MapManager.getMapManagerHandler() != null)
+            {
+                Message message = new Message();
+                message.obj = location;
+                message.what = MapManager.ManagerMessageType.MANAGER_MESSAGE_TYPE_SEND_LOC;
+                MapManager.getMapManagerHandler().sendMessage(message);
+            }
+        }
+    };
+
     private Runnable updateTask = new Runnable() {
         @Override
         public void run() {
@@ -67,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private boolean useActionbar = true;
     private Handler updateHandler;
+    private FastLocationUpdater fastLocationUpdater;
 
     /**
      * @param menu
@@ -125,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onResume() {
-
+        fastLocationUpdater.startLocationUpdates(fastLocationUpdater.mLocationRequest); // foei mattijn
         updateHandler = new Handler();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
         int updateTime = Integer.parseInt(preferences.getString("pref_update", "1"));
@@ -139,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onPause() {
         updateHandler.removeCallbacks(updateTask);
+        fastLocationUpdater.stopLocationUpdates();
         super.onPause();
     }
 
@@ -148,22 +165,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        if (savedInstanceState != null) {
-            this.oldStates = (ArrayList<MapPartState>) savedInstanceState.getSerializable("mapManager");
-        }
-
-        setContentView(R.layout.activity_main);
-
-
-        PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(this);
-
         if (useActionbar) {
             setContentView(R.layout.mapsonly);
         } else {
             setContentView(R.layout.activity_main);
         }
+        if (savedInstanceState != null) {
+            this.oldStates = (ArrayList<MapPartState>) savedInstanceState.getSerializable("mapManager");
+        }
+
+        //setContentView(R.layout.activity_main);
+
+
+        JotiApp.addLocationListener(listener);
+
+        PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(this);
+
+
+
         Intent StartServiceIntent = new Intent(this, LocationService.class);
         startService(StartServiceIntent);
 
@@ -184,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             pager = (ViewPager) findViewById(R.id.pager);
             pager.setAdapter(pageAdaptor);
         }
+        fastLocationUpdater = new FastLocationUpdater();
         MapFragment.setOnMapReadyCallback(this);
     }
 

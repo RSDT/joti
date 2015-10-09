@@ -7,18 +7,27 @@ import android.location.Location;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class JotiApp extends Application {
     private static JotiApp instance;
     private static Location lastloc;
     private static String noUsername = "unknown";
+    private static ArrayList<RealTimeTracker> listeners = new ArrayList<RealTimeTracker>();
 
     /**
      * @param loc
      */
     public static void setLastLocation(Location loc) {
         lastloc = loc;
+        for ( RealTimeTracker listener: listeners){
+            listener.onNewLocation(loc);
+        }
     }
 
+    public static void addLocationListener(RealTimeTracker ls){
+        listeners.add(ls);
+    }
     /**
      * @return
      */

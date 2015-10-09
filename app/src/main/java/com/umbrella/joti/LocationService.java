@@ -161,15 +161,6 @@ public class LocationService extends Service implements com.google.android.gms.l
         JotiApp.debug(location.toString());
         JotiApp.setLastLocation(location);
         TryToSendLocation(location);
-
-        if(MapManager.getMapManagerHandler() != null)
-        {
-            Message message = new Message();
-            message.obj = location;
-            message.what = MapManager.ManagerMessageType.MANAGER_MESSAGE_TYPE_SEND_LOC;
-            MapManager.getMapManagerHandler().sendMessage(message);
-        }
-
     }
 
     /**

@@ -102,6 +102,7 @@ public class MapBinder extends HashMap<String, MapBindObject> {
          * Loop through data and add each marker to the map and the bind object.
          * */
         for (int m = 0; m < markers.size(); m++) {
+
             bindObject.getMarkers().add(gMap.addMarker(markers.get(m)));
         }
 
