@@ -11,6 +11,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -373,10 +374,12 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
             state = new MapPartState(MapPart.Me, TeamPart.None, true , true);
             this.add(state);
         }
+        LatLng oldLatLng = gMap.getCameraPosition().target;
         StorageObject storageObject = mapStorage.getAssociatedStorageObject(state);
         if(storageObject.getMarkers().size() > 0)
         {
             MarkerOptions options = storageObject.getMarkers().get(0);
+            oldLatLng = options.getPosition();
             options.position(new LatLng(location.getLatitude(), location.getLongitude()));
 
             PolylineOptions polylineOptions = storageObject.getPolylines().get(0);
@@ -399,6 +402,13 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
         }
         state.setHasNewData(true);
         this.sync(state);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+
+        boolean onSelf = oldLatLng.equals(new LatLng(location.getLatitude(),location.getLongitude()));
+        if (onSelf)
+        {
+           this.cameraToCurrentLocation();
+        }
     }
 
     /**

@@ -42,7 +42,8 @@
             android:key="pref_follow_reset_map"
             android:title="@string/send_follow_reset_map_title"
             android:summary="@string/send_follow_reset_map_summ"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            android:visibility="invisible"/>
     <EditTextPreference
         android:key="pref_speed"
         android:title="@string/pref_speed_title"
@@ -100,7 +101,7 @@
             android:key="pref_hunter"
             android:title="@string/tail"
             android:summary="@string/tail_sum"
-            android:defaultValue="true" />
+            android:defaultValue="false" />
         <CheckBoxPreference
             android:key="pref_sc"
             android:title="@string/sc"

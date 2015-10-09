@@ -1,6 +1,6 @@
 <resources>
-    <string name="version">Beta-8</string>
-    <string name="versionCode">11</string>
+    <string name="version">Beta-10</string>
+    <string name="versionCode">13</string>
     <string name="app_name">joti</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">Jotihunter</string>
@@ -42,7 +42,7 @@
     <string name="send_post_title">zend als locaties door als een post request</string>
     <string name="pref_zoom_summ">zoomlevel tussen2.0 en 22.0</string>
     <string name="pref_zoom_title">Zoom</string>
-    <string name="action_map_camera">HuidigeLocatie</string>
+    <string name="action_map_camera">Volgen</string>
     <string name="pref_speed_title">Snelheid van de vossen</string>
     <string name="pref_speed_summ">snelheid van de vossen in km per uur</string>
     <string name="pref_location_interval_title">Interval locatie updates in minuten</string>
@@ -52,8 +52,8 @@
     <string name="pref_map_cat">Map</string>
     <string name="pref_loc_cat">Locatie settings</string>
     <string name="action_reset_circles">Verwijder cirkels</string>
-    <string name="send_follow_title">Volgen</string>
-    <string name="send_follow_summ">huidigelocatie volgen gebruiken icm zoom.</string>
-    <string name="send_follow_reset_map_title">resemaponlocationupdate</string>
-    <string name="send_follow_reset_map_summ">De map focust op de huidigelocatie.</string>
+    <string name="send_follow_title">Nauwkeurige Locatie</string>
+    <string name="send_follow_summ">Gebruikt de nauwkeurige Locatie zolang de app actief is.</string>
+    <string name="send_follow_reset_map_title">doet niks meer</string>
+    <string name="send_follow_reset_map_summ">doet niks meer.</string>
 </resources>
