@@ -16,15 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
@@ -33,6 +27,7 @@ import com.umbrella.jotiwa.data.objects.area348.receivables.FotoOpdrachtInfo;
 import com.umbrella.jotiwa.data.objects.area348.receivables.HunterInfo;
 import com.umbrella.jotiwa.data.objects.area348.receivables.ScoutingGroepInfo;
 import com.umbrella.jotiwa.data.objects.area348.receivables.VosInfo;
+import com.umbrella.jotiwa.data.objects.area348.sendables.HunterInfoSendable;
 import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.binding.MapBindObject;
@@ -46,13 +41,11 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, SharedPreferences.OnSharedPreferenceChangeListener,com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String LOCATION_FOLLOW_KEY = "pref_follow";
     private PageAdaptor pageAdaptor;
 
     private ViewPager pager;
-    private Marker me;
 
     private Runnable updateTask = new Runnable() {
         @Override
@@ -74,10 +67,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private boolean useActionbar = true;
     private Handler updateHandler;
-    private GoogleMap gmap;
-    private GoogleApiClient mGoogleApiClient;
-    private boolean locationUpdates = false;
-    private LocationRequest mLocationRequest;
 
     /**
      * @param menu
@@ -136,8 +125,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onResume() {
-        buildGoogleApiClient();
-        createLocationRequest();
 
         updateHandler = new Handler();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
@@ -152,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onPause() {
         updateHandler.removeCallbacks(updateTask);
-        stopLocationUpdates();
         super.onPause();
     }
 
@@ -214,7 +200,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     public void onMapReady(GoogleMap map) {
         map.setInfoWindowAdapter(this);
-        gmap = map;
         mapManager = new MapManager(map);
 
         /**
@@ -262,17 +247,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-        if (key == LOCATION_FOLLOW_KEY){
-            if (preferences.getBoolean("pref_send_loc_interval", true)){
-                if (!locationUpdates){
-                    startLocationUpdates(mLocationRequest);
-                }
-            }else{
-                if (locationUpdates){
-                    stopLocationUpdates();
-                }
-            }
-        }
         String[] temp = key.split("_");
         String[] typeCode = new String[3];
         for (int i = 0; i < temp.length && i < 3; i++) {
@@ -415,7 +389,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
 
                 break;
-
+            case Me:
+                HunterInfoSendable me = HunterInfoSendable.get();
+                infoType.setText("You");
+                naam.setText(me.gebruiker);
+                dateTime_adres.setText(new Date().toString());
+                coordinaat.setText(me.latitude + " , " + me.longitude);
+                break;
             default:
                 BaseInfo baseInfo = mapManager.getMapStorage().findInfo(new MapPartState(part, TeamPart.None), Integer.parseInt(splitted[1]));
                 coordinaat.setText(((Double) baseInfo.latitude + " , " + ((Double) baseInfo.longitude).toString()));
@@ -438,68 +418,5 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
         }
         return view;
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        if (me != null)
-        {
-            me.remove();
-        }
-        if (gmap != null) {
-            me = this.gmap.addMarker(new MarkerOptions()
-                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .title("me"));
-        }
-        JotiApp.setLastLocation(location);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
-
-        if (preferences.getBoolean("pref_follow_reset_map", false))
-            mapManager.cameraToCurrentLocation();
-
-    }
-    protected synchronized void buildGoogleApiClient() {
-        JotiApp.debug("building google iets");
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-    }
-    @Override
-    public void onConnected(Bundle bundle) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
-        createLocationRequest();
-        if (preferences.getBoolean(LOCATION_FOLLOW_KEY, false)) {
-            startLocationUpdates(mLocationRequest);
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-
-    public void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(100);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);}
-
-    protected void startLocationUpdates(LocationRequest mLocationRequest) {
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        locationUpdates= true;
-    }
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, this);
-        locationUpdates= false;
     }
 }

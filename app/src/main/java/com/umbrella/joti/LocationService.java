@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.interaction.AsyncInteractionTask;
 import com.umbrella.jotiwa.communication.interaction.InteractionRequest;
 import com.umbrella.jotiwa.data.objects.area348.sendables.HunterInfoSendable;
+import com.umbrella.jotiwa.map.area348.MapManager;
 
 
 public class LocationService extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -159,6 +161,15 @@ public class LocationService extends Service implements com.google.android.gms.l
         JotiApp.debug(location.toString());
         JotiApp.setLastLocation(location);
         TryToSendLocation(location);
+
+        if(MapManager.getMapManagerHandler() != null)
+        {
+            Message message = new Message();
+            message.obj = location;
+            message.what = MapManager.ManagerMessageType.MANAGER_MESSAGE_TYPE_SEND_LOC;
+            MapManager.getMapManagerHandler().sendMessage(message);
+        }
+
     }
 
     /**

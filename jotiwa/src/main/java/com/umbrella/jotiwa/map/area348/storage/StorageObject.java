@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by stesi on 2-10-2015.
  */
-public class StorageObject<T> {
+public class StorageObject {
 
     /**
      *

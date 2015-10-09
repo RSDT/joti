@@ -1,6 +1,7 @@
 package com.umbrella.jotiwa.map.area348;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
@@ -9,14 +10,20 @@ import android.preference.PreferenceManager;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.JotiApp;
+import com.umbrella.jotiwa.R;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.area348.DataUpdater;
 import com.umbrella.jotiwa.map.area348.binding.MapBinder;
 import com.umbrella.jotiwa.map.area348.handling.OnNewDataAvailable;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
+import com.umbrella.jotiwa.map.area348.storage.StorageObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -29,7 +36,7 @@ import java.util.Iterator;
  * @version 1.0
  * @since 25-9-2015
  */
-public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvailable {
+public class MapManager extends ArrayList<MapPartState> implements Manager {
 
     /**
      * @param gMap The google map that the manager should manage on.
@@ -358,28 +365,88 @@ public class MapManager extends ArrayList<MapPartState> implements OnNewDataAvai
         }
     }
 
+
+    @Override
+    public void onLocationChanged(Location location) {
+        MapPartState state = this.findState(MapPart.Me, TeamPart.None, "me");
+        if(state == null)
+        {
+            state = new MapPartState(MapPart.Me, TeamPart.None, true , true);
+            this.add(state);
+        }
+        StorageObject storageObject = mapStorage.getAssociatedStorageObject(state);
+        if(storageObject.getMarkers().size() > 0)
+        {
+            MarkerOptions options = storageObject.getMarkers().get(0);
+            options.position(new LatLng(location.getLatitude(), location.getLongitude()));
+
+            PolylineOptions polylineOptions = storageObject.getPolylines().get(0);
+            polylineOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
+        }
+        else
+        {
+            MarkerOptions options = new MarkerOptions();
+            options.title("me;");
+            options.icon(BitmapDescriptorFactory.fromAsset("navigation-icon-30-30.png"));
+            options.flat(true);
+            options.position(new LatLng(location.getLatitude(), location.getLongitude()));
+            storageObject.getMarkers().add(options);
+
+            PolylineOptions pOptions = new PolylineOptions();
+            pOptions.width(5);
+            pOptions.color(Color.argb(255, 0, 153, 153));
+            pOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
+            storageObject.getPolylines().add(pOptions);
+        }
+        state.setHasNewData(true);
+        this.sync(state);
+    }
+
     /**
      * The handler that receives messages and thereby executes the associated UI code on the main thread.
      */
     public static class MapManagerHandler extends Handler {
 
-        public MapManagerHandler(OnNewDataAvailable onNewDataAvailable)
+        public MapManagerHandler(Manager manager)
         {
-            this.onNewDataAvailableWeakReference = new WeakReference<>(onNewDataAvailable);
+            this.managerWeakReference = new WeakReference<>(manager);
         }
 
-        private WeakReference<OnNewDataAvailable> onNewDataAvailableWeakReference;
+        private WeakReference<Manager> managerWeakReference;
 
         @Override
         public void handleMessage(Message msg) {
 
-            OnNewDataAvailable onNewDataAvailableRef = this.onNewDataAvailableWeakReference.get();
-            if(onNewDataAvailableRef != null)
-            {
-                onNewDataAvailableRef.onNewDataAvailable((ArrayList<MapPartState>)msg.obj);
+            Manager manager = this.managerWeakReference.get();
+            if(manager != null) {
+                switch (msg.what) {
+                    case ManagerMessageType.MANAGER_MESSAGE_TYPE_NEW_DATA:
+                        manager.onNewDataAvailable((ArrayList<MapPartState>) msg.obj);
+                        break;
+                    case ManagerMessageType.MANAGER_MESSAGE_TYPE_SEND_LOC:
+                        manager.onLocationChanged((Location)msg.obj);
+                        break;
+                }
             }
             super.handleMessage(msg);
         }
+    }
+
+
+    /**
+     * Class that defines message whats.
+     * */
+    public static class ManagerMessageType
+    {
+        /**
+         * Signal to sync the map.
+         * */
+        public static final int MANAGER_MESSAGE_TYPE_NEW_DATA = 0;
+
+        /**
+         * Signal to use location obj and set the me marker to the latest position.
+         * */
+        public static final int MANAGER_MESSAGE_TYPE_SEND_LOC = 1;
     }
 
 }

@@ -182,7 +182,8 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
                             pOptions.width(5);
                             storageObjectHunter.getPolylines().add(pOptions);
                         }
-                        storageObjectHunter.setAssociatedInfo(entry.getValue().getHunterInfo());
+                        storageObjectHunter.getAssociatedInfo().clear();
+                        storageObjectHunter.getAssociatedInfo().addAll(entry.getValue().getHunterInfo());
 
                         /**
                          * Add a state to the new state list, so for each hunter a state is created.
