@@ -179,13 +179,9 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         HashMap<String, HunterObject> entries = new HashMap<>();
 
         for (int h = 0; h < hunterInfos.length; h++) {
-            //insertionSort(hunterInfos[h]);
             entries.put(hunterInfos[h][0].gebruiker, new HunterObject());
             HunterObject current = entries.get(hunterInfos[h][0].gebruiker);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
             HunterInfo last = hunterInfos[h][0];
-            Date errorDate = new Date();
-            Date lastDate;
             for (int i = 0; i < hunterInfos[h].length; i++) {
                 /**
                  * Checks if the current info is the last, if it is the info is the newest.
