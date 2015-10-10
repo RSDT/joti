@@ -192,7 +192,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
                  * TRUE: Creates
                  * */
                 if (hunterInfos[h][i].id > last.id) {
-                    last = hunterInfos[h][0];
+                    last = hunterInfos[h][i];
                 }
                 current.getPositions().add(new LatLng(hunterInfos[h][i].latitude, hunterInfos[h][i].longitude));
             }
