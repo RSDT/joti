@@ -144,19 +144,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         result.setObjects(new Object[]{markers, pOptions, cOptions, vossen});
         return result;
     }
-
-    private void insertionSort(HunterInfo[] a){
-        if (a == null ) return;
-        if (a.length  == 0) return;
-        for (int i=1; i <a.length; i++){
-            HunterInfo temp = a[i];
-            int j;
-            for (j = i -1; j >=0 && temp.id < a[j].id; j--){
-                a[j+1] = a[j];
-                a[j+1] = temp;
-            }
-        }
-    }
+    
     /**
      * TODO:The older locations, only have to be retrieved once. They are stored offline. Only the newest location should be retrieved.
      *
