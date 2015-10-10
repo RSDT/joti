@@ -99,7 +99,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
          * Setup the preset circle.
          * */
         CircleOptions cOptions = new CircleOptions();
-        cOptions.fillColor(TeamPart.getAssociatedAlphaColor(result.getTeamPart(), 128));
+        cOptions.fillColor(TeamPart.getAssociatedAlphaColor(result.getTeamPart(), 96));
         cOptions.strokeColor(Color.BLACK);
         cOptions.strokeWidth(1);
         cOptions.radius(1);
