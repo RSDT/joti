@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
@@ -174,7 +175,23 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
                         storageObjectHunter.getMarkers().add(entry.getValue().getMarker());
                         if (storageObjectHunter.getPolylines().size() > 0) {
                             PolylineOptions options = (PolylineOptions) storageObjectHunter.getPolylines().get(0);
-                            options.addAll(entry.getValue().getPositions());
+
+                            ArrayList<LatLng> oldPoints = new ArrayList<>();
+                            oldPoints.addAll(options.getPoints());
+
+                            ArrayList<LatLng> newPoints = entry.getValue().getPositions();
+
+                            for(int p = 0; p < newPoints.size(); p++)
+                            {
+                                boolean copy = false;
+                                for(int x = 0; x < oldPoints.size(); x++)
+                                {
+                                    if(oldPoints.get(x) == newPoints.get(p)) {
+                                        copy = true;
+                                    }
+                                }
+                                if(!copy) { options.add(newPoints.get(p)); }
+                            }
                         } else {
                             PolylineOptions pOptions = new PolylineOptions();
                             pOptions.addAll(entry.getValue().getPositions());
