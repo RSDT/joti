@@ -11,7 +11,10 @@ import java.util.ArrayList;
 
 public class JotiApp extends Application {
     private static JotiApp instance;
-    private static Location lastloc;
+    private static Location lastestloc;
+    private static Location previousLoc;
+
+
     private static String noUsername = "unknown";
     private static ArrayList<RealTimeTracker> listeners = new ArrayList<RealTimeTracker>();
 
@@ -19,7 +22,8 @@ public class JotiApp extends Application {
      * @param loc
      */
     public static void setLastLocation(Location loc) {
-        lastloc = loc;
+        previousLoc = lastestloc;
+        lastestloc = loc;
         for ( RealTimeTracker listener: listeners){
             listener.onNewLocation(loc);
         }
@@ -31,9 +35,11 @@ public class JotiApp extends Application {
     /**
      * @return
      */
-    public static Location getLastLocation() {
-        return lastloc;
+    public static Location getLastestLocation() {
+        return lastestloc;
     }
+
+    public static Location getPreviousLocation() { return previousLoc; }
 
     /**
      * @return

@@ -238,23 +238,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
          * Check the preferences to make sure.
          * */
         else {
-            /**
-             * TODO: Only update the parts that are enabled in the settings.
-             * */
-/*            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String format = "pref_";
-
-            String vosFormat = format + "vos";
-            TeamPart[] teams = new TeamPart[] { TeamPart.Alpha, TeamPart.Bravo, TeamPart.Charlie,
-                    TeamPart.Delta, TeamPart.Echo, TeamPart.Foxtrot, TeamPart.XRay };
-            for(int i = 0; i < teams.length-1; i++)
-            {
-                if(sharedPreferences.getBoolean(vosFormat + teams[i].getSubChar(), false));
-                {
-                    mapManager.add(new MapPartState(MapPart.Vossen, teams[i], true , true));
-                }
-            }*/
-
             mapManager.add(new MapPartState(MapPart.All, TeamPart.All, true, true));
             mapManager.update();
         }

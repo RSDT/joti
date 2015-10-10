@@ -11,9 +11,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.JotiApp;
@@ -21,7 +19,6 @@ import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.area348.DataUpdater;
 import com.umbrella.jotiwa.map.area348.binding.MapBinder;
-import com.umbrella.jotiwa.map.area348.handling.OnNewDataAvailable;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 import com.umbrella.jotiwa.map.area348.storage.StorageObject;
 
@@ -95,7 +92,7 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
      *
      */
     public void cameraToCurrentLocation() {
-        Location location = JotiApp.getLastLocation();
+        Location location = JotiApp.getLastestLocation();
         CameraUpdate camera;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
         float zoom = Float.parseFloat(preferences.getString("pref_zoom", "10"));
@@ -381,6 +378,9 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
         if(storageObject.getMarkers().size() > 0)
         {
             MarkerOptions options = storageObject.getMarkers().get(0);
+            float bearing = JotiApp.getPreviousLocation().bearingTo(location);
+
+            options.rotation(bearing);
             options.position(new LatLng(location.getLatitude(), location.getLongitude()));
 
             PolylineOptions polylineOptions = storageObject.getPolylines().get(0);
@@ -390,7 +390,7 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
         {
             MarkerOptions options = new MarkerOptions();
             options.title("me;");
-            options.icon(BitmapDescriptorFactory.fromAsset("navigation-icon.png"));
+            options.icon(BitmapDescriptorFactory.fromAsset("navigation-icon-30-30.png"));
             options.flat(true);
             options.position(new LatLng(location.getLatitude(), location.getLongitude()));
             storageObject.getMarkers().add(options);
@@ -403,8 +403,6 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
         }
         state.setHasNewData(true);
         this.sync(state);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
-
 
         if (oldFarRight == null)
         {

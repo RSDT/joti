@@ -144,7 +144,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         result.setObjects(new Object[]{markers, pOptions, cOptions, vossen});
         return result;
     }
-    
+
     /**
      * TODO:The older locations, only have to be retrieved once. They are stored offline. Only the newest location should be retrieved.
      *
