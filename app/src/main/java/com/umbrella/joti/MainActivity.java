@@ -11,6 +11,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.Marker;
 import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.RealTimeTracker;
@@ -40,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private PageAdaptor pageAdaptor;
 
     private ViewPager pager;
-
+    private HashMap<TeamPart,Pair<Date,Circle>> cirlces = new HashMap<>();
     private RealTimeTracker listener = new RealTimeTracker() {
         @Override
         public void onNewLocation(Location location) {
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Runnable updateTask = new Runnable() {
         @Override
         public void run() {
-            JotiApp.toast("updating Data");
+
             refresh();
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
             int updateTime = Integer.parseInt(preferences.getString("pref_update", "1"));
@@ -126,8 +129,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
 
                     bindObject.getCircles().get(0).setRadius(0);
-                }
+                    if (cirlces.containsKey(parts[i])){
+                        cirlces.get(parts[i]).second.setRadius(0);
+                    }
 
+                }
+                cirlces= new HashMap<>();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -135,6 +143,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void refresh() {
         if (mapManager != null) {
+            JotiApp.toast("updating Data");
+            for (TeamPart key : cirlces.keySet()){
+                Date date =cirlces.get(key).first;
+                SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+                boolean debug_on = sharedpeferences.getBoolean("pref_debug", false);
+                float speed = Float.parseFloat(sharedpeferences.getString("pref_speed", "6.0"));
+                float aantal_meters_per_uur = speed * 1000f;
+                if (debug_on) {
+                    date.setMonth(new Date().getMonth());
+                    date.setDate(new Date().getDate());
+                }
+                long duration = (new Date()).getTime() - date.getTime();
+
+                float diffInHours = TimeUnit.MILLISECONDS.toSeconds(duration)/60f/60f;
+
+                if (diffInHours > 30)
+                    diffInHours = 30;
+                float radius = diffInHours * aantal_meters_per_uur;
+                cirlces.get(key).second.setRadius(radius);
+            }
             mapManager.update();
             mapManager.syncAll();
         }
@@ -349,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
                 float speed = Float.parseFloat(preferences.getString("pref_speed", "6.0"));
-                float aantal_meters_per_uur = speed * 1000;
+                float aantal_meters_per_uur = speed * 1000f;
                 try {
                     Date date = dateFormat.parse(dateString);
                     SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
@@ -360,14 +388,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                     long duration = (new Date()).getTime() - date.getTime();
 
-                    float diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
+                    float diffInHours = TimeUnit.MILLISECONDS.toSeconds(duration)/60f/60f;
+
                     if (diffInHours > 30)
                         diffInHours = 30;
                     float radius = diffInHours * aantal_meters_per_uur;
                     MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
 
                     if (mapManager.getMapStorage().isLastInfo(stateVos, info)) {
-                        bindObject.getCircles().get(0).setRadius(radius);
+                        Circle circle = bindObject.getCircles().get(0);
+                        circle.setRadius(radius);
+                        cirlces.put(teamPart, new Pair<>(date, circle));
                         //((Circle)storageObject.getCircles().get(0)).setRadius(radius);
                         //mapManager.sync(stateVos);
                     }

@@ -43,6 +43,8 @@
             android:title="@string/send_follow_reset_map_title"
             android:summary="@string/send_follow_reset_map_summ"
             android:defaultValue="false"
+            android:enabled="false"
+            android:shouldDisableView="true"
             android:visibility="gone"/>
     <EditTextPreference
         android:key="pref_speed"
