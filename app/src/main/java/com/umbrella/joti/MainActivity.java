@@ -144,6 +144,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void refresh() {
         if (mapManager != null) {
             JotiApp.toast("updating Data");
+
+            mapManager.update();
+            mapManager.syncAll();
             for (TeamPart key : cirlces.keySet()){
                 Date date =cirlces.get(key).first;
                 SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
@@ -163,8 +166,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 float radius = diffInHours * aantal_meters_per_uur;
                 cirlces.get(key).second.setRadius(radius);
             }
-            mapManager.update();
-            mapManager.syncAll();
         }
     }
 
