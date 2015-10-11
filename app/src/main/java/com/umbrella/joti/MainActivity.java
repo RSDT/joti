@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean useActionbar = true;
     private Handler updateHandler;
     private FastLocationUpdater fastLocationUpdater;
+    private KmlLoader kmlLoader;
 
     /**
      * @param menu
@@ -220,6 +221,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     public void onMapReady(GoogleMap map) {
         map.setInfoWindowAdapter(this);
+        kmlLoader = new KmlLoader(map, R.raw.jotihunt2014);
+        PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(kmlLoader);
+        kmlLoader.ReadKML();
         mapManager = new MapManager(map);
 
         /**

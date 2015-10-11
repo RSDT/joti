@@ -19,6 +19,7 @@ import com.umbrella.jotiwa.JotiApp;
  */
 public class FastLocationUpdater implements SharedPreferences.OnSharedPreferenceChangeListener,com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private boolean shouldStartLocationUpdates = false;
+    private boolean shouldStopLocationUpdates= false;
 
     FastLocationUpdater(){
         buildGoogleApiClient();
@@ -48,6 +49,9 @@ public class FastLocationUpdater implements SharedPreferences.OnSharedPreference
         createLocationRequest();
         if (preferences.getBoolean(LOCATION_FOLLOW_KEY, false) || shouldStartLocationUpdates) {
             startLocationUpdates(mLocationRequest);
+        }
+        if (shouldStopLocationUpdates){
+            stopLocationUpdates();
         }
     }
 
@@ -79,9 +83,14 @@ public class FastLocationUpdater implements SharedPreferences.OnSharedPreference
         }
     }
     protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, this);
-        locationUpdates= false;
+        if (mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(
+                    mGoogleApiClient, this);
+            locationUpdates = false;
+            shouldStopLocationUpdates = false;
+        }else{
+            shouldStopLocationUpdates = true;
+        }
     }
 
     @Override

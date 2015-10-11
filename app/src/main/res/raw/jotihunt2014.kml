@@ -1,0 +1,1433 @@
+<?xml version='1.0' encoding='UTF-8'?><kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>Jotihunt 2014 - v.23</name>
+		<description><![CDATA[]]></description>
+		<Folder>
+			<name>Groepen</name>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[De Rietkampers - Don Bosco]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Afferden (Gld.)<br/>
+							<a href="http://www.derietkampers.nl" target="_blank">
+									http://www.derietkampers.nl
+							</a><br>
+							Koningstraat 114<br />
+							6654 AH Afferden (Gld.)<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.616438,51.88199,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Jagermeester Johan Bentinck]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Apeldoorn<br/>
+							<a href="http://scoutinggroep-jjb.net/" target="_blank">
+									http://scoutinggroep-jjb.net/
+							</a><br>
+							Berghuizerweg 155<br />
+							7312SN Apeldoorn<br>
+							A
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.923047,52.19646,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Olivier van Noort]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Apeldoorn<br/>
+							<a href="http://www.oliviervannoort.nl/" target="_blank">
+									http://www.oliviervannoort.nl/
+							</a><br>
+							Sutton  15<br />
+							7327AB Apeldoorn<br>
+							B
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.989448,52.19005,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[ScoutingHvG & PPD]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Apeldoorn<br/>
+							<a href="http://scoutinghvg.nl" target="_blank">
+									http://scoutinghvg.nl
+							</a><br>
+							Polderweg 4-6<br />
+							7326HW Apeldoorn<br>
+							B
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.005221,52.18421,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Stadhouder Willem III / Lady Baden Powell]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Apeldoorn<br/>
+							<a href="http://www.sw3lbp.nl" target="_blank">
+									http://www.sw3lbp.nl
+							</a><br>
+							Jachtlaan 6<br />
+							7313 CP Apeldoorn<br>
+							A
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.942608,52.22592,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Aerendheem]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Arnhem<br/>
+							<a href="http://www.aerendheem.nl" target="_blank">
+									http://www.aerendheem.nl
+							</a><br>
+							Lindestraat 26<br />
+							6823JT Arnhem<br>
+							B
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.947809,52.00422,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Andre De Thaye]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Arnhem<br/>
+							<a href="http://www.andredethaye.com/" target="_blank">
+									http://www.andredethaye.com/
+							</a><br>
+							Voetiuslaan 41<br />
+							6828 TD  Arnhem<br>
+							B
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.934190,51.98133,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[De Geuzen Arnhem]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Arnhem<br/>
+							<a href="http://www.degeuzenarnhem.nl" target="_blank">
+									http://www.degeuzenarnhem.nl
+							</a><br>
+							Diependalseweg 3<br />
+							6813 GE Arnhem<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.876333,51.98773,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Lido '76 & Voermangroep]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Arnhem<br/>
+							<a href="http://lido76.nl" target="_blank">
+									http://lido76.nl
+							</a><br>
+							Veerpolderstraat 128a<br />
+							6833BS Arnhem<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.917350,51.96803,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Schutgraaf Arnhem]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Arnhem<br/>
+							<a href="http://schutgraaf.nl" target="_blank">
+									http://schutgraaf.nl
+							</a><br>
+							Hannesstraatje 4<br />
+							6842NV Arnhem<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.869633,51.96612,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[St. Christoforus - Lichtdraagsters]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Arnhem<br/>
+							<a href="http://christoforus.nl/" target="_blank">
+									http://christoforus.nl/
+							</a><br>
+							Monnikensteeg 4<br />
+							6823 AB Arnhem<br>
+							B
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.931556,51.99619,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Bemmel]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Bemmel<br/>
+							<a href="http://www.scouting-bemmel.nl" target="_blank">
+									http://www.scouting-bemmel.nl
+							</a><br>
+							Sportlaan 1F<br />
+							6681 CD Bemmel<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.905510,51.88713,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Bennekom]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Bennekom<br/>
+							<a href="http://www.scoutingbennekom.nl" target="_blank">
+									http://www.scoutingbennekom.nl
+							</a><br>
+							Selterskampweg 68<br />
+							6721 AV Bennekom<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.685939,52.00992,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scoutinggroep St. Stanislaus]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Culemborg<br/>
+							<a href="http://www.scoutnet.nl/~sint.stanislaus/" target="_blank">
+									http://www.scoutnet.nl/~sint.stanislaus/
+							</a><br>
+							Steenovenslaan 20<br />
+							4101 AM Culemborg<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.216848,51.95993,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Triton]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Culemborg<br/>
+							<a href="http://www.tritonscouting.nl/" target="_blank">
+									http://www.tritonscouting.nl/
+							</a><br>
+							Steenovenslaan 4<br />
+							4101 AM Culemborg<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.217411,51.96068,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting  Deest]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Deest<br/>
+							<a href="http://www.dewoutergroep.nl" target="_blank">
+									http://www.dewoutergroep.nl
+							</a><br>
+							Kweldam 1<br />
+							6653CB Deest<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.660155,51.88904,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Titus Brandsma Deventer]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Deventer - Colmschate<br/>
+							<a href="http://www.connectitus.nl" target="_blank">
+									http://www.connectitus.nl
+							</a><br>
+							Doornenburg 530<br />
+							7423 BT Deventer - Colmschate<br>
+							B
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.212296,52.25057,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[St. Willibrordgroep Didam]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Didam<br/>
+							<a href="" target="_blank">
+									
+							</a><br>
+							Julianastraat 41<br />
+							6942BB Didam<br>
+							C
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.132141,51.93849,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Dieren]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Dieren<br/>
+							<a href="http://scoutingdieren.nl/" target="_blank">
+									http://scoutingdieren.nl/
+							</a><br>
+							Kolonieweg 9<br />
+							6952GZ Dieren<br>
+							B
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.076759,52.05380,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Isala groep Scouting Doesburg]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Doesburg<br/>
+							<a href="http://www.scoutingdoesburg.nl" target="_blank">
+									http://www.scoutingdoesburg.nl
+							</a><br>
+							Zanderskamp 93<br />
+							6983 CG  Doesburg<br>
+							C
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.129577,52.00146,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Graaf Ottogroep Doetinchem]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Doetinchem<br/>
+							<a href="http://www.graaf-ottogroep.nl" target="_blank">
+									http://www.graaf-ottogroep.nl
+							</a><br>
+							Auroraweg 6<br />
+							7007 GZ Doetinchem<br>
+							C
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.271238,51.95454,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Hamaland]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Doetinchem<br/>
+							<a href="http://scoutinghamaland.nl/" target="_blank">
+									http://scoutinghamaland.nl/
+							</a><br>
+							Keppelseweg 249<br />
+							7008BB Doetinchem<br>
+							C
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.267499,51.97640,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Roothaangroep]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Doetinchem<br/>
+							<a href="http://roothaangroep.nl" target="_blank">
+									http://roothaangroep.nl
+							</a><br>
+							Koekendaalseweg 11<br />
+							7004 GH Doetinchem<br>
+							C
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.321237,51.94940,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Duiven-Wehl]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Duiven<br/>
+							<a href="http://www.scoutingduiven.nl" target="_blank">
+									http://www.scoutingduiven.nl
+							</a><br>
+							Nieuweling 3<br />
+							6921 JL Duiven<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.032317,51.94400,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Langenberggroep]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Ede<br/>
+							<a href="http://langenberggroep.nl/blog/" target="_blank">
+									http://langenberggroep.nl/blog/
+							</a><br>
+							Buurtmeesterweg 25<br />
+							6711 HL Ede<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.690837,52.04041,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Jan Hilgers]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Ede<br/>
+							<a href="http://www.scoutingjanhilgers.nl" target="_blank">
+									http://www.scoutingjanhilgers.nl
+							</a><br>
+							Dwarsweg 1-3<br />
+							6715AT Ede<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.620708,52.04164,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[St. Werenfridusgroep Scouting Elst]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Elst<br/>
+							<a href="http://www.scoutingelst.nl" target="_blank">
+									http://www.scoutingelst.nl
+							</a><br>
+							De Pas 4<br />
+							6662 BG Elst<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.843455,51.90664,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Alexandergroep Ermelo]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Ermelo<br/>
+							<a href="http://www.alexandergroep.nl/" target="_blank">
+									http://www.alexandergroep.nl/
+							</a><br>
+							Watervalweg 175<br />
+							3853 PS Ermelo<br>
+							A
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.594555,52.28666,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Irmin-Taweb Ermelo]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Ermelo<br/>
+							<a href="http://www.irmin-taweb.nl" target="_blank">
+									http://www.irmin-taweb.nl
+							</a><br>
+							Kalkoenweg 23<br />
+							3851 SB Ermelo<br>
+							A
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.620204,52.31538,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Gaanderen (Scoga)]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Gaanderen<br/>
+							<a href="http://scoga.nl" target="_blank">
+									http://scoga.nl
+							</a><br>
+							Hamminkstraat 21<br />
+							7011 HC Gaanderen<br>
+							C
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.347372,51.93788,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Graaf van Gelre]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Geldermalsen<br/>
+							<a href="http://www.scoutinggeldermalsen.nl" target="_blank">
+									http://www.scoutinggeldermalsen.nl
+							</a><br>
+							Frederik Hendrikstraat  3<br />
+							4191 ZH Geldermalsen<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.305001,51.88657,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Isselhunters]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Gendringen<br/>
+							<a href="http://www.scoutinggendringen.nl" target="_blank">
+									http://www.scoutinggendringen.nl
+							</a><br>
+							Tulpstraat 6<br />
+							7081 EB Gendringen<br>
+							C
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.371122,51.87026,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Groessen Zeddam]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Groessen<br/>
+							<a href="http://www.scoutsgroessen.nl/" target="_blank">
+									http://www.scoutsgroessen.nl/
+							</a><br>
+							Sint Isidorusplein  8<br />
+							6923 BD Groessen<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.032352,51.93189,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Ragay Redoz]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Harderwijk<br/>
+							<a href="http://ragayredoz.nl/" target="_blank">
+									http://ragayredoz.nl/
+							</a><br>
+							Strokelweg 4<br />
+							3847 LR Harderwijk<br>
+							A
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.635374,52.32642,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Verbraak Margriet Gorep]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Harderwijk<br/>
+							<a href="http://www.verbraakmargrietgroep.nl" target="_blank">
+									http://www.verbraakmargrietgroep.nl
+							</a><br>
+							Strokel  6<br />
+							3847 LR Harderwijk<br>
+							A
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.635492,52.32476,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Mgr. de la Geneste te Grave]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Heumen<br/>
+							<a href="http://www.scoutinggrave.nl" target="_blank">
+									http://www.scoutinggrave.nl
+							</a><br>
+							Overasseltseweg 4a<br />
+							6582BL Heumen<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.829094,51.76507,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Dannenburcht Huissen]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Huissen<br/>
+							<a href="http://www.scoutingdannenburcht.nl" target="_blank">
+									http://www.scoutingdannenburcht.nl
+							</a><br>
+							Kloosterlaan 1a<br />
+							6851CA Huissen<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.942122,51.93557,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Sweder van Voorst]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Hummelo<br/>
+							<a href="http://scoutingsweder.nl" target="_blank">
+									http://scoutingsweder.nl
+							</a><br>
+							Torenallee 2b<br />
+							6999DD Hummelo<br>
+							C
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.224870,52.02149,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting de Witte Wieven & IJsselgroep]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Lochem<br/>
+							<a href="http://www.scoutingdewittewieven.nl" target="_blank">
+									http://www.scoutingdewittewieven.nl
+							</a><br>
+							Vordenseweg  9<br />
+							7241RL Lochem<br>
+							C
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.391382,52.14490,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Valeouwe]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Loenen<br/>
+							<a href="http://www.scoutingloenen.nl" target="_blank">
+									http://www.scoutingloenen.nl
+							</a><br>
+							Lonapark 10<br />
+							7371 EH Loenen<br>
+							B
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.028007,52.12213,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Kiliaen van Rensselaer 1]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Nijkerk<br/>
+							<a href="http://www.kvr1.nl" target="_blank">
+									http://www.kvr1.nl
+							</a><br>
+							Nautenaseweg 2<br />
+							3861PH Nijkerk<br>
+							A
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.467970,52.22016,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Karel de Stoute]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Nijmegen<br/>
+							<a href="http://www.kareldestoute.nl" target="_blank">
+									http://www.kareldestoute.nl
+							</a><br>
+							Weezenhof 93-11<br />
+							6536AE Nijmegen<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.817855,51.80160,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Paul Kruger]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Nijmegen<br/>
+							<a href="http://scoutingpaulkruger.nl/" target="_blank">
+									http://scoutingpaulkruger.nl/
+							</a><br>
+							Wilhelminasingel  13-15<br />
+							6524 AJ Nijmegen<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.864188,51.84089,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting amalgama]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Nijmegen<br/>
+							<a href="http://scoutingamalgama.nl" target="_blank">
+									http://scoutingamalgama.nl
+							</a><br>
+							Weteringweg 50<br />
+							6546JZ Nijmegen<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.785552,51.83918,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scoutinggroep de Bevers en Scouting MAlden]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Nijmegen<br/>
+							<a href="http://www.scoutinggroepdebevers.nl" target="_blank">
+									http://www.scoutinggroepdebevers.nl
+							</a><br>
+							Staddijk  105<br />
+							6537 TW Nijmegen<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.789773,51.80898,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Z.V. de Batavieren]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Nijmegen<br/>
+							<a href="http://www.batavieren.com" target="_blank">
+									http://www.batavieren.com
+							</a><br>
+							Grootstalselaan 13<br />
+							6533KH Nijmegen<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.849093,51.80807,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Nunspeet]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Nunspeet<br/>
+							<a href="http://www.scoutingnunspeet.nl/" target="_blank">
+									http://www.scoutingnunspeet.nl/
+							</a><br>
+							Zandenboslaan 80<br />
+							8072 PP Nunspeet<br>
+							A
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.806708,52.37615,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[OPV-Schoonoord]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Oosterbeek<br/>
+							<a href="http://www.opv-schoonoord.nl" target="_blank">
+									http://www.opv-schoonoord.nl
+							</a><br>
+							Sportlaan 2<br />
+							6861 AG Oosterbeek<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.820522,51.99272,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Kon-Tiki]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Putten<br/>
+							<a href="http://www.scoutingkontiki.nl" target="_blank">
+									http://www.scoutingkontiki.nl
+							</a><br>
+							Garderenseweg 144b<br />
+							3881NC Putten<br>
+							A
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.639762,52.24496,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Rhedense Pioniers]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Rheden<br/>
+							<a href="http://www.rhedensepioniers.nl" target="_blank">
+									http://www.rhedensepioniers.nl
+							</a><br>
+							Arnhemseweg 30<br />
+							6991 DP Rheden<br>
+							B
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.027932,52.00621,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Jonko]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Silvolde<br/>
+							<a href="http://www.scoutingsilvolde.nl/" target="_blank">
+									http://www.scoutingsilvolde.nl/
+							</a><br>
+							Kerkenstraat 5<br />
+							7064AV Silvolde<br>
+							C
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.381213,51.91026,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Phoenix Tiel]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Tiel<br/>
+							<a href="http://www.scoutingphoenix.nl" target="_blank">
+									http://www.scoutingphoenix.nl
+							</a><br>
+							De Hennepe 199<br />
+							4003 AD Tiel<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.426473,51.89977,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Valburg (Christophorus)]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Valburg<br/>
+							<a href="http://www.scoutingvalburg.nl" target="_blank">
+									http://www.scoutingvalburg.nl
+							</a><br>
+							Burgemeester van Lyndenpark 71<br />
+							6675AZ Valburg<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.789454,51.91262,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[De Zwervers]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Veenendaal<br/>
+							<a href="http://zwervers.com" target="_blank">
+									http://zwervers.com
+							</a><br>
+							zandheuvelweg 2a<br />
+							3905 md Veenendaal<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.536159,52.01527,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Velpsche Woudloopers en de Olmen]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Velp<br/>
+							<a href="http://scoutingvelp.nl" target="_blank">
+									http://scoutingvelp.nl
+							</a><br>
+							Beekhuizenseweg  73a<br />
+							6881 EC Velp<br>
+							B
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.978826,52.00825,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[WELIKA]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Westervoort<br/>
+							<a href="http://www.sint-jorisgroep.nl" target="_blank">
+									http://www.sint-jorisgroep.nl
+							</a><br>
+							Paepestraat 27<br />
+							6931 CP Westervoort<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.963430,51.95865,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Beuningen `76]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Weurt<br/>
+							<a href="http://www.scoutingbeuningen.nl" target="_blank">
+									http://www.scoutingbeuningen.nl
+							</a><br>
+							Reekstraat  13a<br />
+							6551DR Weurt<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.782016,51.85362,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting st. Andries Weurt]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Weurt<br/>
+							<a href="http://www.scoutingweurt.nl" target="_blank">
+									http://www.scoutingweurt.nl
+							</a><br>
+							Kerkstraat 50<br />
+							6551 ZZ Weurt<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.817182,51.85914,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Woezik]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Wijchen<br/>
+							<a href="http://scoutingwoezik.nl/" target="_blank">
+									http://scoutingwoezik.nl/
+							</a><br>
+							Oud Woezikse straat 3<br />
+							6604 KD Wijchen<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.717293,51.82510,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Karmijngroep Winssen]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Winssen<br/>
+							<a href="http://www.scoutingwinssen.nl" target="_blank">
+									http://www.scoutingwinssen.nl
+							</a><br>
+							Kennedysingel 8a<br />
+							6645 AW Winssen<br>
+							F
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.700343,51.88143,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Jan Wandelaar]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Zeewolde<br/>
+							<a href="http://www.janwandelaar.nl/" target="_blank">
+									http://www.janwandelaar.nl/
+							</a><br>
+							Dasselaarweg 49<br />
+							3896 LT Zeewolde<br>
+							A
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.528762,52.30678,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Zetten]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Zetten<br/>
+							<a href="http://www.scoutingzetten.nl" target="_blank">
+									http://www.scoutingzetten.nl
+							</a><br>
+							Piersonstraat 21<br />
+							6671 CK Zetten<br>
+							E
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>5.709350,51.93255,0.0</coordinates>
+					</Point>
+				</Placemark>
+							<Placemark>
+					<styleUrl>#icon-1197</styleUrl>
+					<name><![CDATA[Scouting Subanhara Liemersgroep]]></name>
+					<ExtendedData>
+						<![CDATA[
+						<p>
+							Zevenaar<br/>
+							<a href="http://www.subanharaliemersgroep.nl/algemeen/home.php" target="_blank">
+									http://www.subanharaliemersgroep.nl/algemeen/home.php
+							</a><br>
+							slenterweg  29<br />
+							6905DP Zevenaar<br>
+							D
+						</p>
+						]]>
+					</ExtendedData>
+					<Point>
+						<coordinates>6.066020,51.91578,0.0</coordinates>
+					</Point>
+				</Placemark>
+					</Folder>
+		<Folder>
+			<name>Deelgebieden</name>
+			<Placemark>
+				<styleUrl>#poly-F4EB37-1-76</styleUrl>
+				<name>Foxtrot</name>
+				<ExtendedData>
+				</ExtendedData>
+				<Polygon>
+					<outerBoundaryIs>
+						<LinearRing>
+							<tessellate>1</tessellate>
+							<coordinates>5.7363747900560345,51.88193533216186,0.0 5.740528100000001,51.8910074,0.0 5.741901400000001,51.8929144,0.0 5.742931400000001,51.894397500000004,0.0 5.7470512,51.8959864,0.0 5.752201,51.897787,0.0 5.755205000000001,51.89927,0.0 5.7621574,51.9035069,0.0 5.768166,51.907849,0.0 5.763359,51.910814,0.0 5.746879999999999,51.916109,0.0 5.7230186000000005,51.9157911,0.0 5.683707999999999,51.917379000000004,0.0 5.870132,52.174774,0.0 5.684710637203341,52.17473935337835,0.0 5.439777,52.174248000000006,0.0 5.441837300000001,52.1691941,0.0 5.4459572000000005,52.1678254,0.0 5.4804611,52.1652984,0.0 5.4809761,52.1643507,0.0 5.4737663,52.1640348,0.0 5.4720496999999995,52.1625606,0.0 5.4773712,52.16213940000001,0.0 5.4806328,52.1609811,0.0 5.479087800000001,52.15898020000001,0.0 5.4802895,52.15719,0.0 5.483894299999999,52.1583484,0.0 5.4833794,52.1546623,0.0 5.4808044,52.1511867,0.0 5.482692700000001,52.150028000000006,0.0 5.4895592,52.14834269999999,0.0 5.496082300000001,52.1475,0.0 5.495567299999999,52.142548899999994,0.0 5.4993439,52.140758000000005,0.0 5.5093002,52.13854549999999,0.0 5.5134201,52.1365437,0.0 5.512390100000001,52.132012800000005,0.0 5.5015755,52.1295892,0.0 5.4984856,52.1303268,0.0 5.495224000000001,52.12442529999999,0.0 5.495739,52.1197879,0.0 5.505352,52.11978789999999,0.0 5.5036354,52.1169419,0.0 5.507583599999999,52.1155716,0.0 5.507583600000001,52.1140958,0.0 5.5043221,52.1143066,0.0 5.4988288999999995,52.116204,0.0 5.488529199999999,52.11599319999999,0.0 5.4869843,52.1153607,0.0 5.490589100000001,52.1150445,0.0 5.4938507,52.1130416,0.0 5.4940224,52.1116711,0.0 5.4847527000000005,52.1053454,0.0 5.4862976,52.09395680000001,0.0 5.482521099999999,52.092163899999996,0.0 5.4758263000000005,52.090160000000004,0.0 5.471878099999999,52.0887888,0.0 5.469303100000001,52.0867847,0.0 5.4641533,52.083831200000006,0.0 5.4598618,52.0822489,0.0 5.460548400000001,52.0796115,0.0 5.4650116,52.07897849999999,0.0 5.4658699,52.0768685,0.0 5.4684448,52.0750749,0.0 5.4742813,52.0732812,0.0 5.4771996,52.0716985,0.0 5.4820061,52.07022129999999,0.0 5.487155900000001,52.0702213,0.0 5.4912758,52.0714875,0.0 5.4993439,52.071065399999995,0.0 5.501747100000001,52.0728592,0.0 5.504322100000001,52.0734922,0.0 5.505180400000001,52.076763,0.0 5.5087852,52.07676300000001,0.0 5.5101585,52.0789785,0.0 5.5189133,52.079295,0.0 5.523033100000001,52.077818,0.0 5.5326462,52.0835147,0.0 5.5268097,52.0852025,0.0 5.5314445,52.0898436,0.0 5.537452699999999,52.0884724,0.0 5.5386543,52.0925858,0.0 5.535736099999999,52.0932186,0.0 5.5391693,52.0971206,0.0 5.5317879,52.1020768,0.0 5.549469,52.1054508,0.0 5.5532455,52.1015495,0.0 5.550327300000001,52.0971206,0.0 5.554447199999999,52.0952224,0.0 5.5556488,52.087734,0.0 5.5597687,52.0845696,0.0 5.5621719,52.078873,0.0 5.5614853,52.0708544,0.0 5.4838943,51.9840344,0.0 5.468788100000001,51.98255420000001,0.0 5.451622,51.9848801,0.0 5.4406357000000005,51.98604310000001,0.0 5.4335117,51.9846687,0.0 5.4290484999999995,51.9825014,0.0 5.424241999999999,51.9793823,0.0 5.4175472000000005,51.9766331,0.0 5.412569,51.9752056,0.0 5.4058743,51.974359699999994,0.0 5.396776200000001,51.9722976,0.0 5.3863907,51.96975950000001,0.0 5.3817558000000005,51.9691249,0.0 5.3736019,51.9694422,0.0 5.3673363,51.9706055,0.0 5.3584099,51.9708699,0.0 5.352315900000001,51.96949510000001,0.0 5.3478527,51.96753850000001,0.0 5.338067999999999,51.9596057,0.0 5.3344631,51.9575958,0.0 5.3272533,51.9557974,0.0 5.3215027,51.9546337,0.0 5.315923699999999,51.9551627,0.0 5.3017616,51.96135100000001,0.0 5.2892303,51.962779,0.0 5.2788448,51.9639954,0.0 5.268888500000001,51.96579340000001,0.0 5.2609921,51.9684904,0.0 5.251293200000001,51.9744654,0.0 5.2474308,51.977373300000004,0.0 5.239877699999999,51.9793294,0.0 5.2336979,51.9780077,0.0 5.2288914,51.974201,0.0 5.2221966,51.9664809,0.0 5.2160168,51.9615626,0.0 5.209579499999999,51.9598173,0.0 5.199880600000001,51.9597644,0.0 5.1900959,51.9626732,0.0 5.180225400000001,51.96753850000001,0.0 5.162243799999999,51.9463812,0.0 5.1488113,51.9302155,0.0 5.1354218,51.91833230000001,0.0 5.1360655,51.9177499,0.0 5.136451700000001,51.91515580000001,0.0 5.1357651,51.9142558,0.0 5.1324176999999995,51.9149176,0.0 5.128530775826598,51.91000504604933,0.0 5.1193285,51.8983698,0.0 5.1173115,51.8983698,0.0 5.1167964999999995,51.89693979999999,0.0 5.1182556,51.8963307,0.0 5.1176548,51.8922522,0.0 5.1154232,51.8904512,0.0 5.1125908,51.887882,0.0 5.1056384999999995,51.88907389999999,0.0 5.100832,51.8887296,0.0 5.098085400000001,51.8880409,0.0 5.092721000000001,51.8892858,0.0 5.090146099999999,51.8888091,0.0 5.087528200000001,51.8880939,0.0 5.087142,51.8875112,0.0 5.0876999000000005,51.8869285,0.0 5.0870991,51.884571,0.0 5.0864553,51.8812597,0.0 5.0841808,51.8791933,0.0 5.0832367000000005,51.8779746,0.0 5.080061000000001,51.8755637,0.0 5.073237399999999,51.87423890000001,0.0 5.0690746,51.8741064,0.0 5.0646973,51.8747688,0.0 5.056114200000001,51.873497,0.0 5.0538397,51.872516700000006,0.0 5.051822700000001,51.8694695,0.0 5.0516939,51.8670051,0.0 5.053668,51.8651765,0.0 5.057487500000001,51.8635865,0.0 5.0625944,51.8618373,0.0 5.063195200000001,51.8609627,0.0 5.062079399999999,51.8594255,0.0 5.0574875,51.85807379999999,0.0 5.050964399999999,51.859107400000006,0.0 5.042166700000001,51.8604326,0.0 5.0387764,51.8591074,0.0 5.0239277,51.8586569,0.0 5.018863699999999,51.859027899999994,0.0 5.014400499999999,51.8590279,0.0 5.0093365,51.857861699999994,0.0 5.0041437,51.8580473,0.0 4.9956036,51.8619963,0.0 4.993844000000001,51.860936200000005,0.0 4.9977064,51.855661700000006,0.0 4.998607600000001,51.85425690000001,0.0 4.998350100000001,51.8512615,0.0 5.0002384,51.8514205,0.0 5.000667600000001,51.847019800000005,0.0 5.0037575,51.8445807,0.0 5.0065041,51.8429899,0.0 5.0319099,51.84065660000001,0.0 5.0267601,51.819121,0.0 5.000839199999999,51.8212432,0.0 5.0087357,51.8178477,0.0 5.0101089,51.8168926,0.0 5.0101089000000005,51.8146641,0.0 5.0111389,51.8117987,0.0 5.0183487,51.8062797,0.0 5.0286484,51.8029892,0.0 5.0353432,51.8026707,0.0 5.046844500000001,51.798106000000004,0.0 5.0562859,51.7896123,0.0 5.0646973,51.782179,0.0 5.072250400000001,51.7790991,0.0 5.0799751,51.7801612,0.0 5.083751699999999,51.7820728,0.0 5.0871849,51.7848339,0.0 5.096283,51.78801959999999,0.0 5.1040077,51.7861082,0.0 5.1098441999999995,51.78292239999999,0.0 5.116882300000001,51.7782495,0.0 5.1242638,51.7758066,0.0 5.1304436,51.7746383,0.0 5.1371384,51.7731512,0.0 5.1397133,51.7692209,0.0 5.13834,51.76688380000001,0.0 5.1356792,51.7635373,0.0 5.1361942,51.7597124,0.0 5.1383399999999995,51.7568966,0.0 5.1429749000000005,51.75487770000001,0.0 5.1366234,51.7496173,0.0 5.1290703,51.7467478,0.0 5.1255512,51.7443032,0.0 5.1265812,51.7377129,0.0 5.1401424,51.73967950000001,0.0 5.154562,51.742815199999995,0.0 5.1786804,51.7429746,0.0 5.1839161,51.7418054,0.0 5.197477300000001,51.7403173,0.0 5.2124977,51.74334660000001,0.0 5.216102600000001,51.7432935,0.0 5.2200508,51.7435061,0.0 5.2282047,51.7421774,0.0 5.234041200000001,51.73983890000001,0.0 5.239706,51.7368625,0.0 5.245113400000001,51.73383270000001,0.0 5.250864,51.73362000000001,0.0 5.258073800000001,51.7363309,0.0 5.2627945,51.7383507,0.0 5.267257700000001,51.7392543,0.0 5.271978399999999,51.740104699999996,0.0 5.2813339,51.7398389,0.0 5.2868271,51.7389354,0.0 5.2941227,51.7368625,0.0 5.299272499999999,51.7369688,0.0 5.303306600000001,51.73829760000001,0.0 5.3116322,51.7423369,0.0 5.3232193,51.74680089999999,0.0 5.3494835,51.75450570000001,0.0 5.3544617,51.755674600000006,0.0 5.3572941,51.7576935,0.0 5.359611500000001,51.7598186,0.0 5.360813099999999,51.7632717,0.0 5.360641499999999,51.7712923,0.0 5.3619289,51.7770812,0.0 5.3645039,51.783453400000006,0.0 5.365877199999999,51.7863206,0.0 5.3812408,51.80198070000001,0.0 5.390596400000001,51.8100476,0.0 5.396175400000001,51.814558,0.0 5.3987503,51.81731709999999,0.0 5.4008102000000004,51.8204474,0.0 5.4033852,51.8214554,0.0 5.4061316999999995,51.82246339999999,0.0 5.410766599999999,51.82241040000001,0.0 5.415058100000001,51.821190200000004,0.0 5.4184914,51.8186966,0.0 5.421581300000001,51.8155131,0.0 5.425872799999999,51.81248860000001,0.0 5.4296494,51.8110558,0.0 5.4362583,51.8099414,0.0 5.4459572000000005,51.809623,0.0 5.460119200000001,51.8105252,0.0 5.4648399,51.81100279999999,0.0 5.4721355,51.8135498,0.0 5.4758263000000005,51.8161498,0.0 5.4772854,51.818537400000004,0.0 5.4781437,51.820978,0.0 5.479860300000001,51.8245324,0.0 5.4809761,51.826283,0.0 5.483035999999999,51.8282457,0.0 5.4873276,51.82973100000001,0.0 5.4925632,51.8305266,0.0 5.4971981,51.8301553,0.0 5.5016613,51.8293597,0.0 5.5050945,51.827609200000005,0.0 5.5101585,51.824426300000006,0.0 5.5150509,51.8201822,0.0 5.5205441,51.8189619,0.0 5.5268955,51.8185905,0.0 5.5314445,51.81774159999999,0.0 5.536079400000001,51.8163621,0.0 5.541915899999999,51.81662730000001,0.0 5.545864100000001,51.8177946,0.0 5.5482673999999985,51.8197047,0.0 5.5495548,51.821455400000005,0.0 5.550670600000001,51.8234714,0.0 5.552215600000001,51.8249038,0.0 5.5538464,51.8263891,0.0 5.5559063,51.8272379,0.0 5.559511199999999,51.827768299999995,0.0 5.564317699999999,51.8278744,0.0 5.574788999999999,51.8279805,0.0 5.5857754,51.829624900000006,0.0 5.5922985,51.8294127,0.0 5.604400600000001,51.8259647,0.0 5.6127894146125685,51.821962402810925,0.0 5.614185300000001,51.8212963,0.0 5.619678500000001,51.8193333,0.0 5.6256008,51.8193863,0.0 5.6328106,51.8197047,0.0 5.637273800000001,51.8192272,0.0 5.641737,51.8179007,0.0 5.6456852,51.8149294,0.0 5.6483459,51.8084555,0.0 5.6537533,51.8012907,0.0 5.659933099999999,51.796301199999995,0.0 5.6637960000000005,51.793966,0.0 5.676498,51.80585500000001,0.0 5.684051,51.831322,0.0 5.709800999999999,51.855715,0.0 5.7288551000000005,51.8721987,0.0 5.7316017,51.87511330000001,0.0 5.7350349000000005,51.8790078,0.0 5.7363747900560345,51.88193533216186,0.0</coordinates>
+						</LinearRing>
+					</outerBoundaryIs>
+				</Polygon>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#poly-009D57-1-76</styleUrl>
+				<name>Bravo</name>
+				<ExtendedData>
+				</ExtendedData>
+				<Polygon>
+					<outerBoundaryIs>
+						<LinearRing>
+							<tessellate>1</tessellate>
+							<coordinates>6.028061,52.509535,0.0 6.014671,52.345827,0.0 5.950942,52.174458,0.0 5.901396299999999,51.9833998,0.0 5.925171599999999,51.9742272,0.0 5.98064,51.980995,0.0 6.115608,52.048795999999996,0.0 6.280747000000001,52.228641,0.0 6.252765999999999,52.255129000000004,0.0 6.228732999999999,52.265321,0.0 6.21088,52.263955,0.0 6.130370999999999,52.260488,0.0 6.124878,52.26279900000001,0.0 6.123676,52.268157,0.0 6.118698000000001,52.273515,0.0 6.112862000000002,52.276981000000006,0.0 6.11166,52.28086700000001,0.0 6.1113170000000006,52.288428,0.0 6.108913000000001,52.289373,0.0 6.104965000000001,52.294202,0.0 6.101017,52.301341,0.0 6.098270000000001,52.30071100000001,0.0 6.088313999999999,52.301026,0.0 6.086769,52.301656,0.0 6.083851,52.302076,0.0 6.082306,52.306065000000004,0.0 6.084366,52.31152199999999,0.0 6.080588999999999,52.312362,0.0 6.079044000000001,52.31771400000001,0.0 6.071663000000001,52.31708400000001,0.0 6.06617,52.318237999999994,0.0 6.067543000000001,52.321281,0.0 6.07029,52.321911,0.0 6.076641000000002,52.338276,0.0 6.075954000000001,52.350441000000004,0.0 6.0785290000000005,52.352643,0.0 6.089343999999999,52.354216,0.0 6.095180999999999,52.357151,0.0 6.091747,52.360087,0.0 6.085739,52.36124,0.0 6.080761,52.36176400000001,0.0 6.077499,52.36459399999999,0.0 6.076812999999999,52.366481,0.0 6.078529,52.37035899999999,0.0 6.084537000000001,52.37277,0.0 6.099129,52.374866,0.0 6.114750000000001,52.3778,0.0 6.121101000000001,52.379791,0.0 6.122989999999999,52.38104799999999,0.0 6.124534999999999,52.383249,0.0 6.126251000000001,52.38597300000001,0.0 6.125565,52.38964,0.0 6.125735999999999,52.393935,0.0 6.130543,52.3998,0.0 6.119041,52.401895,0.0 6.1109729999999995,52.40828400000001,0.0 6.114578,52.414147,0.0 6.113719999999999,52.41959200000001,0.0 6.115952,52.42304599999999,0.0 6.118354999999999,52.428279999999994,0.0 6.116466000000001,52.431211,0.0 6.120242999999999,52.433095,0.0 6.112175,52.439793,0.0 6.105308,52.441676,0.0 6.101618,52.446437,0.0 6.102303999999999,52.449366,0.0 6.103591999999999,52.453237,0.0 6.102561999999999,52.45794399999999,0.0 6.101704000000001,52.46422,0.0 6.100073,52.46960599999999,0.0 6.095696,52.473109,0.0 6.088142,52.477291,0.0 6.078529,52.479853,0.0 6.071405,52.481996,0.0 6.064795999999999,52.486282,0.0 6.061363,52.490829,0.0 6.057672,52.497048,0.0 6.053767000000001,52.500078,0.0 6.039906,52.506531,0.0 6.028061,52.509535,0.0</coordinates>
+						</LinearRing>
+					</outerBoundaryIs>
+				</Polygon>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#poly-DB4436-2-91</styleUrl>
+				<name>Alpha</name>
+				<ExtendedData>
+				</ExtendedData>
+				<Polygon>
+					<outerBoundaryIs>
+						<LinearRing>
+							<tessellate>1</tessellate>
+							<coordinates>5.865412,52.518676000000006,0.0 5.8533100000000005,52.518101,0.0 5.847816,52.499504,0.0 5.815544,52.46103,0.0 5.8079909999999995,52.46605,0.0 5.815887,52.489261,0.0 5.779839,52.509117,0.0 5.729027,52.517057,0.0 5.688515000000001,52.462076,0.0 5.434111999999999,52.322331,0.0 5.392399000000001,52.220649,0.0 5.406818,52.213708,0.0 5.409392999999999,52.21865100000001,0.0 5.440807,52.204346,0.0 5.436344,52.184774,0.0 5.438919000000001,52.18424699999999,0.0 5.439777,52.174248000000006,0.0 5.950942,52.174458,0.0 6.014671,52.345827,0.0 6.028061,52.509535,0.0 6.020164,52.504311,0.0 6.012783,52.506087,0.0 6.00317,52.501802999999995,0.0 5.965061,52.476507,0.0 5.958195000000001,52.48393,0.0 5.952358,52.484061000000004,0.0 5.951071,52.484061,0.0 5.946951,52.482467,0.0 5.936608,52.476481,0.0 5.935621,52.477422,0.0 5.925407000000001,52.473841,0.0 5.916137999999999,52.490098,0.0 5.902748000000001,52.50462400000001,0.0 5.894594,52.511050000000004,0.0 5.882320000000001,52.519094,0.0 5.881891,52.519825,0.0 5.879058999999999,52.521653,0.0 5.877942999999999,52.52113,0.0 5.876312,52.52207,0.0 5.865412,52.518676000000006,0.0</coordinates>
+						</LinearRing>
+					</outerBoundaryIs>
+				</Polygon>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#poly-3F5BA9-1-102</styleUrl>
+				<name>Charlie</name>
+				<ExtendedData>
+				</ExtendedData>
+				<Polygon>
+					<outerBoundaryIs>
+						<LinearRing>
+							<tessellate>1</tessellate>
+							<coordinates>6.60042947726995,52.17692536085695,0.0 6.596646,52.179537,0.0 6.595916999999999,52.179406,0.0 6.593213,52.18114200000001,0.0 6.590981,52.182248,0.0 6.588578,52.182536999999996,0.0 6.584930000000002,52.181616000000005,0.0 6.566146,52.178842,0.0 6.566145451228473,52.17884191891315,0.0 6.555361999999999,52.177248000000006,0.0 6.549197,52.177884,0.0 6.549196594762735,52.177884041794286,0.0 6.530857000000001,52.179774,0.0 6.527381,52.1798,0.0 6.518498000000001,52.180879,0.0 6.517940000000001,52.181248,0.0 6.514678,52.181432,0.0 6.4999150000000006,52.178064,0.0 6.495667000000001,52.177142,0.0 6.492747999999999,52.177432,0.0 6.492190000000001,52.178169,0.0 6.491032000000001,52.179537,0.0 6.489272000000001,52.180327000000005,0.0 6.481719,52.18227399999999,0.0 6.479402000000001,52.182221000000006,0.0 6.4783290000000004,52.18309,0.0 6.478243000000001,52.18416800000001,0.0 6.472879,52.188140999999995,0.0 6.469359,52.194008,0.0 6.46996,52.19924300000001,0.0 6.467814,52.2004,0.0 6.466699,52.200137000000005,0.0 6.464081,52.200768,0.0 6.462749999999999,52.20071600000001,0.0 6.460304000000001,52.200427,0.0 6.457472,52.201084,0.0 6.454768,52.20239899999999,0.0 6.453481,52.204372,0.0 6.453610000000001,52.206029,0.0 6.450090000000002,52.20931600000001,0.0 6.445284000000001,52.213471000000006,0.0 6.4409920000000005,52.21589,0.0 6.440090999999999,52.21731,0.0 6.431637,52.22128,0.0 6.428075,52.224435,0.0 6.4258,52.22722099999999,0.0 6.424942,52.229639,0.0 6.422925,52.232163,0.0 6.416745000000001,52.237156,0.0 6.416531,52.237787,0.0 6.416615999999999,52.242202,0.0 6.410480000000001,52.243017,0.0 6.405587,52.242938,0.0 6.402926,52.243201,0.0 6.39576,52.24259599999999,0.0 6.393399,52.242912,0.0 6.390094999999999,52.242544,0.0 6.382799,52.244015,0.0 6.382112,52.246012,0.0 6.366835000000002,52.241572000000005,0.0 6.351170000000001,52.24170300000001,0.0 6.349368,52.241098,0.0 6.349582999999999,52.239233000000006,0.0 6.349068000000001,52.23876,0.0 6.347264999999999,52.239128,0.0 6.341472000000001,52.237787,0.0 6.342373,52.23681500000001,0.0 6.341043000000001,52.235974000000006,0.0 6.338854000000001,52.236184,0.0 6.337953,52.236184,0.0 6.338552999999999,52.22727400000001,0.0 6.325378,52.226932000000005,0.0 6.321257999999999,52.225644,0.0 6.2978700000000005,52.225565,0.0 6.297183,52.228798,0.0 6.287098,52.22961300000001,0.0 6.286626,52.230428,0.0 6.280747000000001,52.228641,0.0 6.115608,52.048795999999996,0.0 5.98064,51.980995,0.0 5.994244,51.970711,0.0 6.000251999999999,51.967433,0.0 6.022911,51.96076899999999,0.0 6.055355,51.951989,0.0 6.081963,51.94267800000001,0.0 6.112175000000001,51.927966,0.0 6.15715,51.904778,0.0 6.162643,51.901071,0.0 6.164874999999999,51.89852900000001,0.0 6.169338,51.901177000000004,0.0 6.182899000000001,51.89408,0.0 6.191139,51.891431,0.0 6.191139000000001,51.887723,0.0 6.182041,51.88571,0.0 6.183414,51.882637,0.0 6.192340999999999,51.876385,0.0 6.213627,51.8678,0.0 6.234226,51.870132,0.0 6.240062999999999,51.869072,0.0 6.245727,51.86992,0.0 6.262035000000001,51.868436,0.0 6.2670140000000005,51.87172199999999,0.0 6.268387,51.874265,0.0 6.275082,51.874477,0.0 6.280059999999999,51.874053,0.0 6.282463,51.87214600000001,0.0 6.286926000000001,51.87151000000001,0.0 6.298599000000001,51.868118,0.0 6.298084,51.86621000000001,0.0 6.299972,51.86483200000001,0.0 6.305106000000001,51.85280100000001,0.0 6.3051061755888576,51.8528005883401,0.0 6.306667,51.84914100000001,0.0 6.309070999999999,51.85020099999999,0.0 6.314564,51.850837,0.0 6.318855,51.85158,0.0 6.323146999999999,51.851262,0.0 6.328322000000001,51.851552,0.0 6.328323965124849,51.85155211059165,0.0 6.332588,51.851792,0.0 6.339798,51.850943,0.0 6.345634000000001,51.850731,0.0 6.346306,51.850581999999996,0.0 6.346306095418744,51.85058197878303,0.0 6.349926,51.849777,0.0 6.354732000000001,51.84861,0.0 6.359711,51.846702,0.0 6.361942,51.843626,0.0 6.364346000000001,51.838217,0.0 6.362629000000001,51.835671000000005,0.0 6.368465,51.833338,0.0 6.37104,51.83408000000001,0.0 6.375502999999999,51.835035,0.0 6.381167999999999,51.834823,0.0 6.387692000000001,51.833444,0.0 6.391124999999999,51.832595000000005,0.0 6.394043000000001,51.830155,0.0 6.397991,51.829519,0.0 6.401768,51.82718499999999,0.0 6.407432999999999,51.827928,0.0 6.402283,51.836414,0.0 6.408118999999999,51.835778,0.0 6.403141,51.841187,0.0 6.402283000000001,51.844793,0.0 6.405201000000001,51.846914,0.0 6.4050461392656866,51.847393568730304,0.0 6.405045999999999,51.847394,0.0 6.404686,51.848504,0.0 6.409493,51.85211,0.0 6.407261,51.854549,0.0 6.400566000000001,51.855821000000006,0.0 6.394558000000001,51.859001,0.0 6.3909530000000006,51.861546,0.0 6.3885499999999995,51.861758,0.0 6.386662,51.86462,0.0 6.39061,51.872252,0.0 6.391640000000001,51.874053,0.0 6.396103,51.87045,0.0 6.400738,51.87045,0.0 6.401596,51.869072,0.0 6.40533,51.870609,0.0 6.4066600000000005,51.870582,0.0 6.407862,51.86992,0.0 6.408806000000001,51.869973,0.0 6.408591000000001,51.869549000000006,0.0 6.409192000000001,51.869417000000006,0.0 6.409750000000001,51.869893,0.0 6.410222,51.869575999999995,0.0 6.411467000000001,51.869946000000006,0.0 6.410994,51.870264,0.0 6.412239,51.871059,0.0 6.414943,51.868807,0.0 6.418033,51.86727,0.0 6.420522000000001,51.86671400000001,0.0 6.421766,51.866926,0.0 6.423011,51.86629,0.0 6.423783000000001,51.866528,0.0 6.424127000000001,51.865998000000005,0.0 6.425414,51.865892,0.0 6.4258,51.866343,0.0 6.426400999999999,51.865998000000005,0.0 6.4276029999999995,51.86578599999999,0.0 6.428590000000001,51.86522900000001,0.0 6.428719,51.864408,0.0 6.4291480000000005,51.863242,0.0 6.429577,51.862394,0.0 6.42889,51.86181100000001,0.0 6.429748,51.860645,0.0 6.432409,51.85932,0.0 6.433868000000001,51.859744,0.0 6.433611,51.860115,0.0 6.437988,51.861917000000005,0.0 6.439276,51.861917,0.0 6.4418510000000015,51.86202300000001,0.0 6.443825,51.86265900000001,0.0 6.445626999999999,51.863878,0.0 6.446228,51.864779,0.0 6.448288,51.865415,0.0 6.451206000000001,51.865203,0.0 6.45215,51.864090000000004,0.0 6.453953,51.863082999999996,0.0 6.455927000000001,51.860539,0.0 6.458759,51.858206,0.0 6.461334,51.856457000000006,0.0 6.465454,51.85476,0.0 6.472235,51.853753,0.0 6.473264999999999,51.855185,0.0 6.4732696621177235,51.85518779727065,0.0 6.47327,51.85518799999999,0.0 6.475067000000001,51.85629800000001,0.0 6.4781569999999995,51.85682799999999,0.0 6.482619999999999,51.856987,0.0 6.484337,51.857676,0.0 6.487255,51.858948,0.0 6.489315,51.85916000000001,0.0 6.492319000000001,51.860062,0.0 6.498585000000001,51.86144,0.0 6.501159999999999,51.862924,0.0 6.5023610000000005,51.86525600000001,0.0 6.501074,51.86621000000001,0.0 6.500988,51.867959,0.0 6.502791000000001,51.867482,0.0 6.511631000000001,51.870927,0.0 6.512403999999999,51.871881,0.0 6.515836999999999,51.873365,0.0 6.524591,51.873895,0.0 6.53017,51.875802,0.0 6.529398,51.87675599999999,0.0 6.541586,51.88179000000001,0.0 6.542101,51.883485,0.0 6.544933,51.88465,0.0 6.547251000000001,51.883061000000005,0.0 6.549912,51.883273,0.0 6.548281000000001,51.885127,0.0 6.552486000000001,51.886187,0.0 6.552658,51.884015,0.0 6.555405000000001,51.883591,0.0 6.555319,51.88269,0.0 6.555661999999999,51.881736,0.0 6.5572930000000005,51.88179,0.0 6.558065000000002,51.882372000000004,0.0 6.560984,51.882372,0.0 6.560469000000001,51.883167,0.0 6.561413000000001,51.883856,0.0 6.563301,51.884862,0.0 6.565361000000001,51.886346,0.0 6.569395,51.8882,0.0 6.585101999999999,51.893974,0.0 6.625185000000001,51.90186500000001,0.0 6.627331,51.900859,0.0 6.634369,51.90101800000001,0.0 6.637373,51.904354,0.0 6.663036,51.91145,0.0 6.668272,51.913779,0.0 6.674881,51.91595,0.0 6.684665999999998,51.917432,0.0 6.6840649999999995,51.916320000000006,0.0 6.692475999999999,51.91473200000001,0.0 6.695393999999999,51.916003,0.0 6.697712,51.909702,0.0 6.699600000000001,51.90912,0.0 6.700888,51.909596,0.0 6.702347,51.909861,0.0 6.703891999999999,51.909332,0.0 6.703033,51.906419,0.0 6.721829999999999,51.896145,0.0 6.732216,51.898475999999995,0.0 6.737194,51.90451300000001,0.0 6.750841000000001,51.906949,0.0 6.75436,51.909861,0.0 6.753758999999999,51.912403,0.0 6.755304000000001,51.913462,0.0 6.761827,51.914415,0.0 6.763802000000002,51.915368,0.0 6.765690000000001,51.916003,0.0 6.7704960000000005,51.915897,0.0 6.789122,51.92939499999999,0.0 6.786032,51.93119500000001,0.0 6.794099999999999,51.935058,0.0 6.797447000000001,51.942519000000004,0.0 6.7965029999999995,51.943206999999994,0.0 6.79882,51.95868,0.0 6.812425000000001,51.961827,0.0 6.813841,51.96362499999999,0.0 6.8283890000000005,51.96407500000001,0.0 6.831737,51.968808,0.0 6.832681000000001,51.970870000000005,0.0 6.832809,51.972615,0.0 6.832337000000001,51.97436,0.0 6.830192000000001,51.97642200000001,0.0 6.829591,51.979329,0.0 6.830448999999998,51.98617500000001,0.0 6.826716,51.993522,0.0 6.807961000000001,51.994975000000004,0.0 6.811351999999999,51.998093,0.0 6.772255999999999,52.01787899999999,0.0 6.766376,52.018724,0.0 6.764145000000001,52.022316,0.0 6.752987,52.02839,0.0 6.714190999999999,52.04005899999999,0.0 6.6878839999999995,52.039742,0.0 6.688185000000001,52.052358000000005,0.0 6.686768000000001,52.05262200000001,0.0 6.686811,52.053968,0.0 6.686768000000001,52.055314,0.0 6.687155000000001,52.05637,0.0 6.689687,52.05637,0.0 6.691618,52.05908800000001,0.0 6.694922000000001,52.06425900000001,0.0 6.695695000000001,52.064154,0.0 6.696981999999999,52.067214,0.0 6.696510000000001,52.068269,0.0 6.695566000000001,52.06842700000001,0.0 6.694493,52.069773,0.0 6.713805,52.072858999999994,0.0 6.735262999999999,52.07449499999999,0.0 6.745005,52.080851,0.0 6.747837,52.082012,0.0 6.750798,52.084886,0.0 6.751099,52.085466,0.0 6.750239999999999,52.087497,0.0 6.745519999999999,52.090054,0.0 6.744661000000001,52.091795,0.0 6.745218999999999,52.092085,0.0 6.744446999999999,52.093113,0.0 6.745691,52.093245,0.0 6.7466349999999995,52.094379,0.0 6.748996000000001,52.09488,0.0 6.749983,52.09569700000001,0.0 6.751528,52.095855,0.0 6.7532440000000005,52.095908,0.0 6.754917999999999,52.094932,0.0 6.75642,52.096962,0.0 6.755433000000001,52.097121,0.0 6.7576220000000005,52.099098,0.0 6.757879,52.10039,0.0 6.760712,52.11878599999999,0.0 6.739726,52.118523,0.0 6.739554,52.117943,0.0 6.738224,52.117917,0.0 6.737923999999999,52.11831200000001,0.0 6.716595,52.11818,0.0 6.713805,52.119393,0.0 6.711788000000001,52.11963,0.0 6.697712000000001,52.12374,0.0 6.676340000000001,52.126349,0.0 6.662478000000001,52.130169,0.0 6.667843,52.135648,0.0 6.669215999999999,52.13722799999999,0.0 6.672907,52.139625,0.0 6.674066000000001,52.141153,0.0 6.674323000000001,52.143207,0.0 6.673808,52.148395,0.0 6.671319,52.150344,0.0 6.672735,52.150476,0.0 6.673593999999999,52.15194999999999,0.0 6.67295,52.152767,0.0 6.673765000000001,52.154978,0.0 6.670632,52.156321,0.0 6.674066000000001,52.158638,0.0 6.673937,52.161218,0.0 6.672778,52.161322999999996,0.0 6.673551,52.163429,0.0 6.671448000000001,52.165746,0.0 6.665182000000001,52.166851,0.0 6.665697,52.16737799999999,0.0 6.645055,52.17411599999999,0.0 6.639732999999999,52.167930999999996,0.0 6.6353990000000005,52.171852,0.0 6.633039,52.173432,0.0 6.629262,52.172089,0.0 6.625872,52.17264200000001,0.0 6.625099,52.172326000000005,0.0 6.626557999999999,52.17161599999999,0.0 6.625271,52.16893099999999,0.0 6.623640000000001,52.168273000000006,0.0 6.6217950000000005,52.168352,0.0 6.612268,52.162903,0.0 6.609306,52.16514,0.0 6.607246,52.164588,0.0 6.602869000000002,52.169168000000006,0.0 6.602955000000001,52.16982600000001,0.0 6.605830000000001,52.172063,0.0 6.606216,52.172747,0.0 6.603813000000001,52.17459000000001,0.0 6.60043,52.176925000000004,0.0 6.60042947726995,52.17692536085695,0.0</coordinates>
+						</LinearRing>
+					</outerBoundaryIs>
+				</Polygon>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#poly-0BA9CC-1-76</styleUrl>
+				<name>Delta</name>
+				<ExtendedData>
+				</ExtendedData>
+				<Polygon>
+					<outerBoundaryIs>
+						<LinearRing>
+							<tessellate>1</tessellate>
+							<coordinates>6.065130859703616,51.94856901410001,0.0 6.055355,51.951989,0.0 6.000251999999999,51.967433,0.0 5.994244,51.970711,0.0 5.98064,51.980995,0.0 5.925171599999999,51.9742272,0.0 5.901396299999999,51.9833998,0.0 5.902200900000001,51.9812588,0.0 5.895967500000001,51.9755755,0.0 5.8837134,51.93583410000001,0.0 5.861272100000001,51.8757753,0.0 5.8612720914680665,51.87577527440419,0.0 5.861272,51.875775,0.0 5.857859,51.866714,0.0 5.856099,51.865574,0.0 5.855026,51.866025,0.0 5.853524,51.866237000000005,0.0 5.851765,51.86629,0.0 5.849662000000001,51.866051,0.0 5.84816,51.865362,0.0 5.845671000000001,51.86369200000001,0.0 5.844296999999999,51.862314000000005,0.0 5.840478,51.85704,0.0 5.839706,51.855900000000005,0.0 5.838589999999999,51.854495,0.0 5.83713,51.853806,0.0 5.835843,51.852878,0.0 5.83168,51.85051899999999,0.0 5.764046,51.752965,0.0 5.780182,51.751902,0.0 5.797348000000001,51.754665,0.0 5.817260999999999,51.757215,0.0 5.846443000000001,51.759128,0.0 5.865669,51.75785299999999,0.0 5.868758999999999,51.762316,0.0 5.868759000000001,51.767415,0.0 5.866699,51.772089,0.0 5.867041999999999,51.77591300000001,0.0 5.889015,51.77825,0.0 5.897255,51.776125,0.0 5.898972,51.772301,0.0 5.907898000000001,51.764653,0.0 5.913391000000001,51.759128,0.0 5.914078,51.754878,0.0 5.917511000000001,51.75147700000001,0.0 5.93296,51.748501000000005,0.0 5.930213999999999,51.745099999999994,0.0 5.934677,51.74148600000001,0.0 5.947723,51.74255,0.0 5.951843000000001,51.744675,0.0 5.953260000000001,51.748103,0.0 5.951886,51.749139,0.0 5.956864000000001,51.75187600000001,0.0 5.958409,51.751477,0.0 5.974159,51.75928700000001,0.0 5.974889,51.75902200000001,0.0 5.976734000000001,51.759686,0.0 5.978450999999999,51.759686,0.0 5.990552999999999,51.766326,0.0 5.992055000000001,51.77023,0.0 5.990682,51.769672,0.0 5.986647999999999,51.772354,0.0 5.982270000000001,51.773815000000006,0.0 5.984030000000001,51.775435,0.0 5.983601,51.77567400000001,0.0 5.984716,51.77785099999999,0.0 5.983558000000001,51.778701,0.0 5.990424,51.783161,0.0 5.989738,51.783719,0.0 5.987805999999999,51.782869,0.0 5.984759,51.784409,0.0 5.984673,51.78502000000001,0.0 5.981755000000001,51.78417,0.0 5.980896999999999,51.78563,0.0 5.979481000000001,51.785949,0.0 5.974503000000001,51.784967,0.0 5.973987999999999,51.788524,0.0 5.975232,51.788869,0.0 5.972528,51.789692,0.0 5.97682,51.794337000000006,0.0 5.974503000000001,51.79524,0.0 5.974374000000001,51.795638000000004,0.0 5.979094999999999,51.79762800000001,0.0 5.977849999999999,51.798424,0.0 5.976476999999999,51.798823,0.0 5.975447,51.799141,0.0 5.974717000000001,51.799566,0.0 5.967464,51.804263,0.0 5.967422000000001,51.804688,0.0 5.966778,51.804502,0.0 5.965704999999999,51.805616,0.0 5.959139,51.808721000000006,0.0 5.957508,51.809225,0.0 5.956606999999999,51.810021000000006,0.0 5.955191,51.81026000000001,0.0 5.950985,51.810499,0.0 5.94811,51.81132100000001,0.0 5.949311000000002,51.812515,0.0 5.948753000000001,51.81286,0.0 5.948367000000001,51.812515,0.0 5.946307,51.813603,0.0 5.946692999999999,51.814107,0.0 5.946994,51.814452,0.0 5.945964,51.815115,0.0 5.948281,51.81638900000001,0.0 5.949782999999999,51.81543400000001,0.0 5.950642,51.816176,0.0 5.952916,51.81477,0.0 5.954803999999999,51.815963999999994,0.0 5.955963000000001,51.81543400000001,0.0 5.958194999999999,51.816972,0.0 5.944977,51.823604,0.0 5.9457059999999995,51.824028,0.0 5.945406000000001,51.824400000000004,0.0 5.963129999999999,51.83683800000001,0.0 5.971155,51.833285,0.0 5.973301000000001,51.833417000000004,0.0 5.975189,51.833126,0.0 5.976691000000001,51.83302,0.0 5.978236,51.832463000000004,0.0 5.981154000000001,51.831985,0.0 5.982828,51.83172,0.0 5.986261000000001,51.831163000000004,0.0 5.990166999999999,51.830739,0.0 5.9936,51.83103,0.0 5.994887,51.830978,0.0 5.9967760000000006,51.831243,0.0 5.998449000000001,51.83185300000001,0.0 6.000981000000001,51.832224,0.0 6.002397,51.832516,0.0 6.004542999999999,51.833310999999995,0.0 6.004415000000001,51.83355,0.0 6.010122000000001,51.835168,0.0 6.016216,51.838323,0.0 6.016989000000001,51.840869,0.0 6.01819,51.841664,0.0 6.020163999999999,51.841558,0.0 6.029177,51.84511100000001,0.0 6.032524000000001,51.842248,0.0 6.033510999999999,51.843388,0.0 6.035527999999999,51.84269799999999,0.0 6.036944000000001,51.844077,0.0 6.038103000000001,51.844713,0.0 6.042726600000001,51.8459909,0.0 6.042726624816533,51.84599090620413,0.0 6.042727,51.845991,0.0 6.0429949999999995,51.846065,0.0 6.0428571,51.8465896,0.0 6.042857093228658,51.84658962708535,0.0 6.042857,51.84659,0.0 6.042694999999999,51.847205,0.0 6.043021000000001,51.847342,0.0 6.043021049215113,51.847342,0.0 6.043021100000001,51.847342,0.0 6.055311999999999,51.85250700000001,0.0 6.051321,51.856536,0.0 6.05969,51.85770300000001,0.0 6.060375999999999,51.861307,0.0 6.061621,51.861201,0.0 6.063466000000001,51.865388,0.0 6.0678,51.86356,0.0 6.073937,51.860856999999996,0.0 6.079473,51.857782,0.0 6.082091000000001,51.856351000000004,0.0 6.087155,51.853753,0.0 6.091404,51.851818,0.0 6.097369,51.849936,0.0 6.103206,51.848849,0.0 6.107626000000001,51.848319,0.0 6.113677,51.847789000000006,0.0 6.125479,51.847762,0.0 6.134361999999999,51.84733799999999,0.0 6.1406279999999995,51.846649,0.0 6.149812,51.844739999999994,0.0 6.158265999999999,51.842831,0.0 6.166720000000001,51.84078900000001,0.0 6.165605,51.850837,0.0 6.164146,51.852004,0.0 6.163588,51.853992,0.0 6.164875,51.859638000000004,0.0 6.165842574484423,51.860191785396616,0.0 6.1658426,51.86019180000001,0.0 6.165843000000001,51.860192000000005,0.0 6.167235,51.860989,0.0 6.167235000000001,51.861625,0.0 6.165304000000001,51.861731,0.0 6.164231,51.86241999999999,0.0 6.162601,51.86265900000001,0.0 6.1608410000000005,51.863321000000006,0.0 6.158953,51.864329,0.0 6.157579,51.865283000000005,0.0 6.154747,51.865813,0.0 6.152601000000001,51.866184,0.0 6.150798999999999,51.866131,0.0 6.149125,51.86727,0.0 6.148825,51.868701,0.0 6.146765000000001,51.86904500000001,0.0 6.144360999999999,51.869761,0.0 6.144748000000001,51.87204,0.0 6.143674999999999,51.873232,0.0 6.143546,51.874636,0.0 6.143632,51.875961000000004,0.0 6.143502999999999,51.876544,0.0 6.14286,51.877153,0.0 6.142129999999999,51.878398,0.0 6.141572000000001,51.879379,0.0 6.140757,51.880279,0.0 6.139339999999999,51.882186999999995,0.0 6.138824999999999,51.88292899999999,0.0 6.138096,51.883511,0.0 6.137923999999999,51.885366,0.0 6.136508,51.885895,0.0 6.134191,51.886505,0.0 6.132259,51.886822,0.0 6.130799999999999,51.887591,0.0 6.130499999999999,51.888094,0.0 6.124148000000001,51.89023900000001,0.0 6.122432000000001,51.890133,0.0 6.120844,51.891193,0.0 6.117969,51.892014,0.0 6.115564999999999,51.892385,0.0 6.112733000000001,51.892517,0.0 6.110158,51.892225999999994,0.0 6.107755,51.891881000000005,0.0 6.105908999999999,51.891643,0.0 6.104794,51.892146,0.0 6.103591999999999,51.892411,0.0 6.1101149999999995,51.894980000000004,0.0 6.109428,51.895907,0.0 6.111789000000001,51.89882,0.0 6.1127329999999995,51.899058,0.0 6.11505,51.89770800000001,0.0 6.11814,51.901706,0.0 6.125822,51.898237,0.0 6.130799999999999,51.8998,0.0 6.154189,51.90451300000001,0.0 6.154404,51.905228,0.0 6.155733999999999,51.90499,0.0 6.156249000000001,51.905148999999994,0.0 6.137323,51.91494399999999,0.0 6.117883,51.925081,0.0 6.081963,51.94267800000001,0.0 6.065131000000001,51.948569,0.0 6.065130900000001,51.948569,0.0 6.065130859703616,51.94856901410001,0.0</coordinates>
+						</LinearRing>
+					</outerBoundaryIs>
+				</Polygon>
+			</Placemark>
+			<Placemark>
+				<styleUrl>#poly-7C3592-1-76</styleUrl>
+				<name>Echo</name>
+				<ExtendedData>
+				</ExtendedData>
+				<Polygon>
+					<outerBoundaryIs>
+						<LinearRing>
+							<tessellate>1</tessellate>
+							<coordinates>5.764046,51.752965,0.0 5.83168,51.85051899999999,0.0 5.835843,51.852878,0.0 5.83713,51.853806,0.0 5.838589999999999,51.854495,0.0 5.843353000000001,51.860963000000005,0.0 5.844039999999999,51.862076,0.0 5.845671000000001,51.86369200000001,0.0 5.847902000000001,51.86525600000001,0.0 5.849662000000001,51.866051,0.0 5.851765,51.86629,0.0 5.853524,51.866237000000005,0.0 5.854510999999999,51.866131,0.0 5.856099,51.865574,0.0 5.857859,51.866714,0.0 5.8780918,51.9208287,0.0 5.8870242,51.9464037,0.0 5.895967500000001,51.9755755,0.0 5.902200900000001,51.9812588,0.0 5.901396299999999,51.9833998,0.0 5.950942,52.174458,0.0 5.870132,52.174774,0.0 5.683707999999999,51.917379000000004,0.0 5.724220000000001,51.91568500000001,0.0 5.733489999999999,51.915897,0.0 5.746879999999999,51.916109,0.0 5.763359,51.910814,0.0 5.768166,51.907849,0.0 5.763617000000001,51.904725,0.0 5.76087,51.903242000000006,0.0 5.758467,51.90138900000001,0.0 5.755205000000001,51.89927,0.0 5.752201,51.897787,0.0 5.749024999999999,51.896675,0.0 5.745249,51.89551,0.0 5.7420729999999995,51.893550000000005,0.0 5.7406999999999995,51.89180199999999,0.0 5.738812,51.88735200000001,0.0 5.735121000000001,51.879299,0.0 5.729713,51.87310000000001,0.0 5.723534,51.868012,0.0 5.709800999999999,51.855715,0.0 5.698471,51.846383,0.0 5.689545,51.837687,0.0 5.684051,51.831322,0.0 5.681305,51.822835,0.0 5.678901999999999,51.813921,0.0 5.676498,51.80585500000001,0.0 5.672378,51.800972,0.0 5.6637960000000005,51.793966,0.0 5.669975,51.792054,0.0 5.683022,51.792054,0.0 5.690231,51.789930999999996,0.0 5.695724,51.78632100000001,0.0 5.698814,51.780798,0.0 5.704308,51.776338,0.0 5.710831,51.774426,0.0 5.71804,51.774851,0.0 5.725937,51.774426,0.0 5.730743000000001,51.771876,0.0 5.735207,51.76975199999999,0.0 5.738639999999999,51.765928,0.0 5.741729999999999,51.761466,0.0 5.746879999999999,51.757003,0.0 5.755806000000001,51.754665,0.0 5.764046,51.752965,0.0</coordinates>
+						</LinearRing>
+					</outerBoundaryIs>
+				</Polygon>
+			</Placemark>
+		</Folder>
+		<Style id='icon-503-DB4436'>
+			<IconStyle>
+				<color>ff3644DB</color>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+				</Icon>
+			</IconStyle>
+		</Style>
+		<Style id='poly-009D57-1-76'>
+			<LineStyle>
+				<color>ff579D00</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>4C579D00</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-0BA9CC-1-76'>
+			<LineStyle>
+				<color>ffCCA90B</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>4CCCA90B</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-3F5BA9-1-102'>
+			<LineStyle>
+				<color>ffA95B3F</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>66A95B3F</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-7C3592-1-76'>
+			<LineStyle>
+				<color>ff92357C</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>4C92357C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-DB4436-2-91'>
+			<LineStyle>
+				<color>ff3644DB</color>
+				<width>2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>5B3644DB</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-F4EB37-1-76'>
+			<LineStyle>
+				<color>ff37EBF4</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>4C37EBF4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+	</Document>
+</kml>
+
+<!-- Het script heeft er 0.025627136230469 seconden over gedaan -->
