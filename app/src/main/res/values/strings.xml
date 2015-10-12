@@ -58,4 +58,6 @@
     <string name="send_follow_reset_map_summ">doet niks meer.</string>
     <string name="send_toast_title">Notificaties</string>
     <string name="send_toast_summ">laat de notificaties onderaan je scherm zien</string>
+    <string name="pref_deelgebieden_overlay_title">Deelgebieden</string>
+    <string name="pref_deelgebieden_overlay">laat deelgebieden zien.</string>
 </resources>

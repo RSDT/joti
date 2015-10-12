@@ -65,6 +65,11 @@
         android:title="@string/pref_deelgebieden"
         android:key="pref_delgebieden">
         <CheckBoxPreference
+            android:key="pref_deelgebieden_overlay"
+            android:title="@string/pref_deelgebieden_overlay_title"
+            android:summary="@string/pref_deelgebieden_overlay"
+            android:defaultValue="true" />
+        <CheckBoxPreference
             android:key="pref_vos_a"
             android:title="@string/alpha"
             android:summary="@string/alpha_sum"

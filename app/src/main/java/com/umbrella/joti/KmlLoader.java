@@ -23,6 +23,7 @@ import java.util.HashMap;
  * Created by Mattijn on 11/10/2015.
  */
 public class KmlLoader implements SharedPreferences.OnSharedPreferenceChangeListener {
+    private final String DEELGEBIEDEN_OVERLAY_KEY = "pref_deelgebieden_overlay";
     private final int kmlfile;
     GoogleMap Gmap;
     HashMap<TeamPart,Polygon> deelgebieden = new HashMap<>();
@@ -62,6 +63,18 @@ public class KmlLoader implements SharedPreferences.OnSharedPreferenceChangeList
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (key.equals(DEELGEBIEDEN_OVERLAY_KEY)){
+            for (TeamPart teamPart : deelgebieden.keySet()){
+                if (preferences.getBoolean(DEELGEBIEDEN_OVERLAY_KEY,true)){
+                    boolean show = preferences.getBoolean("pref_vos_" + teamPart.toString().toLowerCase().charAt(0), true);
+                    if (show) {
+                        deelgebieden.get(teamPart).setVisible(true);
+                    }
+                }else{
+                    deelgebieden.get(teamPart).setVisible(false);
+                }
+            }
+        }
         String[] temp = key.split("_");
         String[] typeCode = new String[3];
         for (int i = 0; i < temp.length && i < 3; i++) {
