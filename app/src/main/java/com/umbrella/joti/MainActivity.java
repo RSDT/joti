@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Handler updateHandler;
     private FastLocationUpdater fastLocationUpdater;
     private KmlLoader kmlLoader;
-    private GoogleMap gmap;
 
     /**
      * @param menu
@@ -259,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * @param map
      */
     public void onMapReady(GoogleMap map) {
-        this.gmap =map;
         map.setInfoWindowAdapter(this);
         kmlLoader = new KmlLoader(map, R.raw.jotihunt2014);
         PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(kmlLoader);

@@ -1,15 +1,21 @@
 package com.umbrella.joti;
 
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationBuilderWithBuilderAccessor;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,11 +35,12 @@ import com.umbrella.jotiwa.map.area348.MapManager;
 
 
 public class LocationService extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SharedPreferences.OnSharedPreferenceChangeListener {
+    private static final int NOTIFICATION_ID = 42;
     private long last_location_send = 0l;
-    private boolean pref_send_loc_old = false;
     private boolean recieving_locations = false;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    NotificationCompat.Builder notificationBuilder;
 
 
     /**
@@ -89,6 +96,7 @@ public class LocationService extends Service implements com.google.android.gms.l
      */
     protected void startLocationUpdates(LocationRequest mLocationRequest) {
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        notification("Locaties worden verzonden.",Color.GREEN);
     }
 
 
@@ -215,7 +223,38 @@ public class LocationService extends Service implements com.google.android.gms.l
         JotiApp.debug("isconnected=" + mGoogleApiClient.isConnected());
         JotiApp.debug(mGoogleApiClient.toString());
     }
+    private void notification(String title){
 
+        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(this)
+                .setContentTitle(title)
+                .setContentText("jotihunter")
+                ;
+        notification(mNotifyBuilder);
+
+    }
+    private void notification(String title, int color){
+
+        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(this)
+                .setContentTitle(title)
+                .setContentText("jotihunter")
+                .setColor(color)
+                ;
+        notification(mNotifyBuilder);
+
+    }
+
+    private void notification(NotificationCompat.Builder mNotifyBuilder){
+        Intent intent = new Intent(this,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(),42,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        mNotifyBuilder = mNotifyBuilder.setContentIntent(pIntent)
+                .setSmallIcon(R.drawable.fox)
+                .setOngoing(true);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(
+                NOTIFICATION_ID,
+                mNotifyBuilder.build());
+    }
     /**
      *
      */
@@ -223,6 +262,7 @@ public class LocationService extends Service implements com.google.android.gms.l
         LocationServices.FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
         this.recieving_locations = false;
+        notification("Locaties worden niet verzonden",Color.RED);
     }
 
     /**

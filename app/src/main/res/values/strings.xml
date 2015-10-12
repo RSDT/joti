@@ -1,6 +1,6 @@
 <resources>
-    <string name="version">Beta-16</string>
-    <string name="versionCode">21</string>
+    <string name="version">Beta-17</string>
+    <string name="versionCode">22</string>
     <string name="app_name">joti</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">Jotihunter</string>
