@@ -1,5 +1,8 @@
 package com.umbrella.jotiwa.data.objects.area348.receivables;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -11,7 +14,7 @@ import java.util.Map;
 /**
  * Created by stesi on 13-9-2015.
  */
-public class HunterInfo extends BaseInfo {
+public class HunterInfo extends BaseInfo implements Parcelable {
 
     /**
      *
@@ -22,6 +25,41 @@ public class HunterInfo extends BaseInfo {
      *
      */
     public String gebruiker;
+
+    public HunterInfo()
+    {
+
+    }
+
+    protected HunterInfo(Parcel in) {
+        super(in);
+        datetime = in.readString();
+        gebruiker = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(datetime);
+        dest.writeString(gebruiker);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<HunterInfo> CREATOR = new Creator<HunterInfo>() {
+        @Override
+        public HunterInfo createFromParcel(Parcel in) {
+            return new HunterInfo(in);
+        }
+
+        @Override
+        public HunterInfo[] newArray(int size) {
+            return new HunterInfo[size];
+        }
+    };
 
     /**
      * @param json

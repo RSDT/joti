@@ -3,6 +3,8 @@ package com.umbrella.jotiwa.map.area348.storage;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -20,6 +22,7 @@ import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.handling.HandlingResult;
 import com.umbrella.jotiwa.map.area348.handling.HunterObject;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,14 +35,33 @@ import java.util.Map;
  * @version 1.0
  * @since 22-9-2015
  */
-public class MapStorage extends HashMap<String, StorageObject> implements Extractor {
+public class MapStorage extends HashMap<String, StorageObject> implements Extractor, Parcelable {
 
     /**
      * Initializes a new instance of MapStorage.
      */
     public MapStorage() {
+        super();
         storageHandler = new StorageHandler(this);
     }
+
+    protected MapStorage(Parcel in) {
+        super();
+        storageHandler = new StorageHandler(this);
+        super.putAll(in.readHashMap(StorageObject.class.getClassLoader()));
+    }
+
+    public static final Creator<MapStorage> CREATOR = new Creator<MapStorage>() {
+        @Override
+        public MapStorage createFromParcel(Parcel in) {
+            return new MapStorage(in);
+        }
+
+        @Override
+        public MapStorage[] newArray(int size) {
+            return new MapStorage[size];
+        }
+    };
 
     /**
      * Gets the associated StorageObject from a id.
@@ -137,6 +159,16 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
      */
     public static StorageHandler getStorageHandler() {
         return storageHandler;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeMap(this);
     }
 
 
@@ -304,7 +336,10 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
             switch (msg.what) {
                 case StorageHandlerMessageType.EXTRACT_DATA:
                     Extractor extractorRef = extractor.get();
-                    extractorRef.extract((HandlingResult[]) msg.obj);
+                    if(extractorRef != null)
+                    {
+                        extractorRef.extract((HandlingResult[]) msg.obj);
+                    }
                     break;
             }
             super.handleMessage(msg);

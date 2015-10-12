@@ -96,7 +96,7 @@ public class LocationService extends Service implements com.google.android.gms.l
      */
     protected void startLocationUpdates(LocationRequest mLocationRequest) {
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        notification("Locaties worden verzonden.",Color.GREEN);
+        notification("Locaties worden verzonden.", Color.argb(255,102, 153, 255));
     }
 
 

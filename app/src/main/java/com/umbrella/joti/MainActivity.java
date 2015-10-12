@@ -36,6 +36,7 @@ import com.umbrella.jotiwa.data.objects.area348.sendables.HunterInfoSendable;
 import com.umbrella.jotiwa.map.area348.MapManager;
 import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.binding.MapBindObject;
+import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 import com.umbrella.jotiwa.map.area348.storage.StorageObject;
 
 import java.text.ParseException;
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private MapManager mapManager;
 
     private ArrayList<MapPartState> oldStates = new ArrayList<>();
+    private HashMap<String, StorageObject> data = new HashMap<>();
     private MapPartState TempMapState = null;
 
     private boolean useActionbar = true;
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             mapManager.update();
             mapManager.syncAll();
-            updateHandler.postDelayed(circleTask,5000);// hee; slecht dit. hier wachten tot async stuff klaar is.
+            updateHandler.postDelayed(circleTask, 5000);// hee; slecht dit. hier wachten tot async stuff klaar is.
         }
     }
 
@@ -211,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         if (savedInstanceState != null) {
             this.oldStates = (ArrayList<MapPartState>) savedInstanceState.getSerializable("mapManager");
+            this.data = (HashMap<String,StorageObject>)savedInstanceState.getSerializable("mapStorage");
         }
 
         //setContentView(R.layout.activity_main);
@@ -251,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putSerializable("mapManager", (ArrayList<MapPartState>) mapManager);
+        savedInstanceState.putParcelable("mapStorage", mapManager.getMapStorage() );
     }
 
 
@@ -263,6 +267,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(kmlLoader);
         kmlLoader.ReadKML();
         mapManager = new MapManager(map);
+
+        if(!data.isEmpty())
+        {
+            MapStorage storage = new MapStorage();
+            storage.putAll(data);
+            mapManager.setMapStorage(storage);
+        }
 
         /**
          * Checks if there were old states, if so add them and sync the storage with the map.

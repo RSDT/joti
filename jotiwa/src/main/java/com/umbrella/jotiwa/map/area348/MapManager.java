@@ -22,10 +22,12 @@ import com.umbrella.jotiwa.map.area348.binding.MapBinder;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 import com.umbrella.jotiwa.map.area348.storage.StorageObject;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * The final control unit for map managing.
@@ -33,7 +35,7 @@ import java.util.Iterator;
  * @version 1.0
  * @since 25-9-2015
  */
-public class MapManager extends ArrayList<MapPartState> implements Manager {
+public class MapManager extends ArrayList<MapPartState> implements Manager, Serializable {
 
     private LatLng oldFarRight;
 
@@ -118,7 +120,7 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
         return mapManagerHandler;
     }
 
-    private static MapStorage mapStorage;
+    private MapStorage mapStorage;
 
     private static DataUpdater dataUpdater;
 
@@ -132,8 +134,12 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
     /**
      * @return
      */
-    public static MapStorage getMapStorage() {
+    public MapStorage getMapStorage() {
         return mapStorage;
+    }
+
+    public void setMapStorage(MapStorage storage) {
+        this.mapStorage = storage;
     }
 
 
@@ -366,6 +372,8 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
     }
 
 
+    public static final int POINTS_CONSTANT = 400;
+
     @Override
     public void onLocationChanged(Location location) {
         MapPartState state = this.findState(MapPart.Me, TeamPart.None, "me");
@@ -384,6 +392,17 @@ public class MapManager extends ArrayList<MapPartState> implements Manager {
             options.position(new LatLng(location.getLatitude(), location.getLongitude()));
 
             PolylineOptions polylineOptions = storageObject.getPolylines().get(0);
+
+            List<LatLng> points = polylineOptions.getPoints();
+
+            ArrayList<LatLng> newPoints = new ArrayList<>();
+
+            if(points.size() > POINTS_CONSTANT)
+            {
+                int toCopy = points.size() - POINTS_CONSTANT;
+                System.arraycopy(points, toCopy, newPoints, 0, POINTS_CONSTANT);
+            }
+
             polylineOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
         }
         else
