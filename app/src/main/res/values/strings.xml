@@ -56,6 +56,6 @@
     <string name="send_follow_summ">Gebruikt de nauwkeurige Locatie zolang de app actief is.</string>
     <string name="send_follow_reset_map_title">doet niks meer</string>
     <string name="send_follow_reset_map_summ">doet niks meer.</string>
-    <string name="send_toast_title">toasts</string>
-    <string name="send_toast_summ">laat de notificaties onderaan je scerm zien</string>
+    <string name="send_toast_title">Notificaties</string>
+    <string name="send_toast_summ">laat de notificaties onderaan je scherm zien</string>
 </resources>

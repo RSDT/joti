@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.RealTimeTracker;
@@ -78,6 +79,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             updateHandler.postDelayed(updateTask, updateTime* 60 * 1000); //loop
         }
     };
+    private Runnable circleTask = new Runnable(){
+        @Override
+        public void run() {
+
+            for (TeamPart key : cirlces.keySet()){
+                MapPartState stateVos = mapManager.findState(MapPart.Vossen, key, MapPartState.getAccesor(MapPart.Vossen, key));
+                Date date =cirlces.get(key).first;
+                SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+                boolean debug_on = sharedpeferences.getBoolean("pref_debug", false);
+                float speed = Float.parseFloat(sharedpeferences.getString("pref_speed", "6.0"));
+                float aantal_meters_per_uur = speed * 1000f;
+                if (debug_on) {
+                    date.setMonth(new Date().getMonth());
+                    date.setDate(new Date().getDate());
+                }
+                long duration = (new Date()).getTime() - date.getTime();
+
+                float diffInHours = TimeUnit.MILLISECONDS.toSeconds(duration)/60f/60f;
+
+                if (diffInHours > 30)
+                    diffInHours = 30;
+                float radius = diffInHours * aantal_meters_per_uur;
+                MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
+                bindObject.getCircles().get(0).setRadius(radius);
+            }
+        }
+    };
     private MapManager mapManager;
 
     private ArrayList<MapPartState> oldStates = new ArrayList<>();
@@ -87,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Handler updateHandler;
     private FastLocationUpdater fastLocationUpdater;
     private KmlLoader kmlLoader;
+    private GoogleMap gmap;
 
     /**
      * @param menu
@@ -127,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     MapPart part = MapPart.Vossen;
                     MapPartState stateVos = mapManager.findState(part, parts[i], MapPartState.getAccesor(part, parts[i]));
                     MapBindObject bindObject = mapManager.getMapBinder().getAssociatedMapBindObject(stateVos);
-
                     bindObject.getCircles().get(0).setRadius(0);
                     if (cirlces.containsKey(parts[i])){
                         cirlces.get(parts[i]).second.setRadius(0);
@@ -147,25 +175,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             mapManager.update();
             mapManager.syncAll();
-            for (TeamPart key : cirlces.keySet()){
-                Date date =cirlces.get(key).first;
-                SharedPreferences sharedpeferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
-                boolean debug_on = sharedpeferences.getBoolean("pref_debug", false);
-                float speed = Float.parseFloat(sharedpeferences.getString("pref_speed", "6.0"));
-                float aantal_meters_per_uur = speed * 1000f;
-                if (debug_on) {
-                    date.setMonth(new Date().getMonth());
-                    date.setDate(new Date().getDate());
-                }
-                long duration = (new Date()).getTime() - date.getTime();
-
-                float diffInHours = TimeUnit.MILLISECONDS.toSeconds(duration)/60f/60f;
-
-                if (diffInHours > 30)
-                    diffInHours = 30;
-                float radius = diffInHours * aantal_meters_per_uur;
-                cirlces.get(key).second.setRadius(radius);
-            }
+            updateHandler.postDelayed(circleTask,5000);// hee; slecht dit. hier wachten tot async stuff kla  ar is.
         }
     }
 
@@ -249,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * @param map
      */
     public void onMapReady(GoogleMap map) {
+        this.gmap =map;
         map.setInfoWindowAdapter(this);
         kmlLoader = new KmlLoader(map, R.raw.jotihunt2014);
         PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext()).registerOnSharedPreferenceChangeListener(kmlLoader);
