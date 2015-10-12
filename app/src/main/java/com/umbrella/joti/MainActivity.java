@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             mapManager.update();
             mapManager.syncAll();
-            updateHandler.postDelayed(circleTask,5000);// hee; slecht dit. hier wachten tot async stuff kla  ar is.
+            updateHandler.postDelayed(circleTask,5000);// hee; slecht dit. hier wachten tot async stuff klaar is.
         }
     }
 

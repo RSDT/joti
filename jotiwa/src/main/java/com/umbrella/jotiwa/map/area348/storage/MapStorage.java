@@ -186,7 +186,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
                                 boolean copy = false;
                                 for(int x = 0; x < oldPoints.size(); x++)
                                 {
-                                    if(oldPoints.get(x) == newPoints.get(p)) {
+                                    if(oldPoints.get(x).latitude == newPoints.get(p).latitude && oldPoints.get(x).longitude == newPoints.get(p).longitude) {
                                         copy = true;
                                     }
                                 }
