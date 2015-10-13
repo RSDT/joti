@@ -1,5 +1,7 @@
 package com.umbrella.jotiwa.map.area348.handling;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -11,6 +13,8 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.umbrella.jotiwa.JotiApp;
+import com.umbrella.jotiwa.R;
 import com.umbrella.jotiwa.communication.enumeration.area348.Area348_Linker;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
@@ -21,11 +25,8 @@ import com.umbrella.jotiwa.data.objects.area348.receivables.ScoutingGroepInfo;
 import com.umbrella.jotiwa.data.objects.area348.receivables.VosInfo;
 import com.umbrella.jotiwa.map.area348.storage.MapStorage;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -86,7 +87,40 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         /**
          * Load the icon once.
          * */
-        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromAsset("vos_pointers/dots/" + vossen[0].team + "-Vossen-15x15.png");
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inSampleSize = 2;
+        Bitmap bitmap = null;
+        switch (TeamPart.parse(vossen[0].team)){
+            case Alpha:
+                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                         R.drawable.dot_rood );
+                break;
+            case Bravo:
+                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                        R.drawable.dot_groen );
+                break;
+            case Charlie:
+                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                        R.drawable.dot_blauw );
+                break;
+            case Delta:
+                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                        R.drawable.dot_turquoise );
+                break;
+            case Echo:
+                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                        R.drawable.dot_paars );
+                break;
+            case Foxtrot:
+                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                        R.drawable.dot_geel );
+                break;
+            case XRay:
+                bitmap = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                        R.drawable.dot_zwart );
+                break;
+        }
+        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
 
         /**
          * Creates and configures a polyine, to show the path of the vos.
@@ -125,7 +159,39 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
              * Checks if this is the first vos, if so use different marker.
              * */
             if (i == 0) {
-                mOptions.icon(BitmapDescriptorFactory.fromAsset("vos_pointers/markers/" + vossen[0].team + "-Vossen-30x30.png"));
+                Bitmap bitmap2 = null;
+                switch (TeamPart.parse(vossen[0].team)){
+                    case Alpha:
+                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                R.drawable.target_rood );
+                        break;
+                    case Bravo:
+                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                R.drawable.target_groen );
+                        break;
+                    case Charlie:
+                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                R.drawable.target_blauw );
+                        break;
+                    case Delta:
+                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                R.drawable.target_turquoise );
+                        break;
+                    case Echo:
+                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                R.drawable.target_paars );
+                        break;
+                    case Foxtrot:
+                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                R.drawable.target_geel );
+                        break;
+                    case XRay:
+                        bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                R.drawable.target_zwart );
+                        break;
+                }
+                BitmapDescriptor descriptor2 = BitmapDescriptorFactory.fromBitmap(bitmap2);
+                mOptions.icon(descriptor2);
 
                 /**
                  * Sets the center of the circle to the latest vos location.
@@ -161,8 +227,9 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         result.setMapPart(MapPart.Hunters);
         result.setTeamPart(TeamPart.None);
         result.setHandler(iResult.getHandler());
-
-        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromAsset("auto.png");
+        Bitmap hunter = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                R.drawable.hunter );
+        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromBitmap(hunter);
 
         HashMap<String, HunterObject> entries = new HashMap<>();
 
@@ -213,7 +280,9 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         /**
          * Loads the icon once.
          * */
-        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromAsset("scouting_groep_formats/scouting_groep_icon_50x36.png");
+        Bitmap scoutingroepen = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                R.drawable.scouting_groep );
+        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromBitmap(scoutingroepen);
 
         /**
          * Loops through each ScoutingGroepInfo, adding a marker and circle for each one.
@@ -265,9 +334,12 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
 
         List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
 
-        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromAsset("foto_indicators/camera_20x20.png");
-
-        BitmapDescriptor descriptorDone = BitmapDescriptorFactory.fromAsset("foto_indicators/camera_20x20_klaar.png");
+        Bitmap foto_todo = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                R.drawable.foto_todo );
+        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromBitmap(foto_todo);
+        Bitmap foto_klaar = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                R.drawable.foto_klaar);
+        BitmapDescriptor descriptorDone = BitmapDescriptorFactory.fromBitmap(foto_klaar);
         /**
          * Loops through each FotoOpdrachtInfo.
          * */

@@ -1,6 +1,8 @@
 package com.umbrella.jotiwa.map.area348;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.JotiApp;
+import com.umbrella.jotiwa.R;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.area348.DataUpdater;
@@ -409,7 +412,12 @@ public class MapManager extends ArrayList<MapPartState> implements Manager, Seri
         {
             MarkerOptions options = new MarkerOptions();
             options.title("me;");
-            options.icon(BitmapDescriptorFactory.fromAsset("navigation-icon-30-30.png"));
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inSampleSize = 2;
+            Bitmap me = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                    R.drawable.me,bmOptions);
+            options.icon(BitmapDescriptorFactory.fromBitmap(me));
+            //options.icon(BitmapDescriptorFactory.fromAsset("navigation-icon-30-30.png"));
             options.flat(true);
             options.position(new LatLng(location.getLatitude(), location.getLongitude()));
             storageObject.getMarkers().add(options);
