@@ -47,7 +47,7 @@ public class KmlLoader implements SharedPreferences.OnSharedPreferenceChangeList
                             deelgebieden.put(teampart, Gmap.addPolygon(new PolygonOptions()
                                     .addAll(p.getOuterBoundaryCoordinates())
                                     .fillColor(TeamPart.getAssociatedAlphaColor(teampart, Constants.alfaDeelgebieden))
-                                    .strokeWidth(2)
+                                    .strokeWidth(Constants.lineThicknessDeelgebieden)
                                     .visible(show)));
                             System.out.println(deelgebied.getProperty("name"));
                         }

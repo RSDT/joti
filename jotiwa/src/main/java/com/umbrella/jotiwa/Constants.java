@@ -9,19 +9,21 @@ public class Constants {
     public static final int me = R.drawable.me;
 
     //scale bijvoorbeeld 2 is de helft van de orginele size en 3 eenderde enz.
-    public static final int scaleMe = 1;
+    public static final int scaleMe = 2;
     public static final int scaleTarget = 1;
-    public static final int scaleFoto = 1;
+    public static final int scaleFoto = 2;
     public static final int scaleScoutinggroepen = 1;
-    public static final int scaleHunter = 1;
-    public static final int scaleDots = 3;
+    public static final int scaleHunter = 2;
+    public static final int scaleDots = 4;
 
     //lineThickness in meters?
-    public static final int lineThicknessVos = 5;
+    public static final int lineThicknessVos = 10;
     public static final int lineThicknessHunter = 5;
     public static final int lineThicknessMe = 5;
     public static final int lineThicknesScoutinggroepCircle = 2;
     public static final int lineThicknesVosCircle = 2;
+    public static final int lineThicknessDeelgebieden = 2;
+    public static final float lineThicknessMeCircle = 2;
 
     //radius in m
     public static final int radiusScoutingroup = 500;
@@ -31,4 +33,12 @@ public class Constants {
     public static final int alfaVosCircle = 96;
     public static final int alfaDeelgebieden = 50;
     public static final int alfaMeCircle = 10;
+
+    //Color
+    public static final int meColorRed = 0;
+    public static final int meColorGreen = 153;
+    public static final int meColorBlue = 153;
+
+
+    //TODO preference keys toevoegen
 }

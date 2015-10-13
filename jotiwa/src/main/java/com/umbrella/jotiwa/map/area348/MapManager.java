@@ -13,6 +13,8 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -41,7 +43,7 @@ import java.util.List;
 public class MapManager extends ArrayList<MapPartState> implements Manager, Serializable {
 
     private LatLng oldFarRight;
-
+private Circle meCircle;
     /**
      * @param gMap The google map that the manager should manage on.
      */
@@ -423,13 +425,24 @@ public class MapManager extends ArrayList<MapPartState> implements Manager, Seri
 
             PolylineOptions pOptions = new PolylineOptions();
             pOptions.width(Constants.lineThicknessMe);
-            pOptions.color(Color.argb(255, 0, 153, 153));
+            pOptions.color(Color.rgb(Constants.meColorRed,Constants.meColorGreen,Constants.meColorBlue));
             pOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
             storageObject.getPolylines().add(pOptions);
         }
         state.setHasNewData(true);
         this.sync(state);
-
+        if (meCircle == null){
+            meCircle = gMap.addCircle(new CircleOptions()
+                    .center(new LatLng(location.getLatitude(),location.getLatitude()))
+                    .strokeWidth(Constants.lineThicknessMe)
+                    .fillColor(Color.argb(Constants.alfaMeCircle,Constants.meColorRed,Constants.meColorGreen,Constants.meColorBlue))
+                    .radius(location.getAccuracy())
+                    .strokeColor(Color.BLACK)
+                    .strokeWidth(Constants.lineThicknessMeCircle));
+        }else{
+            meCircle.setCenter(new LatLng(location.getLatitude(),location.getLatitude()));
+            meCircle.setRadius(location.getAccuracy());
+        }
         if (oldFarRight == null)
         {
             this.cameraToCurrentLocation();
