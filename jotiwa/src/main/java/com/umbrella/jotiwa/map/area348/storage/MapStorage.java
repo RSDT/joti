@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.umbrella.jotiwa.Constants;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.data.objects.area348.receivables.BaseInfo;
@@ -22,7 +23,6 @@ import com.umbrella.jotiwa.map.area348.MapPartState;
 import com.umbrella.jotiwa.map.area348.handling.HandlingResult;
 import com.umbrella.jotiwa.map.area348.handling.HunterObject;
 
-import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -228,7 +228,7 @@ public class MapStorage extends HashMap<String, StorageObject> implements Extrac
                             PolylineOptions pOptions = new PolylineOptions();
                             pOptions.addAll(entry.getValue().getPositions());
                             pOptions.color(Color.GRAY);
-                            pOptions.width(5);
+                            pOptions.width(Constants.lineThicknessHunter);
                             storageObjectHunter.getPolylines().add(pOptions);
                         }
                         storageObjectHunter.getAssociatedInfo().clear();

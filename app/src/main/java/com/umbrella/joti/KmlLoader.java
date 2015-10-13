@@ -10,6 +10,7 @@ import com.google.maps.android.kml.KmlContainer;
 import com.google.maps.android.kml.KmlLayer;
 import com.google.maps.android.kml.KmlPlacemark;
 import com.google.maps.android.kml.KmlPolygon;
+import com.umbrella.jotiwa.Constants;
 import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
@@ -45,7 +46,7 @@ public class KmlLoader implements SharedPreferences.OnSharedPreferenceChangeList
                             KmlPolygon p = (KmlPolygon) deelgebied.getGeometry();
                             deelgebieden.put(teampart, Gmap.addPolygon(new PolygonOptions()
                                     .addAll(p.getOuterBoundaryCoordinates())
-                                    .fillColor(TeamPart.getAssociatedAlphaColor(teampart, 50))
+                                    .fillColor(TeamPart.getAssociatedAlphaColor(teampart, Constants.alfaDeelgebieden))
                                     .strokeWidth(2)
                                     .visible(show)));
                             System.out.println(deelgebied.getProperty("name"));

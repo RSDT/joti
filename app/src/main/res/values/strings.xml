@@ -1,5 +1,5 @@
 <resources>
-    <string name="version">Beta-19</string>
+    <string name="version">Beta-19-b</string>
     <string name="versionCode">24</string>
     <string name="app_name">joti</string>
     <string name="title_activity_maps">Map</string>

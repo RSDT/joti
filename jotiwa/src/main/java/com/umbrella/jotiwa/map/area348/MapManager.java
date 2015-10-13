@@ -16,8 +16,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.umbrella.jotiwa.Constants;
 import com.umbrella.jotiwa.JotiApp;
-import com.umbrella.jotiwa.R;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.area348.DataUpdater;
@@ -413,17 +413,16 @@ public class MapManager extends ArrayList<MapPartState> implements Manager, Seri
             MarkerOptions options = new MarkerOptions();
             options.title("me;");
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inSampleSize = 2;
+            bmOptions.inSampleSize = Constants.scaleMe;
             Bitmap me = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                    R.drawable.me,bmOptions);
+                    Constants.hunter,bmOptions);
             options.icon(BitmapDescriptorFactory.fromBitmap(me));
-            //options.icon(BitmapDescriptorFactory.fromAsset("navigation-icon-30-30.png"));
             options.flat(true);
             options.position(new LatLng(location.getLatitude(), location.getLongitude()));
             storageObject.getMarkers().add(options);
 
             PolylineOptions pOptions = new PolylineOptions();
-            pOptions.width(5);
+            pOptions.width(Constants.lineThicknessMe);
             pOptions.color(Color.argb(255, 0, 153, 153));
             pOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
             storageObject.getPolylines().add(pOptions);
