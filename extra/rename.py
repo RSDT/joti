@@ -2,6 +2,8 @@ from os import listdir
 from os.path import isdir, join, isfile
 import os.path
 import shutil
+import os
+
 skip_folders = ['new-format']
 def readFolder(root):
     files = []
@@ -30,17 +32,12 @@ def rename(files,root):
             tail = 'drawable-xhdpi'
         elif tail == '150':
             tail = 'drawable-xxhdpi'
-        new_name = splitted[-2] + '.png'
-        folder = splitted[1]
-        name =(folder+'-'+new_name).lower().replace('-','_')
-        if 'hunter' in name:
-            name = 'hunter.png'
-        if 'foto_wit' in name:
-            name = 'foto_todo.png'
-        if 'foto_groen' in name:
-            name = 'foto_klaar.png'
-        if 'vos' in name:
-            name = 'vos.png'
+        new_name = (splitted[-2] + '.png').lower().replace('-','_')
+        folder = splitted[2].lower().replace('-','_')
+        if new_name.split('.')[0] != folder:
+            name =(folder+'_'+new_name)
+        else:
+            name = new_name
         newfiles[i] = join(root,'new-format/',tail,name)
         #print(files[i],newfiles[i])
     return files,newfiles
@@ -64,7 +61,7 @@ def copy_files(files, renamed):
 
 
 def main():
-    root = '/home/mattijn/bmp/'
+    root = os.path.dirname(os.path.abspath(__file__))
     files = readFolder(root)
     files,renamed = rename(files, root)
     copy_files(files,renamed)

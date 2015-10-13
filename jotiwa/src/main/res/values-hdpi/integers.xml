@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="lineWidthVos">10</integer>
+    <integer name="lineWidthHunter">5</integer>
+    <integer name="lineWidthMe">5</integer>
+    <integer name="lineWidthScoutinggroepCircle">2</integer>
+    <integer name="lineWidthVosCircle">2</integer>
+    <integer name="lineWidthMeCircle">2</integer>
+    <integer name="lineWidthDeelgebieden">2</integer>
+</resources>

@@ -2,9 +2,9 @@ package com.umbrella.jotiwa;
 
 public class Constants {
     //drawables
-    public static final int hunter = R.drawable.hunter;
-    public static final int foto_todo = R.drawable.foto_todo;
-    public static final int foto_klaar = R.drawable.foto_klaar;
+    public static final int hunter = R.drawable.car;
+    public static final int foto_todo = R.drawable.r2d2_foto_wit;
+    public static final int foto_klaar = R.drawable.r2d2_foto_groen;
     public static final int scouting_groep = R.drawable.scouting_groep;
     public static final int me = R.drawable.me;
 
@@ -16,14 +16,14 @@ public class Constants {
     public static final int scaleHunter = 2;
     public static final int scaleDots = 4;
 
-    //lineThickness in meters?
-    public static final int lineThicknessVos = 10;
-    public static final int lineThicknessHunter = 5;
-    public static final int lineThicknessMe = 5;
-    public static final int lineThicknesScoutinggroepCircle = 2;
-    public static final int lineThicknesVosCircle = 2;
-    public static final int lineThicknessDeelgebieden = 2;
-    public static final float lineThicknessMeCircle = 2;
+    //lineThickness in pixels
+    public static final int lineThicknessVos = JotiApp.getContext().getResources().getInteger(R.integer.lineWidthVos);
+    public static final int lineThicknessHunter = JotiApp.getContext().getResources().getInteger(R.integer.lineWidthHunter);
+    public static final int lineThicknessMe = JotiApp.getContext().getResources().getInteger(R.integer.lineWidthMe);
+    public static final int lineThicknesScoutinggroepCircle = JotiApp.getContext().getResources().getInteger(R.integer.lineWidthScoutinggroepCircle);
+    public static final int lineThicknesVosCircle = JotiApp.getContext().getResources().getInteger(R.integer.lineWidthVosCircle);
+    public static final int lineThicknessDeelgebieden = JotiApp.getContext().getResources().getInteger(R.integer.lineWidthDeelgebieden);
+    public static final float lineThicknessMeCircle = JotiApp.getContext().getResources().getInteger(R.integer.lineWidthMeCircle);
 
     //radius in m
     public static final int radiusScoutingroup = 500;

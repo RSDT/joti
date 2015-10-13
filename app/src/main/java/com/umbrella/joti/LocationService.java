@@ -10,11 +10,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationBuilderWithBuilderAccessor;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -31,11 +30,11 @@ import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.interaction.AsyncInteractionTask;
 import com.umbrella.jotiwa.communication.interaction.InteractionRequest;
 import com.umbrella.jotiwa.data.objects.area348.sendables.HunterInfoSendable;
-import com.umbrella.jotiwa.map.area348.MapManager;
 
 
 public class LocationService extends Service implements com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private static final int NOTIFICATION_ID = 42;
+    private static final int USERNAME_NOT_SET_NOTIFICATION_ID = 43;
     private long last_location_send = 0l;
     private boolean recieving_locations = false;
     private GoogleApiClient mGoogleApiClient;
@@ -96,9 +95,31 @@ public class LocationService extends Service implements com.google.android.gms.l
      */
     protected void startLocationUpdates(LocationRequest mLocationRequest) {
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        notification("Locaties worden verzonden.", Color.argb(255,102, 153, 255));
+        notification("Locaties worden verzonden.", Color.argb(255, 102, 153, 255));
     }
 
+    public void NotificationUsernameNotSet(){
+        long[] pattern = {1000};
+        Intent intent = new Intent(this,SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 4242, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(this)
+                .setContentTitle("Gebruikersnaam niet ingesteld!")
+                .setContentText("Locaties worden niet verzonden.")
+                .setSmallIcon(R.drawable.fox)
+                .setOngoing(false)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pIntent)
+                ;
+        Notification notification = mNotifyBuilder.build();
+        notification.sound = Uri.parse("android.resource://"
+                + getApplicationContext().getPackageName() + "/" + R.raw.dark_side_message_yoda);
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(
+                USERNAME_NOT_SET_NOTIFICATION_ID,notification)
+                ;
+    }
 
     /**
      * @param location
@@ -118,6 +139,7 @@ public class LocationService extends Service implements com.google.android.gms.l
                     String text = getString(R.string.username_not_set);
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
+                    NotificationUsernameNotSet();
                 } else {
                     last_location_send = time;
                     sendlocation(location, username);
