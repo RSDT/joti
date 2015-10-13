@@ -417,7 +417,7 @@ private Circle meCircle;
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             bmOptions.inSampleSize = Constants.scaleMe;
             Bitmap me = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                    Constants.hunter,bmOptions);
+                    Constants.me,bmOptions);
             options.icon(BitmapDescriptorFactory.fromBitmap(me));
             options.flat(true);
             options.position(new LatLng(location.getLatitude(), location.getLongitude()));
