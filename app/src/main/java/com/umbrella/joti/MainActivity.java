@@ -301,6 +301,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (key.equals("pref_thema")){
+            refresh();
+        }
         String[] temp = key.split("_");
         String[] typeCode = new String[3];
         for (int i = 0; i < temp.length && i < 3; i++) {

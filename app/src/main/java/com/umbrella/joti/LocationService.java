@@ -98,8 +98,7 @@ public class LocationService extends Service implements com.google.android.gms.l
         notification("Locaties worden verzonden.", Color.argb(255, 102, 153, 255));
     }
 
-    public void NotificationUsernameNotSet(){
-        long[] pattern = {1000};
+    public void NotificationUsernameNotSet(boolean show){
         Intent intent = new Intent(this,SettingsActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 4242, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(this)
@@ -116,9 +115,14 @@ public class LocationService extends Service implements com.google.android.gms.l
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(
-                USERNAME_NOT_SET_NOTIFICATION_ID,notification)
-                ;
+        if (show) {
+            mNotificationManager.notify(
+                    USERNAME_NOT_SET_NOTIFICATION_ID, notification)
+            ;
+        }
+        else {
+            mNotificationManager.cancel(USERNAME_NOT_SET_NOTIFICATION_ID);
+        }
     }
 
     /**
@@ -139,10 +143,11 @@ public class LocationService extends Service implements com.google.android.gms.l
                     String text = getString(R.string.username_not_set);
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
-                    NotificationUsernameNotSet();
+                    NotificationUsernameNotSet(true);
                 } else {
                     last_location_send = time;
                     sendlocation(location, username);
+                    NotificationUsernameNotSet(false);
                 }
             } else {
                 JotiApp.debug("locatie niet verzonden");

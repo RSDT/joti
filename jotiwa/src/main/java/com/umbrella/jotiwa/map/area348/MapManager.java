@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.Constants;
 import com.umbrella.jotiwa.JotiApp;
+import com.umbrella.jotiwa.Datastructures.Tail;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.area348.DataUpdater;
@@ -43,7 +44,10 @@ import java.util.List;
 public class MapManager extends ArrayList<MapPartState> implements Manager, Serializable {
 
     private LatLng oldFarRight;
-private Circle meCircle;
+    private Circle meCircle;
+    private Tail<LatLng> accurateTail;
+    private Tail<LatLng> lessAccurateTail;
+    public static final int POINTS_CONSTANT = 5;
     /**
      * @param gMap The google map that the manager should manage on.
      */
@@ -377,7 +381,7 @@ private Circle meCircle;
     }
 
 
-    public static final int POINTS_CONSTANT = 400;
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -401,14 +405,27 @@ private Circle meCircle;
             List<LatLng> points = polylineOptions.getPoints();
 
             ArrayList<LatLng> newPoints = new ArrayList<>();
-
-            if(points.size() > POINTS_CONSTANT)
-            {
-                int toCopy = points.size() - POINTS_CONSTANT;
-                System.arraycopy(points, toCopy, newPoints, 0, POINTS_CONSTANT);
+            if (accurateTail == null){
+                accurateTail = new Tail<>(300,1);//houd elke 1 punten bij en gooi alles alles er vivo eruit als size=300;
             }
-
-            polylineOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
+            if (lessAccurateTail == null)
+            {
+                lessAccurateTail = new Tail<>(60,60);//houd elke 60ste punt bij en gooi alles alles er vivo eruit als size=60;
+            }
+            //tail is maximaal 360 punten lang. en dat is 1 uur en 5 minuten.
+            lessAccurateTail.addAll3(accurateTail.addAll3(points));
+            lessAccurateTail.add3(accurateTail.add3(new LatLng(location.getLatitude(), location.getLongitude())));
+            newPoints.addAll(accurateTail);
+            newPoints.addAll(lessAccurateTail);
+                storageObject.getPolylines().remove(0);
+                PolylineOptions polylineOptions2 = new PolylineOptions().color(polylineOptions.getColor())
+                .geodesic(polylineOptions.isGeodesic())
+                .visible(polylineOptions.isVisible())
+                .width(polylineOptions.getWidth())
+                .zIndex(polylineOptions.getZIndex())
+                .addAll(newPoints)
+                ;
+                storageObject.getPolylines().add(0,polylineOptions2);
         }
         else
         {
