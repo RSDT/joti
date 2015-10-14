@@ -418,13 +418,13 @@ private Circle meCircle;
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
             if (preferences.getBoolean("pref_thema",false)) {
-                bmOptions.inSampleSize = Constants.scaleMe;
-                me = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                        Constants.me, bmOptions);
-            }else{
                 bmOptions.inSampleSize = Constants.scaleMeTheme;
                 me = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
                         Constants.meTheme, bmOptions);
+            }else{
+                bmOptions.inSampleSize = Constants.scaleMe;
+                me = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                        Constants.me, bmOptions);
             }
             options.icon(BitmapDescriptorFactory.fromBitmap(me));
             options.flat(true);

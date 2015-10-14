@@ -383,7 +383,7 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         }else{
             bmOptions.inSampleSize = Constants.scaleScoutinggroepen;
             scoutinggroep = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                    Constants.scouting_groepTheme, bmOptions);
+                    Constants.scouting_groep, bmOptions);
         }
         BitmapDescriptor descriptor = BitmapDescriptorFactory.fromBitmap(scoutinggroep);
 
