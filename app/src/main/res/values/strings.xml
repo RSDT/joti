@@ -60,4 +60,6 @@
     <string name="send_toast_summ">laat de notificaties onderaan je scherm zien</string>
     <string name="pref_deelgebieden_overlay_title">Deelgebieden</string>
     <string name="pref_deelgebieden_overlay">laat deelgebieden zien.</string>
+    <string name="pref_thema_title">Thema</string>
+    <string name="pref_thema_summ">Iconen in thema</string>
 </resources>

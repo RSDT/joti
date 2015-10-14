@@ -3,8 +3,8 @@ package com.umbrella.jotiwa;
 public class Constants {
     //drawables
     public static final int hunter = R.drawable.car;
-    public static final int foto_todo = R.drawable.camera_groen;
-    public static final int foto_klaar = R.drawable.camera_rood;
+    public static final int foto_todo = R.drawable.camera_rood;
+    public static final int foto_klaar = R.drawable.camera_groen;
     public static final int scouting_groep = R.drawable.scouting_groep;
     public static final int me = R.drawable.arrow_blauw;
 
@@ -15,6 +15,21 @@ public class Constants {
     public static final int scaleScoutinggroepen = 1;
     public static final int scaleHunter = 2;
     public static final int scaleDots = 4;
+
+    //drawables theme
+    public static final int hunterTheme = R.drawable.x_wing_hunter;
+    public static final int foto_todoTheme = R.drawable.r2d2_foto_wit;
+    public static final int foto_klaarTheme = R.drawable.r2d2_foto_groen;
+    public static final int scouting_groepTheme = R.drawable.at_at_vos;
+    public static final int meTheme = R.drawable.arrow_oranje;
+
+    //scale bijvoorbeeld 2 is de helft van de orginele size en 3 eenderde enz.
+    public static final int scaleMeTheme = 2;
+    public static final int scaleTargetTheme = 1;
+    public static final int scaleFotoTheme = 2;
+    public static final int scaleScoutinggroepenTheme = 1;
+    public static final int scaleHunterTheme = 2;
+    public static final int scaleDotsTheme = 4;
 
     //lineThickness in pixels
     public static final int lineThicknessVos = JotiApp.getContext().getResources().getInteger(R.integer.lineWidthVos);

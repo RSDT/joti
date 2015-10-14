@@ -414,10 +414,18 @@ private Circle meCircle;
         {
             MarkerOptions options = new MarkerOptions();
             options.title("me;");
+            Bitmap me = null;
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inSampleSize = Constants.scaleMe;
-            Bitmap me = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                    Constants.me,bmOptions);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+            if (preferences.getBoolean("pref_thema",false)) {
+                bmOptions.inSampleSize = Constants.scaleMe;
+                me = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                        Constants.me, bmOptions);
+            }else{
+                bmOptions.inSampleSize = Constants.scaleMeTheme;
+                me = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                        Constants.meTheme, bmOptions);
+            }
             options.icon(BitmapDescriptorFactory.fromBitmap(me));
             options.flat(true);
             options.position(new LatLng(location.getLatitude(), location.getLongitude()));

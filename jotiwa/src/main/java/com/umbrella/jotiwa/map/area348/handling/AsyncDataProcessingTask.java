@@ -1,11 +1,13 @@
 package com.umbrella.jotiwa.map.area348.handling;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -89,37 +91,76 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
          * Load the icon once.
          * */
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inSampleSize = Constants.scaleDots;
+
         Bitmap bitmap = null;
-        switch (TeamPart.parse(vossen[0].team)){
-            case Alpha:
-                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                         R.drawable.dot_rood ,bmOptions);
-                break;
-            case Bravo:
-                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                        R.drawable.dot_groen ,bmOptions);
-                break;
-            case Charlie:
-                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                        R.drawable.dot_blauw ,bmOptions);
-                break;
-            case Delta:
-                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                        R.drawable.dot_turquoise ,bmOptions);
-                break;
-            case Echo:
-                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                        R.drawable.dot_paars ,bmOptions);
-                break;
-            case Foxtrot:
-                bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                        R.drawable.dot_geel ,bmOptions);
-                break;
-            case XRay:
-                bitmap = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                        R.drawable.dot_zwart ,bmOptions);
-                break;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+        if (preferences.getBoolean("pref_thema",false)){
+            bmOptions.inSampleSize = Constants.scaleDotsTheme;
+            switch (TeamPart.parse(vossen[0].team)){
+                //TODO THEMA ICONS TOEVOEGEN.
+                case Alpha:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                             R.drawable.dot_rood ,bmOptions);
+                    break;
+                case Bravo:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_groen ,bmOptions);
+                    break;
+                case Charlie:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_blauw ,bmOptions);
+                    break;
+                case Delta:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_turquoise ,bmOptions);
+                    break;
+                case Echo:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_paars ,bmOptions);
+                    break;
+                case Foxtrot:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_geel ,bmOptions);
+                    break;
+                case XRay:
+                    bitmap = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_zwart ,bmOptions);
+                    break;
+            }
+        }
+        else{
+            bmOptions.inSampleSize = Constants.scaleDots;
+            // TODO: 14-10-15 bitmaps names naar constants
+            switch (TeamPart.parse(vossen[0].team)){
+                case Alpha:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_rood ,bmOptions);
+                    break;
+                case Bravo:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_groen ,bmOptions);
+                    break;
+                case Charlie:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_blauw ,bmOptions);
+                    break;
+                case Delta:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_turquoise ,bmOptions);
+                    break;
+                case Echo:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_paars ,bmOptions);
+                    break;
+                case Foxtrot:
+                    bitmap =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_geel ,bmOptions);
+                    break;
+                case XRay:
+                    bitmap = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                            R.drawable.dot_zwart ,bmOptions);
+                    break;
+            }
         }
         BitmapDescriptor descriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
 
@@ -163,35 +204,74 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
                 BitmapFactory.Options bmOptions2 = new BitmapFactory.Options();
                 bmOptions2.inSampleSize = Constants.scaleTarget;
                 Bitmap bitmap2 = null;
-                switch (TeamPart.parse(vossen[0].team)){
-                    case Alpha:
-                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                                R.drawable.target_rood, bmOptions2 );
-                        break;
-                    case Bravo:
-                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                                R.drawable.target_groen, bmOptions2 );
-                        break;
-                    case Charlie:
-                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                                R.drawable.target_blauw, bmOptions2 );
-                        break;
-                    case Delta:
-                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                                R.drawable.target_turquoise, bmOptions2 );
-                        break;
-                    case Echo:
-                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                                R.drawable.target_paars, bmOptions2 );
-                        break;
-                    case Foxtrot:
-                        bitmap2 =BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                                R.drawable.target_geel, bmOptions2 );
-                        break;
-                    case XRay:
-                        bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                                R.drawable.target_zwart, bmOptions2 );
-                        break;
+                if (preferences.getBoolean("pref_thema",false)){
+                    bmOptions2.inSampleSize = Constants.scaleTargetTheme;
+                    // TODO: 14-10-15 move bitmapnames to consstants
+                    switch (TeamPart.parse(vossen[0].team)) {
+                        case Alpha:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_rood, bmOptions2);
+                            break;
+                        case Bravo:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_groen, bmOptions2);
+                            break;
+                        case Charlie:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_blauw, bmOptions2);
+                            break;
+                        case Delta:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_turquoise, bmOptions2);
+                            break;
+                        case Echo:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_paars, bmOptions2);
+                            break;
+                        case Foxtrot:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_geel, bmOptions2);
+                            break;
+                        case XRay:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_zwart, bmOptions2);
+                            break;
+
+                    }
+                }else {
+                    // TODO: 14-10-15 move bitmap names to constants
+                    bmOptions2.inSampleSize = Constants.scaleTarget;
+                    switch (TeamPart.parse(vossen[0].team)) {
+                        case Alpha:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_rood, bmOptions2);
+                            break;
+                        case Bravo:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_groen, bmOptions2);
+                            break;
+                        case Charlie:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_blauw, bmOptions2);
+                            break;
+                        case Delta:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_turquoise, bmOptions2);
+                            break;
+                        case Echo:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_paars, bmOptions2);
+                            break;
+                        case Foxtrot:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_geel, bmOptions2);
+                            break;
+                        case XRay:
+                            bitmap2 = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                                    R.drawable.target_zwart, bmOptions2);
+                            break;
+
+                    }
                 }
                 BitmapDescriptor descriptor2 = BitmapDescriptorFactory.fromBitmap(bitmap2);
                 mOptions.icon(descriptor2);
@@ -231,9 +311,17 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         result.setTeamPart(TeamPart.None);
         result.setHandler(iResult.getHandler());
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inSampleSize = Constants.scaleHunter;
-        Bitmap hunter = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                Constants.hunter ,bmOptions);
+        Bitmap hunter = null;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+        if (preferences.getBoolean("pref_thema",false)) {
+            bmOptions.inSampleSize = Constants.scaleHunterTheme;
+            hunter = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                    Constants.hunterTheme, bmOptions);
+        }else{
+            bmOptions.inSampleSize = Constants.scaleHunter;
+            hunter = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                    Constants.hunter, bmOptions);
+        }
         BitmapDescriptor descriptor = BitmapDescriptorFactory.fromBitmap(hunter);
 
         HashMap<String, HunterObject> entries = new HashMap<>();
@@ -286,10 +374,18 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
          * Loads the icon once.
          * */
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inSampleSize = Constants.scaleScoutinggroepen;
-        Bitmap scoutingroepen = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                Constants.scouting_groep ,bmOptions);
-        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromBitmap(scoutingroepen);
+        Bitmap scoutinggroep = null;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+        if (preferences.getBoolean("pref_thema",false)) {
+            bmOptions.inSampleSize = Constants.scaleScoutinggroepenTheme;
+            scoutinggroep = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                    Constants.scouting_groepTheme, bmOptions);
+        }else{
+            bmOptions.inSampleSize = Constants.scaleScoutinggroepen;
+            scoutinggroep = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                    Constants.scouting_groepTheme, bmOptions);
+        }
+        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromBitmap(scoutinggroep);
 
         /**
          * Loops through each ScoutingGroepInfo, adding a marker and circle for each one.
@@ -340,14 +436,33 @@ public class AsyncDataProcessingTask extends AsyncTask<InteractionResult, Intege
         result.setHandler(iResult.getHandler());
 
         List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inSampleSize = Constants.scaleFoto;
-        Bitmap foto_todo = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                Constants.foto_todo ,bmOptions);
+        Bitmap foto_todo = null;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(JotiApp.getContext());
+        if (preferences.getBoolean("pref_thema",false)) {
+            bmOptions.inSampleSize = Constants.scaleFotoTheme;
+            foto_todo = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                    Constants.foto_todoTheme, bmOptions);
+        }else{
+            bmOptions.inSampleSize = Constants.scaleFoto;
+            foto_todo = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                    Constants.foto_todo, bmOptions);
+        }
         BitmapDescriptor descriptor = BitmapDescriptorFactory.fromBitmap(foto_todo);
-        Bitmap foto_klaar = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
-                Constants.foto_klaar,bmOptions);
+        Bitmap foto_klaar = null;
+        if (preferences.getBoolean("pref_thema",false)) {
+            bmOptions.inSampleSize = Constants.scaleFotoTheme;
+            foto_klaar = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                    Constants.foto_klaarTheme, bmOptions);
+        }else{
+            bmOptions.inSampleSize = Constants.scaleFoto;
+            foto_klaar = BitmapFactory.decodeResource(JotiApp.getContext().getResources(),
+                    Constants.foto_klaar, bmOptions);
+        }
         BitmapDescriptor descriptorDone = BitmapDescriptorFactory.fromBitmap(foto_klaar);
+
+
         /**
          * Loops through each FotoOpdrachtInfo.
          * */
