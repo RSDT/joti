@@ -3,10 +3,10 @@ package com.umbrella.jotiwa;
 public class Constants {
     //drawables
     public static final int hunter = R.drawable.car;
-    public static final int foto_todo = R.drawable.r2d2_foto_wit;
-    public static final int foto_klaar = R.drawable.r2d2_foto_groen;
+    public static final int foto_todo = R.drawable.camera_groen;
+    public static final int foto_klaar = R.drawable.camera_rood;
     public static final int scouting_groep = R.drawable.scouting_groep;
-    public static final int me = R.drawable.me;
+    public static final int me = R.drawable.arrow_blauw;
 
     //scale bijvoorbeeld 2 is de helft van de orginele size en 3 eenderde enz.
     public static final int scaleMe = 2;
