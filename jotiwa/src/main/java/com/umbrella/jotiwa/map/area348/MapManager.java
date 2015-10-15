@@ -19,8 +19,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.umbrella.jotiwa.Constants;
-import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.Datastructures.Tail;
+import com.umbrella.jotiwa.JotiApp;
 import com.umbrella.jotiwa.communication.enumeration.area348.MapPart;
 import com.umbrella.jotiwa.communication.enumeration.area348.TeamPart;
 import com.umbrella.jotiwa.communication.interaction.area348.DataUpdater;
@@ -45,9 +45,6 @@ public class MapManager extends ArrayList<MapPartState> implements Manager, Seri
 
     private LatLng oldFarRight;
     private Circle meCircle;
-    private Tail<LatLng> accurateTail;
-    private Tail<LatLng> lessAccurateTail;
-    public static final int POINTS_CONSTANT = 5;
     /**
      * @param gMap The google map that the manager should manage on.
      */
@@ -405,18 +402,16 @@ public class MapManager extends ArrayList<MapPartState> implements Manager, Seri
             List<LatLng> points = polylineOptions.getPoints();
 
             ArrayList<LatLng> newPoints = new ArrayList<>();
-            if (accurateTail == null){
-                accurateTail = new Tail<>(300,1);//houd elke 1 punten bij en gooi alles alles er vivo eruit als size=300;
-            }
-            if (lessAccurateTail == null)
-            {
-                lessAccurateTail = new Tail<>(60,60);//houd elke 60ste punt bij en gooi alles alles er vivo eruit als size=60;
-            }
+
+
+            Tail<LatLng> accurateTail = new Tail<>(300,1);//houd elke 1z punten bij en gooi alles alles er vivo eruit als size=300;
+            Tail<LatLng> lessAccurateTail = new Tail<>(60,60);//houd elke 60ste punt bij en gooi alles alles er vivo eruit als size=60;
             //tail is maximaal 360 punten lang. en dat is 1 uur en 5 minuten.
+            points.add(new LatLng(location.getLatitude(), location.getLongitude()));
             lessAccurateTail.addAll3(accurateTail.addAll3(points));
-            lessAccurateTail.add3(accurateTail.add3(new LatLng(location.getLatitude(), location.getLongitude())));
             newPoints.addAll(accurateTail);
             newPoints.addAll(lessAccurateTail);
+            System.out.print(newPoints);
                 storageObject.getPolylines().remove(0);
                 PolylineOptions polylineOptions2 = new PolylineOptions().color(polylineOptions.getColor())
                 .geodesic(polylineOptions.isGeodesic())
