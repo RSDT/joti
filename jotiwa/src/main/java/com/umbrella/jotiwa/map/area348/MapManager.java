@@ -409,8 +409,8 @@ public class MapManager extends ArrayList<MapPartState> implements Manager, Seri
             //tail is maximaal 360 punten lang. en dat is 1 uur en 5 minuten.
             points.add(new LatLng(location.getLatitude(), location.getLongitude()));
             lessAccurateTail.addAll3(accurateTail.addAll3(points));
-            newPoints.addAll(accurateTail);
             newPoints.addAll(lessAccurateTail);
+            newPoints.addAll(accurateTail);
             System.out.print(newPoints);
                 storageObject.getPolylines().remove(0);
                 PolylineOptions polylineOptions2 = new PolylineOptions().color(polylineOptions.getColor())

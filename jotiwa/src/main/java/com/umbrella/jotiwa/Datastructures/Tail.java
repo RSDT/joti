@@ -27,8 +27,7 @@ public class Tail<E> extends ArrayList<E>{
         if (densityNow == 0){
             super.add(item);
             if (this.size()>maxcapacity){
-                E removed = this.remove(0);
-                return removed;
+                return this.remove(0);
             }else{
                 return null;
             }
@@ -42,8 +41,7 @@ public class Tail<E> extends ArrayList<E>{
         if (densityNow == 0){
             super.add(item);
             if (this.size()>maxcapacity){
-                E removed = this.remove(0);
-                return removed;
+                return this.remove(0);
             }else{
                 return null;
             }

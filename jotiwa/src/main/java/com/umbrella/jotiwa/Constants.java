@@ -27,7 +27,7 @@ public class Constants {
     public static final int scaleMeTheme = 2;
     public static final int scaleTargetTheme = 1;
     public static final int scaleFotoTheme = 2;
-    public static final int scaleScoutinggroepenTheme = 1;
+    public static final int scaleScoutinggroepenTheme = 2;
     public static final int scaleHunterTheme = 2;
     public static final int scaleDotsTheme = 4;
 
