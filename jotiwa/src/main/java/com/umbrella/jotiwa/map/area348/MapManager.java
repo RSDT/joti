@@ -401,25 +401,22 @@ public class MapManager extends ArrayList<MapPartState> implements Manager, Seri
 
             List<LatLng> points = polylineOptions.getPoints();
 
-            ArrayList<LatLng> newPoints = new ArrayList<>();
 
-
-            Tail<LatLng> accurateTail = new Tail<>(300,1);//houd elke 1z punten bij en gooi alles alles er vivo eruit als size=300;
+            Tail<LatLng> accurateTail = new Tail<>(120,1);//houd elke 1z punten bij en gooi alles alles er vivo eruit als size=300;
             Tail<LatLng> lessAccurateTail = new Tail<>(60,60);//houd elke 60ste punt bij en gooi alles alles er vivo eruit als size=60;
-            //tail is maximaal 360 punten lang. en dat is 1 uur en 5 minuten.
+            //tail is maximaal 180 punten lang. en dat is 1 uur en 2 minuten.
             points.add(new LatLng(location.getLatitude(), location.getLongitude()));
             lessAccurateTail.addAll3(accurateTail.addAll3(points));
-            newPoints.addAll(lessAccurateTail);
-            newPoints.addAll(accurateTail);
-            System.out.print(newPoints);
                 storageObject.getPolylines().remove(0);
-                PolylineOptions polylineOptions2 = new PolylineOptions().color(polylineOptions.getColor())
-                .geodesic(polylineOptions.isGeodesic())
-                .visible(polylineOptions.isVisible())
-                .width(polylineOptions.getWidth())
-                .zIndex(polylineOptions.getZIndex())
-                .addAll(newPoints)
-                ;
+                PolylineOptions polylineOptions2 = new PolylineOptions()
+                        .color(polylineOptions.getColor())
+                        .geodesic(polylineOptions.isGeodesic())
+                        .visible(polylineOptions.isVisible())
+                        .width(polylineOptions.getWidth())
+                        .zIndex(polylineOptions.getZIndex())
+                        .addAll(lessAccurateTail)
+                        .addAll(accurateTail)
+                        ;
                 storageObject.getPolylines().add(0,polylineOptions2);
         }
         else
