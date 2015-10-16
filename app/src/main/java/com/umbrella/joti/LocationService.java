@@ -278,9 +278,12 @@ public class LocationService extends Service implements com.google.android.gms.l
                 .setOngoing(true);
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification = mNotifyBuilder.build();
+        notification.sound = Uri.parse("android.resource://"
+                + getApplicationContext().getPackageName() + "/" + R.raw.may_the_force_be_with_you);
         mNotificationManager.notify(
                 NOTIFICATION_ID,
-                mNotifyBuilder.build());
+                notification);
     }
     /**
      *
